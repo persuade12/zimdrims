@@ -1,10 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
-import { navGroups } from '@/lib/dare-data'
+import { navGroups } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
 import { cn } from '@/lib/utils'
 
@@ -88,39 +87,19 @@ export function Sidebar({
             </ul>
           </div>
         ))}
-
-        <div className="mt-4 rounded-xl bg-sidebar-accent p-4">
-          <div className="mb-3 flex items-center gap-3">
-            <Image
-              src="/logo.svg"
-              alt=""
-              width={40}
-              height={40}
-              className="size-10 rounded-lg bg-white/10 object-contain p-1"
-            />
-            <div className="leading-tight">
-              <p className="text-sm font-bold text-sidebar-accent-foreground">{t.shell.mobileApp}</p>
-              <p className="text-[10px] text-sidebar-foreground/70">{t.shell.mobileTagline}</p>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <StoreBadge store="Google Play" sub={t.shell.getItOn} />
-            <StoreBadge store="App Store" sub={t.shell.downloadOn} />
-          </div>
-        </div>
       </nav>
-    </aside>
-  )
-}
 
-function StoreBadge({ store, sub }: { store: string; sub: string }) {
-  return (
-    <div className="flex items-center gap-2 rounded-lg bg-black/30 px-3 py-2">
-      <div className="size-5 rounded bg-white/80" />
-      <div className="leading-none">
-        <p className="text-[8px] uppercase text-sidebar-foreground/60">{sub}</p>
-        <p className="text-xs font-semibold text-sidebar-accent-foreground">{store}</p>
+      <div className="mt-auto border-t border-sidebar-border p-4">
+        <div className="mb-3 flex h-2 overflow-hidden rounded-full">
+          <span className="flex-1 bg-[#16794a]" />
+          <span className="flex-1 bg-[#e6a70a]" />
+          <span className="flex-1 bg-[#d64545]" />
+          <span className="flex-1 bg-black" />
+          <span className="w-3 bg-white" />
+        </div>
+        <p className="text-[10px] font-bold text-sidebar-accent-foreground">ZIM-DRIMS</p>
+        <p className="text-[9px] text-sidebar-foreground/60">{t.shell.version}</p>
       </div>
-    </div>
+    </aside>
   )
 }

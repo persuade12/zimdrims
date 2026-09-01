@@ -12,7 +12,7 @@ export function ModulePage({ slug }: { slug: keyof typeof modulePages }) {
   const page = modulePages[slug]
   return (
     <>
-      <PageHeader title={page.title} subtitle={page.subtitle} meta="Data year 2025 · Dummy dataset" />
+      <PageHeader title={page.title} subtitle={page.subtitle} meta="25 Aug 2026 · Dummy dataset · DCP" />
       <KpiRow items={page.kpis} />
       <FilterBar fields={page.filters} />
       <SimpleTable columns={page.columns} rows={page.rows} caption={`${page.title} register`} />

@@ -9,7 +9,7 @@ import {
   type Locale,
 } from '@/lib/i18n/dictionaries'
 
-const STORAGE_KEY = 'dare-inkundla-locale'
+const STORAGE_KEY = 'zimdrims-locale'
 
 type LocaleContextValue = {
   locale: Locale

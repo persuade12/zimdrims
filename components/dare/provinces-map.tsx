@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import { MapPin, Maximize2, Minimize2, X } from 'lucide-react'
-import { provinceData, majorCities, provinces } from '@/lib/dare-data'
+import { provinceData, majorCities, provinces } from '@/lib/zimdrims-data'
+import { useLocale } from '@/components/dare/locale-provider'
 import {
   BASE_MAP_HEIGHT,
   BASE_MAP_WIDTH,
@@ -261,6 +262,7 @@ function computeExpandedSize() {
 }
 
 export function ProvincesMap() {
+  const { t } = useLocale()
   const [hovered, setHovered] = useState<string | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
@@ -302,9 +304,9 @@ export function ProvincesMap() {
         <div className="flex items-start justify-between gap-3">
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">
-              Zimbabwe &ndash; Provinces Overview
+              {t.home.hazardMap}
             </h2>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">10 provinces · click to select</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">10 provinces · hazard risk overlay</p>
           </div>
           <button
             type="button"

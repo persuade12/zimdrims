@@ -17,9 +17,9 @@ const archivo = Archivo({
 })
 
 export const metadata: Metadata = {
-  title: 'DARE/Inkundla — Digital Administration, Reporting & Engagement',
+  title: 'ZIM-DRIMS — Zimbabwe Integrated Multi-Hazard Disaster Risk Management System',
   description:
-    'Zimbabwe Traditional Leadership Digital Platform (DARE/Inkundla). Connecting communities and government through data, digital and intelligence — from Village to Cabinet.',
+    'ZIM-DRIMS by the Department of Civil Protection, Government of Zimbabwe. Saving Lives, Protecting Livelihoods, Building Resilience.',
   generator: 'v0.app',
   icons: {
     icon: '/logo.svg',

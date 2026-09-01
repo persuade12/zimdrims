@@ -13,7 +13,6 @@ import {
   Settings,
   HelpCircle,
   LogOut,
-  MapPin,
   ShieldCheck,
 } from 'lucide-react'
 import { ThemeToggle } from './theme-toggle'
@@ -22,10 +21,10 @@ import { useLocale } from '@/components/dare/locale-provider'
 import { cn } from '@/lib/utils'
 
 const notifications = [
-  { title: 'Flood risk increases in Mutare District', time: '2h ago', tone: 'danger' as const },
-  { title: '3 pending traditional leader appointments', time: 'Today', tone: 'gold' as const },
-  { title: 'Chitora borehole rehab reached 70%', time: 'Today', tone: 'green' as const },
-  { title: 'Household register synced for Makoni', time: 'Yesterday', tone: 'info' as const },
+  { title: 'Flood Warning — Save River at Chinhoyi', time: '2h ago', tone: 'danger' as const },
+  { title: 'Severe thunderstorm watch — Mutare District', time: '4h ago', tone: 'gold' as const },
+  { title: 'Drought watch — Matabeleland North', time: 'Today', tone: 'gold' as const },
+  { title: 'River levels rising — Masvingo', time: 'Today', tone: 'green' as const },
 ]
 
 export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
@@ -64,11 +63,11 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
   }, [])
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
+    <header className="sticky top-0 z-30 border-b border-border bg-[#0a0f0d] text-white">
       <div className="flex items-center gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3 lg:px-6">
         <button
           type="button"
-          className="rounded-lg p-2 text-foreground hover:bg-secondary lg:hidden"
+          className="rounded-lg p-2 hover:bg-white/10 lg:hidden"
           aria-label={t.shell.openNav}
           onClick={onMenuClick}
         >
@@ -84,24 +83,37 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
             className="size-8 shrink-0 object-contain sm:size-11"
           />
           <div className="min-w-0 leading-tight">
-            <span className="font-display text-lg font-black tracking-tight text-primary sm:text-2xl">
-              DARE/Inkundla
-            </span>
-            <p className="hidden truncate text-[11px] font-semibold text-foreground sm:block">{t.brand.tagline}</p>
-            <p className="hidden text-[10px] text-muted-foreground md:block">{t.brand.platform}</p>
-            <p className="hidden text-[10px] font-semibold italic text-danger xl:block">
-              &quot;{t.brand.motto}&quot;
+            <p className="text-[9px] font-semibold uppercase tracking-wider text-white/70 sm:text-[10px]">
+              {t.brand.government}
             </p>
+            <p className="text-[10px] font-medium text-white/85 sm:text-[11px]">{t.brand.department}</p>
+          </div>
+        </div>
+
+        <div className={cn('hidden min-w-0 flex-1 items-center justify-center md:flex', searchOpen && 'md:hidden')}>
+          <div className="font-display text-xl font-black tracking-tight sm:text-2xl">
+            <span className="text-white">ZIM-</span>
+            <span className="text-[#d64545]">D</span>
+            <span className="text-[#e6a70a]">R</span>
+            <span className="text-white">I</span>
+            <span className="text-[#16794a]">M</span>
+            <span className="text-[#16794a]">S</span>
           </div>
         </div>
 
         <div className="ml-auto flex items-center gap-1 sm:gap-1.5">
+          <div className="mr-1 hidden items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 lg:flex">
+            <span className="size-2 animate-pulse rounded-full bg-primary" />
+            <span className="text-[11px] font-semibold">{t.shell.eocStatus}</span>
+            <span className="text-[10px] font-bold text-primary">{t.shell.operational}</span>
+          </div>
+
           <div ref={searchRef} className="relative flex items-center">
             <div
               className={cn(
-                'flex items-center overflow-hidden rounded-full border bg-background transition-all duration-200',
+                'flex items-center overflow-hidden rounded-full border transition-all duration-200',
                 searchOpen
-                  ? 'w-[min(calc(100vw-7rem),22rem)] border-border shadow-sm sm:w-72 md:w-80'
+                  ? 'w-[min(calc(100vw-7rem),22rem)] border-white/20 bg-white/10 sm:w-72 md:w-80'
                   : 'w-9 border-transparent bg-transparent',
               )}
             >
@@ -109,7 +121,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                 type="button"
                 aria-label={searchOpen ? t.shell.search : t.shell.openSearch}
                 aria-expanded={searchOpen}
-                className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground"
+                className="flex size-9 shrink-0 items-center justify-center rounded-full text-white/70 hover:bg-white/10 hover:text-white"
                 onClick={() => {
                   setSearchOpen((open) => !open)
                   setProfileOpen(false)
@@ -121,7 +133,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
               <input
                 ref={searchInputRef}
                 className={cn(
-                  'h-9 min-w-0 flex-1 bg-transparent pr-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none',
+                  'h-9 min-w-0 flex-1 bg-transparent pr-2 text-sm text-white placeholder:text-white/50 focus:outline-none',
                   searchOpen ? 'opacity-100' : 'pointer-events-none w-0 opacity-0',
                 )}
                 placeholder={t.shell.searchPlaceholder}
@@ -130,7 +142,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                 <button
                   type="button"
                   aria-label={t.shell.closeSearch}
-                  className="mr-1 flex size-7 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  className="mr-1 flex size-7 shrink-0 items-center justify-center rounded-full text-white/70 hover:bg-white/10"
                   onClick={() => setSearchOpen(false)}
                 >
                   <X className="size-3.5" />
@@ -147,7 +159,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
               type="button"
               aria-label={t.shell.notifications}
               aria-expanded={alertsOpen}
-              className="relative rounded-full p-2 text-muted-foreground hover:bg-secondary hover:text-foreground"
+              className="relative rounded-full p-2 text-white/70 hover:bg-white/10 hover:text-white"
               onClick={() => {
                 setAlertsOpen((open) => !open)
                 setProfileOpen(false)
@@ -163,11 +175,9 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
               </span>
             </button>
             {alertsOpen ? (
-              <div className="absolute right-0 z-40 mt-2 w-[min(calc(100vw-1.5rem),20rem)] overflow-hidden rounded-xl border border-border bg-popover shadow-lg">
+              <div className="absolute right-0 z-40 mt-2 w-[min(calc(100vw-1.5rem),20rem)] overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-lg">
                 <div className="flex items-center justify-between border-b border-border px-3 py-2">
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-foreground">
-                    {t.shell.notifications}
-                  </p>
+                  <p className="text-[11px] font-bold uppercase tracking-wide">{t.shell.notifications}</p>
                   <span className="text-[10px] text-muted-foreground">
                     {format(t.shell.newCount, { count: notifications.length })}
                   </span>
@@ -187,13 +197,11 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                                 ? 'var(--danger)'
                                 : n.tone === 'gold'
                                   ? 'var(--gold)'
-                                  : n.tone === 'green'
-                                    ? 'var(--primary)'
-                                    : 'var(--info)',
+                                  : 'var(--primary)',
                           }}
                         />
                         <span>
-                          <span className="block text-[13px] leading-snug text-foreground">{n.title}</span>
+                          <span className="block text-[13px] leading-snug">{n.title}</span>
                           <span className="text-[10px] text-muted-foreground">{n.time}</span>
                         </span>
                       </button>
@@ -201,7 +209,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                   ))}
                 </ul>
                 <Link
-                  href="/ai-insights"
+                  href="/early-warning/all-hazards"
                   className="block border-t border-border px-3 py-2 text-center text-[12px] font-semibold text-primary hover:bg-secondary"
                   onClick={() => setAlertsOpen(false)}
                 >
@@ -216,7 +224,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
               type="button"
               aria-expanded={profileOpen}
               aria-label={t.shell.openProfile}
-              className="flex items-center gap-2 rounded-full border border-border bg-card py-1 pl-1 pr-1.5 hover:bg-secondary sm:pr-2"
+              className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-1 pl-1 pr-1.5 hover:bg-white/10 sm:pr-2"
               onClick={() => {
                 setProfileOpen((open) => !open)
                 setAlertsOpen(false)
@@ -225,20 +233,21 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
             >
               <Image
                 src="/images/administrator.png"
-                alt={t.shell.provincialAdmin}
+                alt={t.shell.administrator}
                 width={36}
                 height={36}
                 className="size-8 rounded-full object-cover sm:size-9"
               />
+              <div className="hidden min-w-0 text-left leading-tight sm:block">
+                <p className="truncate text-[12px] font-semibold">Wonder Mufunda</p>
+                <p className="truncate text-[10px] text-white/70">{t.shell.administrator}</p>
+              </div>
               <ChevronDown
-                className={cn(
-                  'size-4 text-muted-foreground transition-transform',
-                  profileOpen && 'rotate-180',
-                )}
+                className={cn('size-4 text-white/70 transition-transform', profileOpen && 'rotate-180')}
               />
             </button>
             {profileOpen ? (
-              <div className="absolute right-0 z-40 mt-2 w-[min(calc(100vw-1.5rem),18rem)] overflow-hidden rounded-xl border border-border bg-popover shadow-lg">
+              <div className="absolute right-0 z-40 mt-2 w-[min(calc(100vw-1.5rem),18rem)] overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-lg">
                 <div className="border-b border-border p-3">
                   <div className="flex items-start gap-3">
                     <Image
@@ -249,12 +258,8 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                       className="size-12 rounded-full object-cover"
                     />
                     <div className="min-w-0 leading-tight">
-                      <p className="truncate text-sm font-semibold text-foreground">Tendai Moyo</p>
-                      <p className="mt-0.5 text-[12px] text-muted-foreground">{t.shell.provincialAdmin}</p>
-                      <p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground">
-                        <MapPin className="size-3" />
-                        {t.shell.province}
-                      </p>
+                      <p className="truncate text-sm font-semibold">Wonder Mufunda</p>
+                      <p className="mt-0.5 text-[12px] text-muted-foreground">{t.shell.administrator}</p>
                       <p className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-primary">
                         <span className="size-1.5 rounded-full bg-primary" />
                         {t.shell.online}
@@ -267,10 +272,10 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                   </p>
                 </div>
                 <nav className="p-1.5">
-                  <ProfileItem href="/platform-overview" icon={UserRound} onClick={() => setProfileOpen(false)}>
+                  <ProfileItem href="/system-administration" icon={UserRound} onClick={() => setProfileOpen(false)}>
                     {t.shell.viewProfile}
                   </ProfileItem>
-                  <ProfileItem href="/platform-overview" icon={Settings} onClick={() => setProfileOpen(false)}>
+                  <ProfileItem href="/system-administration" icon={Settings} onClick={() => setProfileOpen(false)}>
                     {t.shell.accountSettings}
                   </ProfileItem>
                   <ProfileItem href="/reports" icon={HelpCircle} onClick={() => setProfileOpen(false)}>
@@ -289,6 +294,17 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
               </div>
             ) : null}
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10 px-3 py-1.5 md:hidden">
+        <div className="font-display text-lg font-black tracking-tight">
+          <span className="text-white">ZIM-</span>
+          <span className="text-[#d64545]">D</span>
+          <span className="text-[#e6a70a]">R</span>
+          <span className="text-white">I</span>
+          <span className="text-[#16794a]">M</span>
+          <span className="text-[#16794a]">S</span>
         </div>
       </div>
     </header>
@@ -310,7 +326,7 @@ function ProfileItem({
     <Link
       href={href}
       onClick={onClick}
-      className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-foreground hover:bg-secondary"
+      className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm hover:bg-secondary"
     >
       <Icon className="size-4 text-muted-foreground" />
       {children}

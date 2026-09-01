@@ -1,33 +1,45 @@
 ﻿'use client'
 
-import { ArrowRight } from 'lucide-react'
-import { sdgGoals } from '@/lib/dare-data'
+import { rainfallSummary } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
+import { cn } from '@/lib/utils'
+
+const toneStyles = {
+  danger: 'bg-danger/15 text-danger',
+  gold: 'bg-gold/15 text-gold',
+  green: 'bg-primary/15 text-primary',
+}
 
 export function SdgGoals() {
   const { t } = useLocale()
 
   return (
-    <section className="flex flex-col rounded-2xl border border-border bg-card p-5 shadow-sm">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.home.sdgGoals}</h2>
-
-      <div className="mt-3 grid grid-cols-5 gap-2">
-        {sdgGoals.map((g) => (
-          <div
-            key={g.title}
-            className="flex aspect-square flex-col justify-between rounded-lg p-2 text-white"
-            style={{ backgroundColor: g.color }}
-          >
-            <span className="font-display text-lg font-black leading-none">{g.n}</span>
-            <span className="text-[8px] font-bold uppercase leading-tight">{g.title}</span>
-          </div>
-        ))}
+    <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.home.rainfallSummary}</h2>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full min-w-[280px] text-left text-[12px]">
+          <thead>
+            <tr className="border-b border-border text-[10px] uppercase tracking-wide text-muted-foreground">
+              <th className="pb-2 pr-3 font-semibold">Province</th>
+              <th className="pb-2 pr-3 font-semibold">Max Rainfall</th>
+              <th className="pb-2 font-semibold">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rainfallSummary.map((row) => (
+              <tr key={row.province} className="border-b border-border/60 last:border-0">
+                <td className="py-2.5 pr-3 font-medium text-foreground">{row.province}</td>
+                <td className="py-2.5 pr-3 tabular-nums">{row.max}</td>
+                <td className="py-2.5">
+                  <span className={cn('rounded px-2 py-0.5 text-[10px] font-bold', toneStyles[row.tone])}>
+                    {row.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary py-2 text-[13px] font-semibold text-primary transition-colors hover:bg-accent">
-        {t.home.sdgGoals}
-        <ArrowRight className="size-3.5" />
-      </button>
     </section>
   )
 }

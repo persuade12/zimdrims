@@ -1,67 +1,64 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
-import { Play, ArrowRight } from 'lucide-react'
-import { journeySteps } from '@/lib/dare-data'
+import { Bell, Download, RefreshCw } from 'lucide-react'
+import { hazardFilters } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
+import { cn } from '@/lib/utils'
 
 export function Hero() {
-  const { t, label } = useLocale()
+  const { t } = useLocale()
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-border">
-      <Image
-        src="/images/hero-landscape.png"
-        alt="Rural Zimbabwean village landscape with traditional thatched huts"
-        fill
-        priority
-        className="object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
-
-      <div className="relative flex min-h-[340px] flex-col justify-center gap-5 p-6 sm:p-8 lg:p-10">
-        <div className="max-w-lg">
-          <h1 className="font-display text-4xl font-black leading-[1.05] text-white sm:text-5xl">
-            {t.hero.line1}
-            <br />
-            {t.hero.line2}
-            <br />
-            {t.hero.line3}
+    <section className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <p className="text-[11px] font-medium text-muted-foreground">{t.hero.breadcrumb}</p>
+          <h1 className="mt-1 font-display text-2xl font-black uppercase tracking-tight text-foreground sm:text-3xl">
+            {t.hero.title}
           </h1>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/85">{t.hero.body}</p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Link
-              href="/platform-overview"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg transition-colors hover:opacity-95"
-            >
-              {t.hero.explore}
-              <ArrowRight className="size-4" />
-            </Link>
-            <button className="inline-flex items-center gap-2 rounded-lg border border-white/40 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/20">
-              <Play className="size-4 fill-white" />
-              {t.hero.watchDemo}
-            </button>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {hazardFilters.map((filter, i) => (
+              <button
+                key={filter}
+                type="button"
+                className={cn(
+                  'rounded-full px-3 py-1 text-[11px] font-semibold transition-colors',
+                  i === 0
+                    ? 'bg-primary text-primary-foreground'
+                    : 'border border-border bg-background text-muted-foreground hover:bg-secondary',
+                )}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="mt-2 flex flex-wrap items-center gap-x-1 gap-y-3">
-          {journeySteps.map((step, i) => (
-            <div key={step.label} className="flex items-center gap-1">
-              <div className="flex flex-col items-center gap-1">
-                <div
-                  className="flex size-11 items-center justify-center rounded-full border-2 border-white/70 bg-white shadow-md"
-                  style={{ color: step.color }}
-                >
-                  <step.icon className="size-5" />
-                </div>
-                <span className="text-[11px] font-semibold text-white">{label(step.label, 'journey')}</span>
-              </div>
-              {i < journeySteps.length - 1 ? (
-                <span className="mb-4 h-px w-6 border-t-2 border-dashed border-white/50" />
-              ) : null}
-            </div>
-          ))}
+        <div className="flex flex-col gap-3 sm:items-end">
+          <div className="flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+            <span>25 Aug 2026 · 15:48 CAT</span>
+            <span className="hidden sm:inline">·</span>
+            <span>{t.hero.dataSources}</span>
+            <span className="hidden sm:inline">·</span>
+            <span className="inline-flex items-center gap-1">
+              <RefreshCw className="size-3" />
+              {t.hero.lastUpdate}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/early-warning/all-hazards"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95"
+            >
+              <Bell className="size-4" />
+              {t.hero.createAlert}
+            </Link>
+            <button className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary">
+              <Download className="size-4" />
+              {t.hero.exportReport}
+            </button>
+          </div>
         </div>
       </div>
     </section>

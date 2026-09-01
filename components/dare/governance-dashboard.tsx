@@ -1,59 +1,49 @@
 'use client'
 
-import { ArrowRight } from 'lucide-react'
-import { governanceStats } from '@/lib/dare-data'
+import { riverLevels } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
+import { cn } from '@/lib/utils'
 
-const labelMap: Record<string, 'villages' | 'provinces' | 'districts' | 'traditionalLeaders' | 'hazardAlerts' | 'activeProjects'> = {
-  Villages: 'villages',
-  Provinces: 'provinces',
-  Districts: 'districts',
-  'Traditional Leaders': 'traditionalLeaders',
-  'Hazard Alerts': 'hazardAlerts',
-  'Active Projects': 'activeProjects',
+const toneStyles = {
+  danger: 'bg-danger/15 text-danger',
+  gold: 'bg-gold/15 text-gold',
+  green: 'bg-primary/15 text-primary',
 }
 
 export function GovernanceDashboard() {
   const { t } = useLocale()
 
   return (
-    <section className="flex flex-col rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="font-display text-lg font-bold text-foreground">{t.home.governanceDashboard}</h2>
-        <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-primary">
-          <span className="size-1.5 animate-pulse rounded-full bg-primary" />
-          {t.common.liveSystem}
-        </span>
+    <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.home.riverLevels}</h2>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full min-w-[320px] text-left text-[12px]">
+          <thead>
+            <tr className="border-b border-border text-[10px] uppercase tracking-wide text-muted-foreground">
+              <th className="pb-2 pr-3 font-semibold">Station</th>
+              <th className="pb-2 pr-3 font-semibold">River</th>
+              <th className="pb-2 pr-3 font-semibold">Current</th>
+              <th className="pb-2 pr-3 font-semibold">Danger</th>
+              <th className="pb-2 font-semibold">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riverLevels.map((row) => (
+              <tr key={row.station} className="border-b border-border/60 last:border-0">
+                <td className="py-2.5 pr-3 font-medium text-foreground">{row.station}</td>
+                <td className="py-2.5 pr-3 text-muted-foreground">{row.river}</td>
+                <td className="py-2.5 pr-3 tabular-nums">{row.current}</td>
+                <td className="py-2.5 pr-3 tabular-nums text-muted-foreground">{row.danger}</td>
+                <td className="py-2.5">
+                  <span className={cn('rounded px-2 py-0.5 text-[10px] font-bold', toneStyles[row.tone])}>
+                    {row.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {governanceStats.map((s) => (
-          <div
-            key={s.label}
-            className="flex min-w-0 items-center gap-3 rounded-xl border border-border bg-background p-3"
-          >
-            <div
-              className="flex size-10 shrink-0 items-center justify-center rounded-lg"
-              style={{ backgroundColor: `${s.color}1a`, color: s.color }}
-            >
-              <s.icon className="size-5" />
-            </div>
-            <div className="min-w-0">
-              <p className="font-display text-base font-extrabold tabular-nums leading-tight text-foreground sm:text-lg">
-                {s.value}
-              </p>
-              <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">
-                {labelMap[s.label] ? t.common[labelMap[s.label]] : s.label}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-accent">
-        {t.home.viewFullGovernance}
-        <ArrowRight className="size-4" />
-      </button>
     </section>
   )
 }
