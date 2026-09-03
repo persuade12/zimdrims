@@ -1,187 +1,30 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
+import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import { MapPin, Maximize2, Minimize2, X } from 'lucide-react'
-import { provinceData, majorCities, provinces } from '@/lib/zimdrims-data'
+import { provinceData, provinces } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
-import {
-  BASE_MAP_HEIGHT,
-  BASE_MAP_WIDTH,
-  ZIMBABWE_ASPECT,
-  projectionConfigForSize,
-} from '@/lib/zimbabwe-map'
+import { ZIMBABWE_ASPECT } from '@/lib/zimbabwe-map'
 import { cn } from '@/lib/utils'
 
-const GEO_URL = '/data/zimbabwe-provinces.json'
+const ZimbabweLeafletMap = dynamic(
+  () =>
+    import('@/components/dare/zimbabwe-leaflet-map').then((mod) => mod.ZimbabweLeafletMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full min-h-[16rem] items-center justify-center text-sm text-muted-foreground">
+        Loading Zimbabwe map…
+      </div>
+    ),
+  },
+)
 
 function shortName(name: string) {
   return name
     .replace('Mashonaland ', 'Mash. ')
     .replace('Matabeleland ', 'Mat. ')
-}
-
-type MapCanvasProps = {
-  width: number
-  height: number
-  selected: string | null
-  hovered: string | null
-  onHover: (name: string | null) => void
-  onSelect: (name: string) => void
-  showTooltip?: boolean
-}
-
-function ZimbabweMapCanvas({
-  width,
-  height,
-  selected,
-  hovered,
-  onHover,
-  onSelect,
-  showTooltip = true,
-}: MapCanvasProps) {
-  const projectionConfig = useMemo(() => projectionConfigForSize(width), [width])
-  const tooltipProvince = selected ?? hovered
-  const tooltipInfo = tooltipProvince ? provinceData[tooltipProvince] : null
-  const scale = width / BASE_MAP_WIDTH
-
-  return (
-    <div className="relative h-full w-full">
-      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,rgba(22,121,74,0.14)_1px,transparent_0)] [background-size:20px_20px]" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.03] via-transparent to-white/20 dark:from-black/20 dark:to-white/5" />
-
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={projectionConfig}
-        width={width}
-        height={height}
-        className="relative z-[1] h-full w-full touch-none"
-        style={{ width: '100%', height: 'auto' }}
-      >
-        <Geographies geography={GEO_URL}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              const name = geo.properties.shapeName as string
-              const info = provinceData[name]
-              const baseFill = info?.fill ?? '#cbd5e1'
-              const highlightFill = info?.hover ?? baseFill
-              const isSelected = selected === name
-              const isHovered = hovered === name
-              const isDimmed = Boolean(selected && selected !== name)
-
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  onMouseEnter={() => onHover(name)}
-                  onMouseLeave={() => onHover(null)}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    onSelect(name)
-                  }}
-                  style={{
-                    default: {
-                      fill: isSelected || isHovered ? highlightFill : baseFill,
-                      stroke: isSelected ? '#16794a' : isHovered ? '#1f9d5f' : 'var(--map-stroke)',
-                      strokeWidth: (isSelected ? 2.25 : isHovered ? 1.75 : 0.85) * scale,
-                      opacity: isDimmed ? 0.5 : 1,
-                      outline: 'none',
-                      transition: 'fill 180ms ease, stroke 180ms ease, opacity 180ms ease',
-                    },
-                    hover: {
-                      fill: highlightFill,
-                      stroke: '#16794a',
-                      strokeWidth: 2 * scale,
-                      opacity: 1,
-                      cursor: 'pointer',
-                      outline: 'none',
-                    },
-                    pressed: {
-                      fill: highlightFill,
-                      stroke: '#0c2f1e',
-                      strokeWidth: 2.25 * scale,
-                      opacity: 1,
-                      outline: 'none',
-                    },
-                  }}
-                />
-              )
-            })
-          }
-        </Geographies>
-
-        {majorCities.map((city) => (
-          <Marker key={city.name} coordinates={city.coordinates}>
-            <g style={{ pointerEvents: 'none' }}>
-              <circle r={(city.capital ? 10 : 8) * scale} fill="var(--primary)" opacity={0.18} />
-              <circle
-                r={(city.capital ? 4.5 : 3.5) * scale}
-                fill="var(--primary)"
-                stroke="#fff"
-                strokeWidth={1.5 * scale}
-              />
-              <text
-                textAnchor="middle"
-                y={-12 * scale}
-                style={{
-                  fontFamily: 'var(--font-display), sans-serif',
-                  fontSize: (city.capital ? 11 : 10) * scale,
-                  fontWeight: 800,
-                  fill: 'var(--foreground)',
-                  paintOrder: 'stroke',
-                  stroke: 'var(--card)',
-                  strokeWidth: 3 * scale,
-                }}
-              >
-                {city.name}
-              </text>
-            </g>
-          </Marker>
-        ))}
-      </ComposableMap>
-
-      {showTooltip && tooltipProvince && tooltipInfo ? (
-        <div className="pointer-events-none absolute left-3 top-3 z-10 max-w-[11rem] rounded-xl border border-border/80 bg-card/95 p-3 shadow-lg backdrop-blur-sm">
-          <p className="font-display text-sm font-bold text-foreground">{tooltipProvince}</p>
-          {selected === tooltipProvince ? (
-            <p className="mt-0.5 text-[10px] font-semibold text-primary">Selected</p>
-          ) : null}
-          <dl className="mt-2 space-y-1 text-[11px]">
-            <div className="flex justify-between gap-2">
-              <dt className="text-muted-foreground">Population</dt>
-              <dd className="font-semibold tabular-nums text-foreground">{tooltipInfo.population}</dd>
-            </div>
-            <div className="flex justify-between gap-2">
-              <dt className="text-muted-foreground">Districts</dt>
-              <dd className="font-semibold tabular-nums text-foreground">{tooltipInfo.districts}</dd>
-            </div>
-            <div className="flex justify-between gap-2">
-              <dt className="text-muted-foreground">Villages</dt>
-              <dd className="font-semibold tabular-nums text-foreground">
-                {tooltipInfo.villages.toLocaleString()}
-              </dd>
-            </div>
-          </dl>
-        </div>
-      ) : null}
-
-      <div className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-lg border border-border/60 bg-card/80 px-2.5 py-2 backdrop-blur-sm">
-        <div className="flex h-2 w-28 overflow-hidden rounded-sm border border-foreground/25">
-          {[1, 0, 1, 0, 1].map((on, i) => (
-            <span key={i} className={cn('flex-1', on ? 'bg-foreground/60' : 'bg-transparent')} />
-          ))}
-        </div>
-        <p className="mt-1 text-[9px] font-medium tabular-nums text-muted-foreground">
-          0 &nbsp; 75 &nbsp; 150 &nbsp; 225 &nbsp; 300 km
-        </p>
-      </div>
-
-      <div className="pointer-events-none absolute bottom-3 right-3 z-10 flex size-10 flex-col items-center justify-center rounded-full border border-border/60 bg-card/80 text-primary shadow-sm backdrop-blur-sm">
-        <span className="text-[9px] font-bold leading-none">N</span>
-        <span className="mt-0.5 text-sm leading-none">▲</span>
-      </div>
-    </div>
-  )
 }
 
 function ProvinceLegend({
@@ -200,7 +43,7 @@ function ProvinceLegend({
   return (
     <aside className={cn('flex flex-col gap-3', className)}>
       <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Provinces</p>
-      <ul className="grid max-h-[22rem] grid-cols-2 gap-1.5 overflow-y-auto pr-0.5 lg:grid-cols-1">
+      <ul className="grid max-h-[min(36rem,58vh)] grid-cols-2 gap-1.5 overflow-y-auto pr-0.5 lg:grid-cols-1">
         {provinces.map((name) => {
           const info = provinceData[name]
           const isSelected = selected === name
@@ -249,35 +92,11 @@ function ProvinceLegend({
   )
 }
 
-function computeExpandedSize() {
-  const maxW = Math.min(window.innerWidth - 48, 1100)
-  const maxH = window.innerHeight - 180
-  let width = maxW
-  let height = width / ZIMBABWE_ASPECT
-  if (height > maxH) {
-    height = maxH
-    width = height * ZIMBABWE_ASPECT
-  }
-  return { width: Math.round(width), height: Math.round(height) }
-}
-
 export function ProvincesMap() {
   const { t } = useLocale()
   const [hovered, setHovered] = useState<string | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
-  const [expandedSize, setExpandedSize] = useState({
-    width: 960,
-    height: Math.round(960 / ZIMBABWE_ASPECT),
-  })
-
-  useEffect(() => {
-    if (!expanded) return
-    const update = () => setExpandedSize(computeExpandedSize())
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [expanded])
 
   function selectProvince(name: string) {
     setSelected((current) => (current === name ? null : name))
@@ -318,21 +137,21 @@ export function ProvincesMap() {
           </button>
         </div>
 
-        <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_12.5rem]">
+        <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_13rem]">
           <div
-            className="relative w-full overflow-hidden rounded-xl border border-border/70 shadow-inner"
+            className="relative min-h-[22rem] w-full overflow-hidden rounded-xl border border-border/70 shadow-inner sm:min-h-[26rem] lg:min-h-[32rem] xl:min-h-[36rem]"
             style={{
+              height: 'min(58vh, 40rem)',
               background:
                 'linear-gradient(145deg, var(--map-bg-from) 0%, var(--map-bg-via) 45%, var(--map-bg-to) 100%)',
             }}
           >
-            <ZimbabweMapCanvas
-              width={BASE_MAP_WIDTH}
-              height={BASE_MAP_HEIGHT}
+            <ZimbabweLeafletMap
               selected={selected}
               hovered={hovered}
               onHover={setHovered}
               onSelect={selectProvince}
+              resizeKey="card"
             />
           </div>
 
@@ -376,17 +195,18 @@ export function ProvincesMap() {
               <div
                 className="relative mx-auto w-full max-w-full overflow-hidden rounded-xl border border-border/70 shadow-inner"
                 style={{
+                  aspectRatio: String(ZIMBABWE_ASPECT),
+                  maxHeight: '70vh',
                   background:
                     'linear-gradient(145deg, var(--map-bg-from) 0%, var(--map-bg-via) 45%, var(--map-bg-to) 100%)',
                 }}
               >
-                <ZimbabweMapCanvas
-                  width={expandedSize.width}
-                  height={expandedSize.height}
+                <ZimbabweLeafletMap
                   selected={selected}
                   hovered={hovered}
                   onHover={setHovered}
                   onSelect={selectProvince}
+                  resizeKey={`expanded-${expanded}`}
                 />
               </div>
 

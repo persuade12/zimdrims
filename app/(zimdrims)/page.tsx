@@ -17,11 +17,12 @@ export default function Page() {
 
       <AtAGlance />
 
-      <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_1.2fr_1fr]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <LatestAlerts />
-        <ProvincesMap />
         <HazardForecastTimeline />
       </div>
+
+      <ProvincesMap />
 
       <QuickAccess />
 
