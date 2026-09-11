@@ -39,6 +39,9 @@ import {
   Download,
   Share2,
   Map,
+  LifeBuoy,
+  Network,
+  Eye,
 } from 'lucide-react'
 
 export type NavChild = {
@@ -100,23 +103,28 @@ export const navGroups: NavGroup[] = [
     title: 'ANTICIPATION',
     items: [
       { label: 'Trigger Monitor', icon: Activity, href: '/trigger-monitor' },
+      { label: 'Drought Anticipation', icon: Sun, href: '/anticipation/drought' },
       { label: 'Anticipatory Action', icon: Zap, href: '/anticipatory-action' },
     ],
   },
   {
     title: 'RESPONSE',
     items: [
+      { label: 'Response Overview', icon: Eye, href: '/response' },
       { label: 'Emergency Operations', icon: Siren, href: '/emergency-operations' },
       { label: 'Incident Command', icon: Radio, href: '/incident-command' },
       { label: 'Logistics & Resources', icon: Truck, href: '/logistics-resources' },
       { label: 'Shelters & Evacuation', icon: Tent, href: '/shelters-evacuation' },
+      { label: 'Search & Rescue', icon: LifeBuoy, href: '/search-rescue' },
+      { label: 'Call Centre', icon: Phone, href: '/call-centre' },
     ],
   },
   {
     title: 'COORDINATION',
     items: [
       { label: 'Government Coordination', icon: Building2, href: '/government-coordination' },
-      { label: 'Partner Coordination', icon: Handshake, href: '/partner-coordination' },
+      { label: 'Partners & Stakeholders', icon: Handshake, href: '/coordination/partners' },
+      { label: '5W Coordination', icon: Network, href: '/coordination/5w' },
       { label: 'SADC Regional Coordination', icon: Globe2, href: '/sadc-coordination' },
     ],
   },

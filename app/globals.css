@@ -237,3 +237,40 @@
   width: 11px;
   height: 11px;
 }
+
+.situation-marker {
+  background: transparent;
+  border: none;
+}
+
+.situation-marker-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transform: translate(-50%, -50%);
+}
+
+.situation-marker-dot {
+  display: inline-flex;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--pin, #d64545);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+}
+
+.situation-marker-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--foreground);
+  text-shadow: 0 0 4px var(--card);
+  white-space: nowrap;
+}
