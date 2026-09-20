@@ -2,6 +2,7 @@
 
 import { Shield, Phone, Mail } from 'lucide-react'
 import { useLocale } from '@/components/dare/locale-provider'
+import { ChaAccreditation } from '@/components/dare/cha-accreditation'
 
 export function SiteFooter() {
   const { t } = useLocale()
@@ -9,17 +10,21 @@ export function SiteFooter() {
   return (
     <footer className="rounded-xl bg-sidebar px-3 py-2.5 text-sidebar-foreground sm:px-4">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <div className="flex items-center gap-2">
-          <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/10">
-            <Shield className="size-3.5 text-sidebar-primary" />
+        <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2">
+            <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/10">
+              <Shield className="size-3.5 text-sidebar-primary" />
+            </div>
+            <div className="leading-tight">
+              <p className="text-[10px] font-bold text-white">{t.footer.tagline}</p>
+              <p className="hidden text-[9px] text-sidebar-foreground/70 sm:block">{t.footer.copyright}</p>
+            </div>
           </div>
-          <div className="leading-tight">
-            <p className="text-[10px] font-bold text-white">{t.footer.tagline}</p>
-            <p className="hidden text-[9px] text-sidebar-foreground/70 sm:block">{t.footer.copyright}</p>
-          </div>
+          <div className="hidden h-6 w-px bg-white/15 sm:block" aria-hidden />
+          <ChaAccreditation variant="compact" onDark />
         </div>
 
-        <p className="hidden text-center text-[10px] font-semibold text-white/90 lg:block">{t.footer.motto}</p>
+        <p className="hidden text-center text-[10px] font-semibold text-white/90 xl:block">{t.footer.motto}</p>
 
         <div className="flex items-center gap-3">
           <a href={`mailto:${t.footer.email}`} className="flex items-center gap-1.5 text-[10px] text-sidebar-foreground/80 hover:text-white">

@@ -7,6 +7,7 @@ import { Bell, Home, Map, BarChart3, Shield, FileText, AlertTriangle, BookOpen, 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/dare/theme-toggle'
+import { ChaAccreditation } from '@/components/dare/cha-accreditation'
 
 const publicNav = [
   { label: 'Home', href: '/', icon: Home },
@@ -131,9 +132,16 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">{children}</main>
 
       <footer className="border-t border-border bg-[#0c2f1e] text-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-[11px] text-white/80 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>ZIM-DRIMS Public · Department of Civil Protection · Government of Zimbabwe</p>
-          <p>Together for a Safer, More Resilient Zimbabwe · helpdesk@dcp.gov.zw · +263 242 700 000</p>
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:px-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[11px] text-white/80">
+              ZIM-DRIMS Public · Department of Civil Protection · Government of Zimbabwe
+            </p>
+            <ChaAccreditation variant="full" onDark />
+          </div>
+          <p className="text-[11px] text-white/70">
+            Together for a Safer, More Resilient Zimbabwe · helpdesk@dcp.gov.zw · +263 242 700 000
+          </p>
         </div>
       </footer>
     </div>

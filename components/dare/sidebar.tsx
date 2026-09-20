@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import { navGroups } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
+import { ChaAccreditation } from '@/components/dare/cha-accreditation'
 import { cn } from '@/lib/utils'
 
 function isActive(pathname: string, href: string) {
@@ -100,6 +101,9 @@ export function Sidebar({
         </div>
         <p className="text-[10px] font-bold text-sidebar-accent-foreground">ZIM-DRIMS</p>
         <p className="text-[9px] text-sidebar-foreground/60">{t.shell.version}</p>
+        <div className="mt-3 border-t border-sidebar-border/80 pt-3">
+          <ChaAccreditation variant="compact" onDark className="scale-95 origin-left" />
+        </div>
       </div>
     </aside>
   )

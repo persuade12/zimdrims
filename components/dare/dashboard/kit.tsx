@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Download, FileDown, RefreshCw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { FilterBar, type FilterField, KpiRow, type KpiItem, PageHeader } from '@/components/dare/page-primitives'
+import { ChaPromo } from '@/components/dare/cha-promo'
 
 const defaultFilters: FilterField[] = [
   {
@@ -118,6 +119,7 @@ export function DashboardChrome({
 
       <FilterBar fields={filters} actionLabel="Apply" />
       <KpiRow items={kpis} />
+      <ChaPromo variant="strip" />
       {children}
     </div>
   )

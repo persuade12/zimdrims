@@ -35,3 +35,5 @@ Also shown on the login page at `/ops/login`.
 - **ADMINISTRATION** — Digital SOPs, Users & Roles (Access Control demo), Data Sources, System Admin
 
 Concept reference designs are in `public/concept/`. All module routes use demo/static datasets. Auth is demo-only (cookie session).
+
+**Analytics partner:** Centre for Humanitarian Analytics (CHA) — logo at `public/cha.png`.

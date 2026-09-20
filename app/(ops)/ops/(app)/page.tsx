@@ -8,6 +8,7 @@ import { GovernanceDashboard } from '@/components/dare/governance-dashboard'
 import { PlatformHealth } from '@/components/dare/platform-health'
 import { SdgGoals } from '@/components/dare/sdg-goals'
 import { DataMarketplace } from '@/components/dare/data-marketplace'
+import { ChaPromo } from '@/components/dare/cha-promo'
 
 export default function OpsHomePage() {
   return (
@@ -23,6 +24,8 @@ export default function OpsHomePage() {
 
       <ProvincesMap />
 
+      <ChaPromo variant="banner" />
+
       <QuickAccess />
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -31,7 +34,10 @@ export default function OpsHomePage() {
         <PlatformHealth />
       </div>
 
-      <DataMarketplace />
+      <div className="grid gap-5 lg:grid-cols-[1.4fr_0.85fr]">
+        <DataMarketplace />
+        <ChaPromo variant="card" />
+      </div>
     </>
   )
 }

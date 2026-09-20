@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Eye, EyeOff, Shield } from 'lucide-react'
 import { OPS_DEMO_USERS } from '@/lib/ops-demo-users'
+import { ChaAccreditation } from '@/components/dare/cha-accreditation'
 
 export function OpsLoginForm() {
   const router = useRouter()
@@ -121,6 +122,9 @@ export function OpsLoginForm() {
               ← Back to public portal
             </Link>
           </p>
+          <div className="mt-6 border-t border-white/10 pt-4">
+            <ChaAccreditation variant="full" onDark className="justify-center" />
+          </div>
         </section>
 
         <aside className="rounded-2xl border border-[#16794a]/40 bg-white/95 p-6 text-foreground shadow-xl dark:bg-card">

@@ -7,22 +7,28 @@ import { Panel, Chip, ProgressRow } from '@/components/dare/ui'
 import { DonutChart, FeedList, MiniBars, QuickActions } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
 import { mapStories } from '@/lib/concept/map-stories'
+import { ChaPromo } from '@/components/dare/cha-promo'
 import { riskColors, kpi } from '@/lib/concept-data'
 import { KpiRow } from '@/components/dare/page-primitives'
 
 function PublicHeader({
   title,
   subtitle,
+  showPromo = true,
 }: {
   title: string
   subtitle: string
+  showPromo?: boolean
 }) {
   return (
-    <div className="mb-5 space-y-1">
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#16794a]">Public Information</p>
-      <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">{title}</h1>
-      <p className="max-w-3xl text-sm text-muted-foreground">{subtitle}</p>
-      <p className="text-[11px] text-muted-foreground">As of 25 Aug 2026 · 15:48 CAT · Demo dataset</p>
+    <div className="mb-5 space-y-4">
+      <div className="space-y-1">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-[#16794a]">Public Information</p>
+        <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">{title}</h1>
+        <p className="max-w-3xl text-sm text-muted-foreground">{subtitle}</p>
+        <p className="text-[11px] text-muted-foreground">As of 25 Aug 2026 · 15:48 CAT · Demo dataset</p>
+      </div>
+      {showPromo ? <ChaPromo variant="strip" /> : null}
     </div>
   )
 }
@@ -33,6 +39,7 @@ export function PublicHomePage() {
       <PublicHeader
         title="Stay Informed. Stay Prepared."
         subtitle="Official multi-hazard information from the Department of Civil Protection for communities across Zimbabwe."
+        showPromo={false}
       />
       <KpiRow
         items={[
@@ -88,6 +95,7 @@ export function PublicHomePage() {
           </Link>
         ))}
       </div>
+      <ChaPromo variant="banner" />
     </div>
   )
 }
@@ -193,6 +201,7 @@ export function PublicSituationPage() {
           />
         </Panel>
       </div>
+      <ChaPromo variant="card" className="max-w-md" />
     </div>
   )
 }
@@ -242,6 +251,7 @@ export function PublicStatisticsPage() {
           />
         </Panel>
       </div>
+      <ChaPromo variant="banner" />
     </div>
   )
 }
@@ -376,6 +386,7 @@ export function PublicResourcesPage() {
           />
         </Panel>
       </div>
+      <ChaPromo variant="banner" />
     </div>
   )
 }
