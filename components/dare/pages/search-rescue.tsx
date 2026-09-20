@@ -21,8 +21,8 @@ export function SearchRescuePage() {
       title="Search, Rescue & Recovery"
       subtitle="Find. Rescue. Recover. Restore Dignity."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
-        { label: 'Response', href: '/response' },
+        { label: 'Home', href: '/ops' },
+        { label: 'Response', href: '/ops/response' },
         { label: 'Search, Rescue & Recovery' },
       ]}
       kpis={searchRescueKpis}
@@ -168,8 +168,8 @@ export function SearchRescuePage() {
               { label: 'Log New Incident' },
               { label: 'Request Air Support' },
               { label: 'Update Missing Persons' },
-              { label: 'Emergency Operations', href: '/emergency-operations' },
-              { label: 'Call Centre', href: '/call-centre' },
+              { label: 'Emergency Operations', href: '/ops/emergency-operations' },
+              { label: 'Call Centre', href: '/ops/call-centre' },
             ]}
           />
         </Panel>

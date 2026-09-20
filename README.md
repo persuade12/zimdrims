@@ -10,10 +10,22 @@ Zimbabwe Integrated Multi-Hazard Disaster Risk Management System — a Next.js p
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the Early Warning Centre dashboard.
+Open [http://localhost:3000](http://localhost:3000) for the **public portal**.
+
+Staff ops platform: [http://localhost:3000/ops](http://localhost:3000/ops) (login required).
+
+### Demo ops credentials
+
+| Username | Password | Role |
+|----------|----------|------|
+| `wonder.mufunda` | `Dcp@2026` | DCP Administrator |
+| `neoc.officer` | `Ops@2026` | NEOC Officer |
+
+Also shown on the login page at `/ops/login`.
 
 ## Platform Modules
 
+- **PUBLIC** (landing) — alerts, risk map, situation, statistics, preparedness, incident reporting, resources
 - **COMMAND** — National COP, Early Warning, Risk & Impact Intelligence, Needs Assessment
 - **ANTICIPATION** — Trigger Monitor, Hazard Anticipation, Anticipatory Action & Financing
 - **RESPONSE** — Emergency Operations, Incident Command, Logistics, Shelters, Search & Rescue
@@ -21,6 +33,5 @@ Open [http://localhost:3000](http://localhost:3000) to view the Early Warning Ce
 - **RECOVERY** — Loss & Damage, Recovery Progress, Build Back Better, Resilience
 - **KNOWLEDGE** — Reports, Analytics, Lessons Learned, IKS, Knowledge Repository
 - **ADMINISTRATION** — Digital SOPs, Users & Roles (Access Control demo), Data Sources, System Admin
-- **PUBLIC** — Public dashboard at [/public](http://localhost:3000/public) (alerts, risk map, incident reporting, resources)
 
-Concept reference designs are in `public/concept/`. All module routes use demo/static datasets.
+Concept reference designs are in `public/concept/`. All module routes use demo/static datasets. Auth is demo-only (cookie session).

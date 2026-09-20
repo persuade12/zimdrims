@@ -26,8 +26,8 @@ export function DroughtAnticipationPage() {
       title="Hazard Anticipation — Drought"
       subtitle="Anticipate. Act Early. Save Lives."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
-        { label: 'Anticipation', href: '/anticipatory-action' },
+        { label: 'Home', href: '/ops' },
+        { label: 'Anticipation', href: '/ops/anticipatory-action' },
         { label: 'Drought Anticipation' },
       ]}
       kpis={droughtKpis}
@@ -163,8 +163,8 @@ export function DroughtAnticipationPage() {
           <div className="mt-4">
             <QuickActions
               actions={[
-                { label: 'Open Trigger Monitor', href: '/trigger-monitor' },
-                { label: 'Anticipatory Action', href: '/anticipatory-action' },
+                { label: 'Open Trigger Monitor', href: '/ops/trigger-monitor' },
+                { label: 'Anticipatory Action', href: '/ops/anticipatory-action' },
               ]}
             />
           </div>

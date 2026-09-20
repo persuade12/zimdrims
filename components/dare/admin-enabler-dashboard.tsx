@@ -296,7 +296,7 @@ function OverviewTab() {
             ))}
           </ul>
           <Link
-            href="/iks"
+            href="/ops/iks"
             className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-primary hover:underline"
           >
             Open IKS
@@ -457,7 +457,7 @@ function KnowledgeTab() {
           &amp; Insights.
         </p>
         <Link
-          href="/iks"
+          href="/ops/iks"
           className="mt-4 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-95"
         >
           Open Indigenous Knowledge Systems (IKS)

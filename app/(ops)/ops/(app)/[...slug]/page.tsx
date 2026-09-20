@@ -1,6 +1,6 @@
 import { ConceptSlugPage } from '@/components/dare/concept-slug-page'
 
-export default async function ModuleRoutePage({
+export default async function OpsModuleRoutePage({
   params,
 }: {
   params: Promise<{ slug: string[] }>

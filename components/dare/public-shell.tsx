@@ -9,16 +9,16 @@ import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/dare/theme-toggle'
 
 const publicNav = [
-  { label: 'Home', href: '/public', icon: Home },
-  { label: 'Active Alerts', href: '/public/alerts', icon: Bell },
-  { label: 'Risk Map', href: '/public/risk-map', icon: Map },
-  { label: 'Current Situation', href: '/public/situation', icon: AlertTriangle },
-  { label: 'Statistics', href: '/public/statistics', icon: BarChart3 },
-  { label: 'Recovery & Resilience', href: '/public/recovery', icon: Shield },
-  { label: 'Preparedness & Safety', href: '/public/preparedness', icon: LifeBuoy },
-  { label: 'Public Reports', href: '/public/reports', icon: FileText },
-  { label: 'Report an Incident', href: '/public/report-incident', icon: AlertTriangle },
-  { label: 'Resources', href: '/public/resources', icon: BookOpen },
+  { label: 'Home', href: '/', icon: Home },
+  { label: 'Active Alerts', href: '/alerts', icon: Bell },
+  { label: 'Risk Map', href: '/risk-map', icon: Map },
+  { label: 'Current Situation', href: '/situation', icon: AlertTriangle },
+  { label: 'Statistics', href: '/statistics', icon: BarChart3 },
+  { label: 'Recovery & Resilience', href: '/recovery', icon: Shield },
+  { label: 'Preparedness & Safety', href: '/preparedness', icon: LifeBuoy },
+  { label: 'Public Reports', href: '/reports', icon: FileText },
+  { label: 'Report an Incident', href: '/report-incident', icon: AlertTriangle },
+  { label: 'Resources', href: '/resources', icon: BookOpen },
 ]
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
@@ -38,26 +38,28 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             >
               <Menu className="size-5" />
             </button>
-            <Image src="/logo.svg" alt="Republic of Zimbabwe" width={36} height={36} className="size-9 shrink-0" />
-            <div className="min-w-0 leading-tight">
-              <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-white/70">
-                Department of Civil Protection
-              </p>
-              <p className="truncate font-display text-sm font-extrabold tracking-wide sm:text-base">
-                ZIM-DRIMS Public
-              </p>
-            </div>
+            <Link href="/" className="flex min-w-0 items-center gap-3">
+              <Image src="/logo.svg" alt="Republic of Zimbabwe" width={36} height={36} className="size-9 shrink-0" />
+              <div className="min-w-0 leading-tight">
+                <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-white/70">
+                  Department of Civil Protection
+                </p>
+                <p className="truncate font-display text-sm font-extrabold tracking-wide sm:text-base">
+                  ZIM-DRIMS Public
+                </p>
+              </div>
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <Link
-              href="/"
+              href="/ops/login"
               className="hidden rounded-lg border border-white/20 px-3 py-1.5 text-[11px] font-semibold hover:bg-white/10 sm:inline-flex"
             >
-              Ops Portal
+              Staff Login
             </Link>
             <Link
-              href="/public/report-incident"
+              href="/report-incident"
               className="rounded-lg bg-[#16794a] px-3 py-1.5 text-[11px] font-bold text-white hover:opacity-90"
             >
               Report Incident
@@ -65,7 +67,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <nav className="hidden border-t border-white/10 lg:block">
-          <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 py-2 sm:px-6">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-1 gap-y-1 px-4 py-2 sm:px-6">
             {publicNav.map((item) => {
               const active = pathname === item.href
               return (
@@ -73,11 +75,11 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-semibold',
+                    'inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold',
                     active ? 'bg-white/15 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white',
                   )}
                 >
-                  <item.icon className="size-3.5" />
+                  <item.icon className="size-3.5 shrink-0" />
                   {item.label}
                 </Link>
               )
@@ -114,8 +116,12 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
                   </Link>
                 )
               })}
-              <Link href="/" onClick={() => setOpen(false)} className="mt-3 block rounded-lg border border-white/20 px-3 py-2.5 text-sm">
-                Ops Portal
+              <Link
+                href="/ops/login"
+                onClick={() => setOpen(false)}
+                className="mt-3 block rounded-lg border border-white/20 px-3 py-2.5 text-sm"
+              >
+                Staff Login
               </Link>
             </nav>
           </aside>

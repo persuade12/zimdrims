@@ -24,8 +24,8 @@ export function LogisticsResourcesPage() {
       title="Logistics & Resources"
       subtitle="Right resources. Right place. Right time."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
-        { label: 'Response', href: '/response' },
+        { label: 'Home', href: '/ops' },
+        { label: 'Response', href: '/ops/response' },
         { label: 'Logistics & Resources' },
       ]}
       kpis={logisticsKpis}
@@ -167,7 +167,7 @@ export function LogisticsResourcesPage() {
               actions={[
                 { label: 'Create Request' },
                 { label: 'Dispatch Convoy' },
-                { label: 'Emergency Ops', href: '/emergency-operations' },
+                { label: 'Emergency Ops', href: '/ops/emergency-operations' },
               ]}
             />
           </div>

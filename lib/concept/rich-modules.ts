@@ -51,7 +51,7 @@ const defaultFeed = [
 ]
 
 function crumbs(...parts: { label: string; href?: string }[]): { label: string; href?: string }[] {
-  return [{ label: 'Home', href: '/' }, ...parts]
+  return [{ label: 'Home', href: '/ops' }, ...parts]
 }
 
 export const nationalCopConfig: RichModuleConfig = {
@@ -112,10 +112,10 @@ export const nationalCopConfig: RichModuleConfig = {
   },
   feed: { title: 'Command Feed', items: defaultFeed },
   actions: [
-    { label: 'Open Early Warning', href: '/early-warning' },
-    { label: 'Response Overview', href: '/response' },
-    { label: 'Trigger Monitor', href: '/trigger-monitor' },
-    { label: 'Public Dashboard', href: '/public' },
+    { label: 'Open Early Warning', href: '/ops/early-warning' },
+    { label: 'Response Overview', href: '/ops/response' },
+    { label: 'Trigger Monitor', href: '/ops/trigger-monitor' },
+    { label: 'Public Site', href: '/' },
   ],
   notes: [
     'Dummy dataset · DCP demo — figures frozen at 25 Aug 2026 15:48 CAT.',
@@ -177,10 +177,10 @@ export const earlyWarningOverviewConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'All Hazards', href: '/early-warning/all-hazards' },
-    { label: 'Flood Dashboard', href: '/early-warning/flood' },
-    { label: 'Drought Dashboard', href: '/early-warning/drought' },
-    { label: 'Risk Map', href: '/risk-intelligence/risk-map' },
+    { label: 'All Hazards', href: '/ops/early-warning/all-hazards' },
+    { label: 'Flood Dashboard', href: '/ops/early-warning/flood' },
+    { label: 'Drought Dashboard', href: '/ops/early-warning/drought' },
+    { label: 'Risk Map', href: '/ops/risk-intelligence/risk-map' },
   ],
   feed: { title: 'Alert Timeline', items: defaultFeed },
 }
@@ -197,7 +197,7 @@ export function hazardEarlyWarningConfig(
     subtitle: `Hazard-specific monitoring and alerting for ${hazard}.`,
     breadcrumbs: crumbs(
       { label: 'Command' },
-      { label: 'Early Warning', href: '/early-warning' },
+      { label: 'Early Warning', href: '/ops/early-warning' },
       { label: title },
     ),
     primaryAction: 'Issue Alert',
@@ -253,8 +253,8 @@ export function hazardEarlyWarningConfig(
       ],
     },
     actions: [
-      { label: 'Early Warning Hub', href: '/early-warning' },
-      { label: 'National COP', href: '/national-cop' },
+      { label: 'Early Warning Hub', href: '/ops/early-warning' },
+      { label: 'National COP', href: '/ops/national-cop' },
       { label: `View /early-warning/${slug}`, href: `/early-warning/${slug}` },
     ],
     notes: [`Integrated Met Services, ZINWA, DCP field and partner feeds for ${hazard.toLowerCase()} monitoring.`],
@@ -313,10 +313,10 @@ export const riskIntelligenceConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Risk Map', href: '/risk-intelligence/risk-map' },
-    { label: 'Risk Explorer', href: '/risk-intelligence/risk-explorer' },
-    { label: 'Impact Intelligence', href: '/impact-intelligence' },
-    { label: 'Needs Assessment', href: '/needs-assessment' },
+    { label: 'Risk Map', href: '/ops/risk-intelligence/risk-map' },
+    { label: 'Risk Explorer', href: '/ops/risk-intelligence/risk-explorer' },
+    { label: 'Impact Intelligence', href: '/ops/impact-intelligence' },
+    { label: 'Needs Assessment', href: '/ops/needs-assessment' },
   ],
   feed: { title: 'Risk Updates', items: defaultFeed },
 }
@@ -327,7 +327,7 @@ export const riskMapConfig: RichModuleConfig = {
   subtitle: 'Interactive multi-hazard risk choropleth and hotspot layers.',
   breadcrumbs: crumbs(
     { label: 'Command' },
-    { label: 'Risk Intelligence', href: '/risk-intelligence' },
+    { label: 'Risk Intelligence', href: '/ops/risk-intelligence' },
     { label: 'Risk Map' },
   ),
   primaryAction: 'Export Map',
@@ -338,7 +338,7 @@ export const riskExplorerConfig: RichModuleConfig = {
   subtitle: 'Explore hazard exposure, vulnerability and capacity indicators by geography.',
   breadcrumbs: crumbs(
     { label: 'Command' },
-    { label: 'Risk Intelligence', href: '/risk-intelligence' },
+    { label: 'Risk Intelligence', href: '/ops/risk-intelligence' },
     { label: 'Risk Explorer' },
   ),
   kpis: [
@@ -375,8 +375,8 @@ export const riskExplorerConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Risk Map', href: '/risk-intelligence/risk-map' },
-    { label: 'Needs Assessment', href: '/needs-assessment' },
+    { label: 'Risk Map', href: '/ops/risk-intelligence/risk-map' },
+    { label: 'Needs Assessment', href: '/ops/needs-assessment' },
   ],
   feed: { title: 'Explorer Activity', items: defaultFeed },
 }
@@ -432,8 +432,8 @@ export const impactIntelligenceConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Needs Assessment', href: '/needs-assessment' },
-    { label: 'Response Overview', href: '/response' },
+    { label: 'Needs Assessment', href: '/ops/needs-assessment' },
+    { label: 'Response Overview', href: '/ops/response' },
   ],
   feed: { title: 'Impact Feed', items: defaultFeed },
 }
@@ -490,8 +490,8 @@ export const needsAssessmentConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: '5W Coordination', href: '/coordination/5w' },
-    { label: 'Impact Intelligence', href: '/impact-intelligence' },
+    { label: '5W Coordination', href: '/ops/coordination/5w' },
+    { label: 'Impact Intelligence', href: '/ops/impact-intelligence' },
   ],
   feed: { title: 'Assessment Updates', items: defaultFeed },
 }
@@ -539,10 +539,10 @@ export const anticipationOverviewConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Trigger Monitor', href: '/trigger-monitor' },
-    { label: 'Drought Anticipation', href: '/anticipation/drought' },
-    { label: 'Anticipatory Action', href: '/anticipatory-action' },
-    { label: 'Anticipatory Financing', href: '/anticipatory-financing' },
+    { label: 'Trigger Monitor', href: '/ops/trigger-monitor' },
+    { label: 'Drought Anticipation', href: '/ops/anticipation/drought' },
+    { label: 'Anticipatory Action', href: '/ops/anticipatory-action' },
+    { label: 'Anticipatory Financing', href: '/ops/anticipatory-financing' },
   ],
   feed: { title: 'Anticipation Feed', items: defaultFeed },
 }
@@ -550,7 +550,7 @@ export const anticipationOverviewConfig: RichModuleConfig = {
 export const triggerMonitorConfig: RichModuleConfig = {
   title: 'Trigger Monitor',
   subtitle: 'Track forecast thresholds and activation readiness across hazards.',
-  breadcrumbs: crumbs({ label: 'Anticipation', href: '/anticipation' }, { label: 'Trigger Monitor' }),
+  breadcrumbs: crumbs({ label: 'Anticipation', href: '/ops/anticipation' }, { label: 'Trigger Monitor' }),
   primaryAction: 'Prepare Activation',
   kpis: [
     kpi('3', 'Approaching', 'Within window', Activity, riskColors.major),
@@ -586,8 +586,8 @@ export const triggerMonitorConfig: RichModuleConfig = {
     { label: 'Partners Notified', value: '22' },
   ],
   actions: [
-    { label: 'Anticipatory Action', href: '/anticipatory-action' },
-    { label: 'Anticipatory Financing', href: '/anticipatory-financing' },
+    { label: 'Anticipatory Action', href: '/ops/anticipatory-action' },
+    { label: 'Anticipatory Financing', href: '/ops/anticipatory-financing' },
   ],
   feed: { title: 'Trigger Events', items: defaultFeed },
 }
@@ -595,7 +595,7 @@ export const triggerMonitorConfig: RichModuleConfig = {
 export const anticipatoryFinancingConfig: RichModuleConfig = {
   title: 'Anticipatory Financing',
   subtitle: 'Pre-arranged finance windows, releases and gaps for anticipatory action.',
-  breadcrumbs: crumbs({ label: 'Anticipation', href: '/anticipation' }, { label: 'Anticipatory Financing' }),
+  breadcrumbs: crumbs({ label: 'Anticipation', href: '/ops/anticipation' }, { label: 'Anticipatory Financing' }),
   kpis: [
     kpi('$6.45M', 'Budget Required', 'Full AA portfolio', DollarSign, riskColors.ok),
     kpi('$5.00M', 'Financing Secured', '77% funded', DollarSign, riskColors.info),
@@ -636,8 +636,8 @@ export const anticipatoryFinancingConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Anticipatory Action', href: '/anticipatory-action' },
-    { label: 'Trigger Monitor', href: '/trigger-monitor' },
+    { label: 'Anticipatory Action', href: '/ops/anticipatory-action' },
+    { label: 'Trigger Monitor', href: '/ops/trigger-monitor' },
   ],
   feed: { title: 'Finance Activity', items: defaultFeed },
 }
@@ -647,7 +647,7 @@ export function hazardAnticipationConfig(slug: string, title: string, hazard: st
     title: `${title} Anticipation`,
     subtitle: `Hazard anticipation, triggers and readiness for ${hazard}.`,
     breadcrumbs: crumbs(
-      { label: 'Anticipation', href: '/anticipation' },
+      { label: 'Anticipation', href: '/ops/anticipation' },
       { label: 'Hazard Anticipation' },
       { label: title },
     ),
@@ -683,8 +683,8 @@ export function hazardAnticipationConfig(slug: string, title: string, hazard: st
       ],
     },
     actions: [
-      { label: 'Trigger Monitor', href: '/trigger-monitor' },
-      { label: 'Anticipatory Action', href: '/anticipatory-action' },
+      { label: 'Trigger Monitor', href: '/ops/trigger-monitor' },
+      { label: 'Anticipatory Action', href: '/ops/anticipatory-action' },
       { label: `Open /anticipation/${slug}`, href: `/anticipation/${slug}` },
     ],
     feed: { title: `${hazard} Feed`, items: defaultFeed },
@@ -694,7 +694,7 @@ export function hazardAnticipationConfig(slug: string, title: string, hazard: st
 export const incidentCommandConfig: RichModuleConfig = {
   title: 'Incident Command',
   subtitle: 'ICS structure, sector commands and field coordination for active incidents.',
-  breadcrumbs: crumbs({ label: 'Response', href: '/response' }, { label: 'Incident Command' }),
+  breadcrumbs: crumbs({ label: 'Response', href: '/ops/response' }, { label: 'Incident Command' }),
   primaryAction: 'Open ICS Board',
   kpis: [
     kpi('6', 'Active ICS', 'Command posts', Radio, riskColors.critical),
@@ -740,9 +740,9 @@ export const incidentCommandConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Emergency Operations', href: '/emergency-operations' },
-    { label: 'Logistics', href: '/logistics-resources' },
-    { label: 'Search & Rescue', href: '/search-rescue' },
+    { label: 'Emergency Operations', href: '/ops/emergency-operations' },
+    { label: 'Logistics', href: '/ops/logistics-resources' },
+    { label: 'Search & Rescue', href: '/ops/search-rescue' },
   ],
   feed: { title: 'ICS Comms', items: defaultFeed },
 }
@@ -750,7 +750,7 @@ export const incidentCommandConfig: RichModuleConfig = {
 export const sheltersEvacuationConfig: RichModuleConfig = {
   title: 'Shelters & Evacuation',
   subtitle: 'Shelter occupancy, evacuation routes and displacement tracking.',
-  breadcrumbs: crumbs({ label: 'Response', href: '/response' }, { label: 'Shelters & Evacuation' }),
+  breadcrumbs: crumbs({ label: 'Response', href: '/ops/response' }, { label: 'Shelters & Evacuation' }),
   kpis: [
     kpi('72,450', 'People Sheltered', 'Safe locations', Tent, '#7c3aed'),
     kpi('186', 'Active Shelters', 'Open sites', Building2, riskColors.ok),
@@ -796,8 +796,8 @@ export const sheltersEvacuationConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Emergency Operations', href: '/emergency-operations' },
-    { label: 'Logistics', href: '/logistics-resources' },
+    { label: 'Emergency Operations', href: '/ops/emergency-operations' },
+    { label: 'Logistics', href: '/ops/logistics-resources' },
   ],
   feed: { title: 'Shelter Updates', items: defaultFeed },
 }
@@ -836,11 +836,11 @@ export const coordinationOverviewConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: '5W', href: '/coordination/5w' },
-    { label: 'Partners', href: '/coordination/partners' },
-    { label: 'Government', href: '/government-coordination' },
-    { label: 'SADC', href: '/sadc-coordination' },
-    { label: 'Call Centre', href: '/call-centre' },
+    { label: '5W', href: '/ops/coordination/5w' },
+    { label: 'Partners', href: '/ops/coordination/partners' },
+    { label: 'Government', href: '/ops/government-coordination' },
+    { label: 'SADC', href: '/ops/sadc-coordination' },
+    { label: 'Call Centre', href: '/ops/call-centre' },
   ],
   feed: { title: 'Coordination Feed', items: defaultFeed },
   bars: {
@@ -857,7 +857,7 @@ export const coordinationOverviewConfig: RichModuleConfig = {
 export const governmentCoordinationConfig: RichModuleConfig = {
   title: 'Government Coordination',
   subtitle: 'Ministries, provincial structures and national ICC alignment.',
-  breadcrumbs: crumbs({ label: 'Coordination', href: '/coordination' }, { label: 'Government Coordination' }),
+  breadcrumbs: crumbs({ label: 'Coordination', href: '/ops/coordination' }, { label: 'Government Coordination' }),
   kpis: [
     kpi('28', 'Ministries', 'Engaged', Building2, riskColors.ok),
     kpi('10', 'Provinces', 'Reporting', MapPin, riskColors.info),
@@ -892,8 +892,8 @@ export const governmentCoordinationConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Coordination Overview', href: '/coordination' },
-    { label: 'National COP', href: '/national-cop' },
+    { label: 'Coordination Overview', href: '/ops/coordination' },
+    { label: 'National COP', href: '/ops/national-cop' },
   ],
   feed: { title: 'Government Updates', items: defaultFeed },
 }
@@ -901,7 +901,7 @@ export const governmentCoordinationConfig: RichModuleConfig = {
 export const sadcCoordinationConfig: RichModuleConfig = {
   title: 'SADC Regional Coordination',
   subtitle: 'Cross-border hazards, regional requests and SADC DRM linkages.',
-  breadcrumbs: crumbs({ label: 'Coordination', href: '/coordination' }, { label: 'SADC Regional Coordination' }),
+  breadcrumbs: crumbs({ label: 'Coordination', href: '/ops/coordination' }, { label: 'SADC Regional Coordination' }),
   kpis: [
     kpi('12', 'SADC Links', 'Active channels', Globe2, riskColors.info),
     kpi('4', 'Cross-border Hazards', 'Shared watch', AlertTriangle, riskColors.major),
@@ -929,8 +929,8 @@ export const sadcCoordinationConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Coordination Overview', href: '/coordination' },
-    { label: 'Partners', href: '/coordination/partners' },
+    { label: 'Coordination Overview', href: '/ops/coordination' },
+    { label: 'Partners', href: '/ops/coordination/partners' },
   ],
   feed: { title: 'SADC Feed', items: defaultFeed },
   notes: ['Demo regional layer — no live SADC API connected.'],
@@ -978,10 +978,10 @@ export const recoveryOverviewConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Loss & Damage', href: '/damage-loss' },
-    { label: 'Recovery Progress', href: '/recovery' },
-    { label: 'Build Back Better', href: '/build-back-better' },
-    { label: 'Resilience', href: '/resilience' },
+    { label: 'Loss & Damage', href: '/ops/damage-loss' },
+    { label: 'Recovery Progress', href: '/ops/recovery' },
+    { label: 'Build Back Better', href: '/ops/build-back-better' },
+    { label: 'Resilience', href: '/ops/resilience' },
   ],
   feed: { title: 'Recovery Feed', items: defaultFeed },
 }
@@ -989,7 +989,7 @@ export const recoveryOverviewConfig: RichModuleConfig = {
 export const damageLossConfig: RichModuleConfig = {
   title: 'Loss & Damage',
   subtitle: 'Quantified losses across housing, infrastructure, agriculture and services.',
-  breadcrumbs: crumbs({ label: 'Recovery', href: '/recovery-overview' }, { label: 'Loss & Damage' }),
+  breadcrumbs: crumbs({ label: 'Recovery', href: '/ops/recovery-overview' }, { label: 'Loss & Damage' }),
   kpis: [
     kpi('$48.2M', 'Total Est. Damage', 'Multi-sector', TrendingDown, riskColors.critical),
     kpi('12,480', 'Homes Damaged', 'Partial + total', Tent, riskColors.major),
@@ -1025,8 +1025,8 @@ export const damageLossConfig: RichModuleConfig = {
     legend: riskLegend,
   },
   actions: [
-    { label: 'Recovery Progress', href: '/recovery' },
-    { label: 'Build Back Better', href: '/build-back-better' },
+    { label: 'Recovery Progress', href: '/ops/recovery' },
+    { label: 'Build Back Better', href: '/ops/build-back-better' },
   ],
   feed: { title: 'Assessment Updates', items: defaultFeed },
 }
@@ -1034,7 +1034,7 @@ export const damageLossConfig: RichModuleConfig = {
 export const recoveryProgressConfig: RichModuleConfig = {
   title: 'Recovery Progress',
   subtitle: 'Track implementation of recovery plans against damage baselines.',
-  breadcrumbs: crumbs({ label: 'Recovery', href: '/recovery-overview' }, { label: 'Recovery Progress' }),
+  breadcrumbs: crumbs({ label: 'Recovery', href: '/ops/recovery-overview' }, { label: 'Recovery Progress' }),
   kpis: [
     kpi('62%', 'Overall Progress', 'Priority package', RefreshCw, riskColors.ok),
     kpi('148', 'Projects', 'In portfolio', Package, riskColors.info),
@@ -1072,8 +1072,8 @@ export const recoveryProgressConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Loss & Damage', href: '/damage-loss' },
-    { label: 'Build Back Better', href: '/build-back-better' },
+    { label: 'Loss & Damage', href: '/ops/damage-loss' },
+    { label: 'Build Back Better', href: '/ops/build-back-better' },
   ],
   feed: { title: 'Progress Updates', items: defaultFeed },
 }
@@ -1081,7 +1081,7 @@ export const recoveryProgressConfig: RichModuleConfig = {
 export const buildBackBetterConfig: RichModuleConfig = {
   title: 'Build Back Better',
   subtitle: 'Resilient reconstruction standards, BBB-tagged projects and risk reduction.',
-  breadcrumbs: crumbs({ label: 'Recovery', href: '/recovery-overview' }, { label: 'Build Back Better' }),
+  breadcrumbs: crumbs({ label: 'Recovery', href: '/ops/recovery-overview' }, { label: 'Build Back Better' }),
   kpis: [
     kpi('148', 'BBB Projects', 'Tagged', Building2, riskColors.info),
     kpi('67%', 'BBB Compliance', 'Design standards', Shield, riskColors.ok),
@@ -1110,8 +1110,8 @@ export const buildBackBetterConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Recovery Progress', href: '/recovery' },
-    { label: 'Resilience', href: '/resilience' },
+    { label: 'Recovery Progress', href: '/ops/recovery' },
+    { label: 'Resilience', href: '/ops/resilience' },
   ],
   feed: { title: 'BBB Updates', items: defaultFeed },
 }
@@ -1119,7 +1119,7 @@ export const buildBackBetterConfig: RichModuleConfig = {
 export const resilienceConfig: RichModuleConfig = {
   title: 'Resilience',
   subtitle: 'Community resilience actions, capacity building and risk reduction investments.',
-  breadcrumbs: crumbs({ label: 'Recovery', href: '/recovery-overview' }, { label: 'Resilience' }),
+  breadcrumbs: crumbs({ label: 'Recovery', href: '/ops/recovery-overview' }, { label: 'Resilience' }),
   kpis: [
     kpi('41', 'Active Actions', 'Community level', Shield, riskColors.ok),
     kpi('126', 'Committees', 'Trained', Users, riskColors.info),
@@ -1149,8 +1149,8 @@ export const resilienceConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Build Back Better', href: '/build-back-better' },
-    { label: 'Knowledge / Lessons', href: '/lessons-learned' },
+    { label: 'Build Back Better', href: '/ops/build-back-better' },
+    { label: 'Knowledge / Lessons', href: '/ops/lessons-learned' },
   ],
   feed: { title: 'Resilience Feed', items: defaultFeed },
 }
@@ -1178,11 +1178,11 @@ export const knowledgeOverviewConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Reports', href: '/reports' },
-    { label: 'Analytics', href: '/analytics' },
-    { label: 'Lessons Learned', href: '/lessons-learned' },
-    { label: 'IKS', href: '/iks' },
-    { label: 'Repository', href: '/knowledge-repository' },
+    { label: 'Reports', href: '/ops/reports' },
+    { label: 'Analytics', href: '/ops/analytics' },
+    { label: 'Lessons Learned', href: '/ops/lessons-learned' },
+    { label: 'IKS', href: '/ops/iks' },
+    { label: 'Repository', href: '/ops/knowledge-repository' },
   ],
   feed: { title: 'Knowledge Feed', items: defaultFeed },
   bars: {
@@ -1199,7 +1199,7 @@ export const knowledgeOverviewConfig: RichModuleConfig = {
 export const reportsConfig: RichModuleConfig = {
   title: 'Reports',
   subtitle: 'SITREPs, briefing packs and statutory disaster reports.',
-  breadcrumbs: crumbs({ label: 'Knowledge', href: '/knowledge' }, { label: 'Reports' }),
+  breadcrumbs: crumbs({ label: 'Knowledge', href: '/ops/knowledge' }, { label: 'Reports' }),
   kpis: [
     kpi('312', 'Reports', 'Library', FileBarChart, riskColors.info),
     kpi('14', 'SITREPs', 'This incident cycle', Siren, riskColors.major),
@@ -1228,8 +1228,8 @@ export const reportsConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Analytics', href: '/analytics' },
-    { label: 'Repository', href: '/knowledge-repository' },
+    { label: 'Analytics', href: '/ops/analytics' },
+    { label: 'Repository', href: '/ops/knowledge-repository' },
   ],
   feed: { title: 'Publishing Queue', items: defaultFeed },
 }
@@ -1237,7 +1237,7 @@ export const reportsConfig: RichModuleConfig = {
 export const analyticsConfig: RichModuleConfig = {
   title: 'Analytics',
   subtitle: 'Curated analytical views across warning, response, coordination and recovery.',
-  breadcrumbs: crumbs({ label: 'Knowledge', href: '/knowledge' }, { label: 'Analytics' }),
+  breadcrumbs: crumbs({ label: 'Knowledge', href: '/ops/knowledge' }, { label: 'Analytics' }),
   kpis: [
     kpi('48', 'Curated Views', 'Production', BarChart3, riskColors.info),
     kpi('12', 'Live Boards', 'Refreshing', Activity, riskColors.ok),
@@ -1266,8 +1266,8 @@ export const analyticsConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Reports', href: '/reports' },
-    { label: 'Risk Explorer', href: '/risk-intelligence/risk-explorer' },
+    { label: 'Reports', href: '/ops/reports' },
+    { label: 'Risk Explorer', href: '/ops/risk-intelligence/risk-explorer' },
   ],
   feed: { title: 'Analytics Activity', items: defaultFeed },
 }
@@ -1275,7 +1275,7 @@ export const analyticsConfig: RichModuleConfig = {
 export const lessonsLearnedConfig: RichModuleConfig = {
   title: 'Lessons Learned',
   subtitle: 'After-action reviews, corrective actions and institutional learning.',
-  breadcrumbs: crumbs({ label: 'Knowledge', href: '/knowledge' }, { label: 'Lessons Learned' }),
+  breadcrumbs: crumbs({ label: 'Knowledge', href: '/ops/knowledge' }, { label: 'Lessons Learned' }),
   kpis: [
     kpi('86', 'Lessons Captured', 'Library', BookOpen, riskColors.major),
     kpi('22', 'Open Actions', 'Corrective', AlertTriangle, riskColors.critical),
@@ -1304,8 +1304,8 @@ export const lessonsLearnedConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Reports', href: '/reports' },
-    { label: 'IKS', href: '/iks' },
+    { label: 'Reports', href: '/ops/reports' },
+    { label: 'IKS', href: '/ops/iks' },
   ],
   feed: { title: 'Learning Feed', items: defaultFeed },
 }
@@ -1313,7 +1313,7 @@ export const lessonsLearnedConfig: RichModuleConfig = {
 export const iksConfig: RichModuleConfig = {
   title: 'Indigenous Knowledge Systems (IKS)',
   subtitle: 'Community observations, traditional indicators and local early warning practices.',
-  breadcrumbs: crumbs({ label: 'Knowledge', href: '/knowledge' }, { label: 'IKS' }),
+  breadcrumbs: crumbs({ label: 'Knowledge', href: '/ops/knowledge' }, { label: 'IKS' }),
   kpis: [
     kpi('24', 'IKS Entries', 'Documented', BookOpen, riskColors.active),
     kpi('16', 'Communities', 'Contributing', Users, riskColors.ok),
@@ -1342,8 +1342,8 @@ export const iksConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Lessons Learned', href: '/lessons-learned' },
-    { label: 'Repository', href: '/knowledge-repository' },
+    { label: 'Lessons Learned', href: '/ops/lessons-learned' },
+    { label: 'Repository', href: '/ops/knowledge-repository' },
   ],
   feed: { title: 'IKS Contributions', items: defaultFeed },
 }
@@ -1351,7 +1351,7 @@ export const iksConfig: RichModuleConfig = {
 export const knowledgeRepositoryConfig: RichModuleConfig = {
   title: 'Knowledge Repository',
   subtitle: 'Central repository for SOPs, maps, media, guidance and archival products.',
-  breadcrumbs: crumbs({ label: 'Knowledge', href: '/knowledge' }, { label: 'Knowledge Repository' }),
+  breadcrumbs: crumbs({ label: 'Knowledge', href: '/ops/knowledge' }, { label: 'Knowledge Repository' }),
   kpis: [
     kpi('1,042', 'Assets', 'All types', Database, riskColors.info),
     kpi('186', 'SOPs / Guidance', 'Controlled', FileText, riskColors.ok),
@@ -1380,8 +1380,8 @@ export const knowledgeRepositoryConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Digital SOPs', href: '/digital-sops' },
-    { label: 'Reports', href: '/reports' },
+    { label: 'Digital SOPs', href: '/ops/digital-sops' },
+    { label: 'Reports', href: '/ops/reports' },
   ],
   feed: { title: 'Repository Activity', items: defaultFeed },
 }
@@ -1409,8 +1409,8 @@ export const digitalSopsConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Repository', href: '/knowledge-repository' },
-    { label: 'Users & Roles', href: '/users-roles' },
+    { label: 'Repository', href: '/ops/knowledge-repository' },
+    { label: 'Users & Roles', href: '/ops/users-roles' },
   ],
   feed: { title: 'SOP Changes', items: defaultFeed },
 }
@@ -1459,8 +1459,8 @@ export const usersRolesConfig: RichModuleConfig = {
     'Use this screen to walk stakeholders through intended role separation.',
   ],
   actions: [
-    { label: 'System Administration', href: '/system-administration' },
-    { label: 'Data Sources', href: '/data-sources' },
+    { label: 'System Administration', href: '/ops/system-administration' },
+    { label: 'Data Sources', href: '/ops/data-sources' },
   ],
   feed: { title: 'Access Audit (Demo)', items: defaultFeed },
 }
@@ -1498,8 +1498,8 @@ export const dataSourcesConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'System Administration', href: '/system-administration' },
-    { label: 'Analytics', href: '/analytics' },
+    { label: 'System Administration', href: '/ops/system-administration' },
+    { label: 'Analytics', href: '/ops/analytics' },
   ],
   feed: { title: 'Source Alerts', items: defaultFeed },
 }
@@ -1533,9 +1533,9 @@ export const systemAdminConfig: RichModuleConfig = {
     ],
   },
   actions: [
-    { label: 'Users & Roles', href: '/users-roles' },
-    { label: 'Data Sources', href: '/data-sources' },
-    { label: 'Public Dashboard', href: '/public' },
+    { label: 'Users & Roles', href: '/ops/users-roles' },
+    { label: 'Data Sources', href: '/ops/data-sources' },
+    { label: 'Public Site', href: '/' },
   ],
   feed: { title: 'Platform Events', items: defaultFeed },
   notes: ['System administration controls are non-functional in this demo build.'],

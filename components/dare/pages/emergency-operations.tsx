@@ -24,8 +24,8 @@ export function EmergencyOperationsPage() {
       title="Emergency Operations"
       subtitle="Coordinate. Respond. Save Lives."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
-        { label: 'Response', href: '/response' },
+        { label: 'Home', href: '/ops' },
+        { label: 'Response', href: '/ops/response' },
         { label: 'Emergency Operations' },
       ]}
       kpis={emergencyKpis}
@@ -164,8 +164,8 @@ export function EmergencyOperationsPage() {
           <div className="mt-3">
             <QuickActions
               actions={[
-                { label: 'Response Overview', href: '/response' },
-                { label: 'Incident Command', href: '/incident-command' },
+                { label: 'Response Overview', href: '/ops/response' },
+                { label: 'Incident Command', href: '/ops/incident-command' },
               ]}
             />
           </div>

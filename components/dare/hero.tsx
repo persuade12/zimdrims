@@ -48,7 +48,7 @@ export function Hero() {
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
-              href="/early-warning/all-hazards"
+              href="/ops/early-warning/all-hazards"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95"
             >
               <Bell className="size-4" />

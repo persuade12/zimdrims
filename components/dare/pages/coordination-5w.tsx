@@ -23,7 +23,7 @@ export function Coordination5WPage() {
       title="5W — Coordination"
       subtitle="Who does what, where, when and how."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
+        { label: 'Home', href: '/ops' },
         { label: 'Coordination' },
         { label: '5W' },
       ]}
@@ -155,8 +155,8 @@ export function Coordination5WPage() {
           <div className="mt-3">
             <QuickActions
               actions={[
-                { label: 'Partners', href: '/coordination/partners' },
-                { label: 'Government Coord', href: '/government-coordination' },
+                { label: 'Partners', href: '/ops/coordination/partners' },
+                { label: 'Government Coord', href: '/ops/government-coordination' },
               ]}
             />
           </div>

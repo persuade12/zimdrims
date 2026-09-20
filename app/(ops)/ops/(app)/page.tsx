@@ -1,4 +1,3 @@
-import { ModulePage } from '@/components/dare/module-page'
 import { Hero } from '@/components/dare/hero'
 import { AtAGlance } from '@/components/dare/at-a-glance'
 import { QuickAccess } from '@/components/dare/quick-access'
@@ -10,7 +9,7 @@ import { PlatformHealth } from '@/components/dare/platform-health'
 import { SdgGoals } from '@/components/dare/sdg-goals'
 import { DataMarketplace } from '@/components/dare/data-marketplace'
 
-export default function Page() {
+export default function OpsHomePage() {
   return (
     <>
       <Hero />

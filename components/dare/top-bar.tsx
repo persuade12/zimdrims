@@ -74,7 +74,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
           <Menu className="size-5" />
         </button>
 
-        <div className={cn('flex min-w-0 items-center gap-2 sm:gap-3', searchOpen && 'hidden sm:flex')}>
+        <Link href="/ops" className={cn('flex min-w-0 items-center gap-2 sm:gap-3', searchOpen && 'hidden sm:flex')}>
           <Image
             src="/logo.svg"
             alt="Republic of Zimbabwe emblem"
@@ -88,7 +88,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
             </p>
             <p className="text-[10px] font-medium text-white/85 sm:text-[11px]">{t.brand.department}</p>
           </div>
-        </div>
+        </Link>
 
         <div className={cn('hidden min-w-0 flex-1 items-center justify-center md:flex', searchOpen && 'md:hidden')}>
           <div className="font-display text-xl font-black tracking-tight sm:text-2xl">
@@ -209,7 +209,7 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                   ))}
                 </ul>
                 <Link
-                  href="/early-warning/all-hazards"
+                  href="/ops/early-warning/all-hazards"
                   className="block border-t border-border px-3 py-2 text-center text-[12px] font-semibold text-primary hover:bg-secondary"
                   onClick={() => setAlertsOpen(false)}
                 >
@@ -272,13 +272,13 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                   </p>
                 </div>
                 <nav className="p-1.5">
-                  <ProfileItem href="/system-administration" icon={UserRound} onClick={() => setProfileOpen(false)}>
+                  <ProfileItem href="/ops/system-administration" icon={UserRound} onClick={() => setProfileOpen(false)}>
                     {t.shell.viewProfile}
                   </ProfileItem>
-                  <ProfileItem href="/system-administration" icon={Settings} onClick={() => setProfileOpen(false)}>
+                  <ProfileItem href="/ops/system-administration" icon={Settings} onClick={() => setProfileOpen(false)}>
                     {t.shell.accountSettings}
                   </ProfileItem>
-                  <ProfileItem href="/reports" icon={HelpCircle} onClick={() => setProfileOpen(false)}>
+                  <ProfileItem href="/ops/reports" icon={HelpCircle} onClick={() => setProfileOpen(false)}>
                     {t.shell.helpSupport}
                   </ProfileItem>
                 </nav>
@@ -286,6 +286,11 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                   <button
                     type="button"
                     className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-danger hover:bg-secondary"
+                    onClick={async () => {
+                      setProfileOpen(false)
+                      await fetch('/api/ops/logout', { method: 'POST' })
+                      window.location.href = '/ops/login'
+                    }}
                   >
                     <LogOut className="size-4" />
                     {t.shell.signOut}

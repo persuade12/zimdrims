@@ -33,7 +33,7 @@ export function PartnersStakeholdersPage() {
       title="Partners & Stakeholders"
       subtitle="Together for a Safer, More Resilient Zimbabwe."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
+        { label: 'Home', href: '/ops' },
         { label: 'Coordination' },
         { label: 'Partners & Stakeholders' },
       ]}
@@ -193,7 +193,7 @@ export function PartnersStakeholdersPage() {
             Link partner presence to Who / What / Where / When / How reporting for live coordination.
           </p>
           <div className="mt-4">
-            <QuickActions actions={[{ label: 'Open 5W Matrix', href: '/coordination/5w' }]} />
+            <QuickActions actions={[{ label: 'Open 5W Matrix', href: '/ops/coordination/5w' }]} />
           </div>
         </Panel>
         <Panel title="Quick Actions" className="bg-primary text-primary-foreground">

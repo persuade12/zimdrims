@@ -86,6 +86,7 @@ export type Dictionary = {
 
 const navEn = {
   Home: 'Home',
+  'Public Site': 'Public Site',
   'Public Dashboard': 'Public Dashboard',
   'National COP': 'National COP',
   'Early Warning': 'Early Warning',

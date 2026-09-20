@@ -32,7 +32,7 @@ export function ResponseOverviewPage() {
       title="Response Overview"
       subtitle="Respond. Save Lives. Protect Livelihoods."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
+        { label: 'Home', href: '/ops' },
         { label: 'Response' },
         { label: 'Overview' },
       ]}
@@ -158,10 +158,10 @@ export function ResponseOverviewPage() {
           <div className="mt-4">
             <QuickActions
               actions={[
-                { label: 'Emergency Operations', href: '/emergency-operations' },
-                { label: 'Logistics', href: '/logistics-resources' },
-                { label: 'Search & Rescue', href: '/search-rescue' },
-                { label: 'Call Centre', href: '/call-centre' },
+                { label: 'Emergency Operations', href: '/ops/emergency-operations' },
+                { label: 'Logistics', href: '/ops/logistics-resources' },
+                { label: 'Search & Rescue', href: '/ops/search-rescue' },
+                { label: 'Call Centre', href: '/ops/call-centre' },
               ]}
             />
           </div>

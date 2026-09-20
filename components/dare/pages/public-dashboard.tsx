@@ -67,10 +67,10 @@ export function PublicHomePage() {
           <div className="mt-4">
             <QuickActions
               actions={[
-                { label: 'View Active Alerts', href: '/public/alerts' },
-                { label: 'Report an Incident', href: '/public/report-incident' },
-                { label: 'Preparedness Tips', href: '/public/preparedness' },
-                { label: 'Public Resources', href: '/public/resources' },
+                { label: 'View Active Alerts', href: '/alerts' },
+                { label: 'Report an Incident', href: '/report-incident' },
+                { label: 'Preparedness Tips', href: '/preparedness' },
+                { label: 'Public Resources', href: '/resources' },
               ]}
             />
           </div>
@@ -78,9 +78,9 @@ export function PublicHomePage() {
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         {[
-          { title: 'Current Situation', href: '/public/situation', body: 'National overview of active hazards and response posture.' },
-          { title: 'Public Statistics', href: '/public/statistics', body: 'Transparent figures on alerts, assistance and recovery.' },
-          { title: 'Recovery & Resilience', href: '/public/recovery', body: 'How communities are rebuilding and reducing future risk.' },
+          { title: 'Current Situation', href: '/situation', body: 'National overview of active hazards and response posture.' },
+          { title: 'Public Statistics', href: '/statistics', body: 'Transparent figures on alerts, assistance and recovery.' },
+          { title: 'Recovery & Resilience', href: '/recovery', body: 'How communities are rebuilding and reducing future risk.' },
         ].map((card) => (
           <Link
             key={card.href}

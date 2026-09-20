@@ -44,7 +44,7 @@ export function LatestAlerts() {
       </ul>
 
       <Link
-        href="/early-warning/all-hazards"
+        href="/ops/early-warning/all-hazards"
         className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary py-2 text-[13px] font-semibold text-primary transition-colors hover:bg-accent"
       >
         {t.home.viewAll}

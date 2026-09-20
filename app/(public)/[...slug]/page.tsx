@@ -30,6 +30,7 @@ export default async function PublicSlugPage({
 }) {
   const { slug } = await params
   const key = slug?.join('/')
+  if (key === 'ops' || key?.startsWith('ops/')) notFound()
   const Page = key ? pages[key] : null
   if (!Page) notFound()
   return Page()

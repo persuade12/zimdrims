@@ -18,7 +18,7 @@ export function AnticipatoryActionPage() {
       title="Anticipatory Action"
       subtitle="Act Early. Reduce Impact. Save Lives & Livelihoods."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
+        { label: 'Home', href: '/ops' },
         { label: 'Anticipation' },
         { label: 'Anticipatory Action' },
       ]}
@@ -145,9 +145,9 @@ export function AnticipatoryActionPage() {
               { label: 'Activate Action' },
               { label: 'Assign Resources' },
               { label: 'Release Funds' },
-              { label: 'SOP Library', href: '/digital-sops' },
+              { label: 'SOP Library', href: '/ops/digital-sops' },
               { label: 'Action Calendar' },
-              { label: 'Drought Anticipation', href: '/anticipation/drought' },
+              { label: 'Drought Anticipation', href: '/ops/anticipation/drought' },
             ]}
           />
           <div className="mt-4 grid grid-cols-2 gap-2 text-center text-[11px]">

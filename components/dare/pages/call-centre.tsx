@@ -22,8 +22,8 @@ export function CallCentrePage() {
       title="Call Centre"
       subtitle="Safer Communities. Stronger Together."
       breadcrumbs={[
-        { label: 'Home', href: '/' },
-        { label: 'Response', href: '/response' },
+        { label: 'Home', href: '/ops' },
+        { label: 'Response', href: '/ops/response' },
         { label: 'Call Centre' },
       ]}
       kpis={callCentreKpis}
@@ -179,7 +179,7 @@ export function CallCentrePage() {
               { label: 'Log New Incident' },
               { label: 'Search Caller Records' },
               { label: 'Manage Call Queues' },
-              { label: 'Search & Rescue', href: '/search-rescue' },
+              { label: 'Search & Rescue', href: '/ops/search-rescue' },
             ]}
           />
         </Panel>

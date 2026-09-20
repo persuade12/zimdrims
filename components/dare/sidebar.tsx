@@ -8,7 +8,8 @@ import { useLocale } from '@/components/dare/locale-provider'
 import { cn } from '@/lib/utils'
 
 function isActive(pathname: string, href: string) {
-  if (href === '/') return pathname === '/'
+  if (href === '/' ) return pathname === '/'
+  if (href === '/ops') return pathname === '/ops'
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 

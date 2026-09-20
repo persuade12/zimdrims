@@ -8,7 +8,7 @@ export default function NotFound() {
         This ZIM-DRIMS module is not available in the current demo dataset.
       </p>
       <Link
-        href="/"
+        href="/ops"
         className="mt-6 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
       >
         Return to Early Warning Centre
