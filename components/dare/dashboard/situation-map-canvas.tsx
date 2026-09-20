@@ -33,8 +33,18 @@ function useIsDark() {
   return dark
 }
 
-function MapEffects({ resizeKey }: { resizeKey: string }) {
+function MapEffects({
+  resizeKey,
+  selected,
+  geoData,
+}: {
+  resizeKey: string
+  selected: string | null
+  geoData: FeatureCollection
+}) {
   const map = useMap()
+  const prevSelected = useRef<string | null>(null)
+
   useEffect(() => {
     map.fitBounds(ZIMBABWE_BOUNDS, { padding: [18, 18] })
   }, [map])
@@ -49,6 +59,26 @@ function MapEffects({ resizeKey }: { resizeKey: string }) {
     observer.observe(map.getContainer())
     return () => observer.disconnect()
   }, [map])
+
+  useEffect(() => {
+    if (selected === prevSelected.current) return
+    prevSelected.current = selected
+
+    if (!selected) {
+      map.flyToBounds(ZIMBABWE_BOUNDS, { padding: [28, 28], duration: 0.55 })
+      return
+    }
+
+    const feature = geoData.features.find(
+      (f) => (f.properties as { shapeName?: string } | null)?.shapeName === selected,
+    )
+    if (!feature) return
+
+    const bounds = L.geoJSON(feature).getBounds()
+    if (bounds.isValid()) {
+      map.flyToBounds(bounds, { padding: [40, 40], maxZoom: 8, duration: 0.6 })
+    }
+  }, [selected, geoData, map])
 
   return null
 }
@@ -71,10 +101,20 @@ export default function SituationMapCanvas({
   provinceColors,
   markers = [],
   resizeKey,
+  selected = null,
+  hovered = null,
+  onSelect,
+  onHover,
+  interactive = true,
 }: {
   provinceColors: Record<string, string>
   markers?: MapMarker[]
   resizeKey: string
+  selected?: string | null
+  hovered?: string | null
+  onSelect?: (name: string) => void
+  onHover?: (name: string | null) => void
+  interactive?: boolean
 }) {
   const dark = useIsDark()
   const [geoData, setGeoData] = useState<FeatureCollection | null>(null)
@@ -93,14 +133,21 @@ export default function SituationMapCanvas({
   }, [])
 
   const styleFor = useCallback(
-    (name: string): L.PathOptions => ({
-      fillColor: provinceColors[name] ?? '#cbd5e1',
-      fillOpacity: 0.72,
-      color: '#ffffff',
-      weight: 1.1,
-      opacity: 1,
-    }),
-    [provinceColors],
+    (name: string): L.PathOptions => {
+      const base = provinceColors[name] ?? '#cbd5e1'
+      const isSelected = selected === name
+      const isHovered = hovered === name
+      const isDimmed = Boolean(selected && selected !== name)
+
+      return {
+        fillColor: base,
+        fillOpacity: isDimmed ? 0.35 : isSelected || isHovered ? 0.88 : 0.72,
+        color: isSelected ? '#0c2f1e' : isHovered ? '#16794a' : '#ffffff',
+        weight: isSelected ? 2.6 : isHovered ? 2 : 1.1,
+        opacity: 1,
+      }
+    },
+    [provinceColors, selected, hovered],
   )
 
   useEffect(() => {
@@ -112,6 +159,24 @@ export default function SituationMapCanvas({
       if (name) path.setStyle(styleFor(name))
     })
   }, [styleFor])
+
+  const onEachFeature = useCallback(
+    (feature: Feature, layer: L.Layer) => {
+      if (!interactive) return
+      const name = (feature.properties as { shapeName?: string } | null)?.shapeName
+      if (!name) return
+
+      layer.on({
+        mouseover: () => onHover?.(name),
+        mouseout: () => onHover?.(null),
+        click: (event) => {
+          L.DomEvent.stopPropagation(event)
+          onSelect?.(name)
+        },
+      })
+    },
+    [interactive, onHover, onSelect],
+  )
 
   if (!geoData) {
     return (
@@ -130,7 +195,7 @@ export default function SituationMapCanvas({
       maxBounds={ZIMBABWE_BOUNDS}
       maxBoundsViscosity={0.85}
       scrollWheelZoom
-      className="zimbabwe-map relative z-0 h-full w-full rounded-[inherit]"
+      className="zimbabwe-map relative z-0 h-full w-full rounded-[inherit] [&_.leaflet-interactive]:cursor-pointer"
       style={{ background: 'transparent' }}
     >
       <TileLayer
@@ -148,11 +213,12 @@ export default function SituationMapCanvas({
           const name = (feature?.properties as { shapeName?: string } | undefined)?.shapeName
           return name ? styleFor(name) : {}
         }}
+        onEachFeature={onEachFeature}
       />
       {markers.map((m) => (
         <Marker key={m.id} position={m.position} icon={markerIcon(m)} interactive={false} />
       ))}
-      <MapEffects resizeKey={resizeKey} />
+      <MapEffects resizeKey={resizeKey} selected={selected} geoData={geoData} />
     </MapContainer>
   )
 }
