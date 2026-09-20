@@ -10,6 +10,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   incidentMarkers,
   logisticsKpis,
@@ -42,6 +43,9 @@ export function LogisticsResourcesPage() {
             { color: '#ea580c', label: 'Low 10–39%' },
             { color: '#d64545', label: 'Critical 0–9%' },
           ]}
+        
+          story={mapStories.logistics.story}
+          provinceStories={mapStories.logistics.provinceStories}
         />
         <Panel title="Resource Inventory Overview">
           <DataTable

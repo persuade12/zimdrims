@@ -10,6 +10,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   callCentreKpis,
   callProvinceColors,
@@ -68,6 +69,9 @@ export function CallCentrePage() {
             { color: '#ea580c', label: '101–150' },
             { color: '#d64545', label: '> 150' },
           ]}
+        
+          story={mapStories.callCentre.story}
+          provinceStories={mapStories.callCentre.provinceStories}
         />
         <Panel title="Call Categories">
           <DonutChart

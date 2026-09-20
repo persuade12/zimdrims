@@ -10,6 +10,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   droughtIndicators,
   droughtKpis,
@@ -44,6 +45,9 @@ export function DroughtAnticipationPage() {
             { color: '#ea580c', label: 'High' },
             { color: '#d64545', label: 'Very High' },
           ]}
+        
+          story={mapStories.drought.story}
+          provinceStories={mapStories.drought.provinceStories}
         />
         <Panel title="Drought Indicators (Current)">
           <DataTable

@@ -10,6 +10,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   fiveWKpis,
   fiveWProvinceColors,
@@ -42,6 +43,9 @@ export function Coordination5WPage() {
             { color: '#ea580c', label: 'Delayed' },
             { color: '#d64545', label: 'Critical' },
           ]}
+        
+          story={mapStories.fiveW.story}
+          provinceStories={mapStories.fiveW.provinceStories}
         />
         <Panel title="5W Summary">
           <div className="grid gap-2">

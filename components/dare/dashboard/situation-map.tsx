@@ -24,6 +24,10 @@ export type SituationMapProps = {
   heightClassName?: string
   /** Enable province click / hover (default true). */
   interactive?: boolean
+  /** National narrative shown above the map. */
+  story?: { headline: string; beats: string[] }
+  /** Per-province story line when a region is focused. */
+  provinceStories?: Record<string, string>
 }
 
 const SituationMapCanvasDynamic = dynamic(
@@ -46,6 +50,8 @@ export function SituationMap({
   className,
   heightClassName = 'min-h-[18rem] h-[min(42vh,26rem)]',
   interactive = true,
+  story,
+  provinceStories,
 }: SituationMapProps) {
   const [expanded, setExpanded] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
@@ -73,13 +79,34 @@ export function SituationMap({
   const focusProvince = selected ?? hovered
   const focusInfo = focusProvince ? provinceData[focusProvince] : null
   const focusRisk = focusProvince ? provinceRiskLevels[focusProvince] : null
+  const focusStory = focusProvince && provinceStories ? provinceStories[focusProvince] : null
 
   const mapHeight = selected
     ? 'min-h-[20rem] h-[min(52vh,32rem)] sm:min-h-[22rem] sm:h-[min(56vh,34rem)]'
     : heightClassName
 
+  const storyPanel = story ? (
+    <div className="rounded-xl border border-[#16794a]/25 bg-[#16794a]/5 p-3 sm:p-4">
+      <p className="text-[10px] font-bold uppercase tracking-wider text-[#16794a]">Map story</p>
+      <p className="mt-1 font-display text-sm font-bold leading-snug text-foreground sm:text-base">
+        {selected && focusStory ? `${selected}: ${focusStory}` : story.headline}
+      </p>
+      {!selected ? (
+        <ul className="mt-2 space-y-1.5 text-[12px] text-muted-foreground">
+          {story.beats.map((beat) => (
+            <li key={beat} className="flex gap-2">
+              <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#16794a]" />
+              <span>{beat}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  ) : null
+
   const frame = (compact: boolean, resizeKey: string) => (
     <div className="space-y-3">
+      {storyPanel}
       <div
         className={cn(
           'relative overflow-hidden rounded-xl border border-border/70 shadow-inner',
@@ -120,7 +147,7 @@ export function SituationMap({
         ) : null}
       </div>
 
-      {interactive && focusProvince && focusInfo ? (
+          {interactive && focusProvince && focusInfo ? (
         <div className="rounded-xl border border-border bg-secondary/40 p-3 sm:p-4">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
@@ -129,6 +156,9 @@ export function SituationMap({
                 <p className="mt-0.5 text-[12px] font-semibold text-[#16794a]">
                   Risk level: {focusRisk.level}
                 </p>
+              ) : null}
+              {focusStory ? (
+                <p className="mt-2 max-w-2xl text-[12px] leading-relaxed text-muted-foreground">{focusStory}</p>
               ) : null}
             </div>
             {selected ? (

@@ -34,6 +34,7 @@ import {
   responseProvinceColors,
   riskColors,
 } from '@/lib/concept-data'
+import { mapStories } from '@/lib/concept/map-stories'
 
 const riskMapColors = responseProvinceColors
 
@@ -67,12 +68,7 @@ export const nationalCopConfig: RichModuleConfig = {
     kpi('87%', 'National Readiness', 'Multi-hazard', Shield, riskColors.ok),
     kpi('26', 'Live Data Sources', 'Feeds connected', Database, riskColors.info),
   ],
-  map: {
-    title: 'National Situation Map',
-    provinceColors: riskMapColors,
-    markers: incidentMarkers,
-    legend: riskLegend,
-  },
+  map: mapStories.neoc,
   donut: {
     title: 'Alert Severity Mix',
     centerValue: '14',
@@ -136,12 +132,7 @@ export const earlyWarningOverviewConfig: RichModuleConfig = {
     kpi('05', 'Advisories', 'Stay informed', Activity, riskColors.info),
     kpi('5 min', 'Last Update', 'Near real-time', RefreshCw, riskColors.ok),
   ],
-  map: {
-    title: 'Multi-Hazard Alert Map',
-    provinceColors: riskMapColors,
-    markers: incidentMarkers,
-    legend: riskLegend,
-  },
+  map: mapStories.earlyWarning,
   donut: {
     title: 'Alerts by Hazard',
     centerValue: '14',
@@ -210,10 +201,16 @@ export function hazardEarlyWarningConfig(
       kpi('6', 'Districts watched', 'Elevated risk', MapPin, riskColors.active),
     ],
     map: {
+      ...mapStories.earlyWarning,
       title: `${hazard} Risk Map`,
-      provinceColors: riskMapColors,
-      markers: incidentMarkers.slice(0, 3),
-      legend: riskLegend,
+      story: {
+        headline: `${hazard} monitoring story — watch thresholds and districts under elevated attention.`,
+        beats: [
+          `Active ${hazard.toLowerCase()} signals are overlaid on the national multi-hazard picture.`,
+          'Hotspots and lead times guide SOP activation and public messaging.',
+          'Tap a province for the local exposure story.',
+        ],
+      },
     },
     donut: {
       title: 'Alert Levels',
@@ -273,12 +270,7 @@ export const riskIntelligenceConfig: RichModuleConfig = {
     kpi('87%', 'Data coverage', 'National layers', Database, riskColors.ok),
     kpi('11', 'Hazard layers', 'Active overlays', BarChart3, riskColors.info),
   ],
-  map: {
-    title: 'Composite Risk Map',
-    provinceColors: riskMapColors,
-    markers: incidentMarkers,
-    legend: riskLegend,
-  },
+  map: mapStories.risk,
   donut: {
     title: 'Risk by Hazard',
     centerValue: '74',
@@ -349,11 +341,7 @@ export const riskExplorerConfig: RichModuleConfig = {
     kpi('92%', 'Data freshness', 'Updated this week', CheckCircle2, riskColors.ok),
     kpi('6', 'Saved views', 'Analyst presets', FileBarChart, riskColors.muted),
   ],
-  map: {
-    title: 'Explorer Map',
-    provinceColors: riskMapColors,
-    legend: riskLegend,
-  },
+  map: mapStories.risk,
   table: {
     title: 'Indicator Browser',
     columns: ['Indicator', 'Domain', 'National value', 'Trend', 'Source'],
@@ -393,12 +381,7 @@ export const impactIntelligenceConfig: RichModuleConfig = {
     kpi('148', 'Infra assets hit', 'Roads / bridges / schools', Building2, riskColors.major),
     kpi('$48.2M', 'Est. Economic Loss', 'Working estimate', DollarSign, riskColors.ok),
   ],
-  map: {
-    title: 'Impact Footprint',
-    provinceColors: riskMapColors,
-    markers: incidentMarkers,
-    legend: riskLegend,
-  },
+  map: mapStories.impact,
   donut: {
     title: 'Impact by Sector',
     centerValue: '6',
@@ -450,6 +433,7 @@ export const needsAssessmentConfig: RichModuleConfig = {
     kpi('156', 'Open Gaps', 'Unmet requests', AlertTriangle, riskColors.major),
     kpi('$18.4M', 'Funding Gap', 'Priority needs', DollarSign, riskColors.active),
   ],
+  map: mapStories.needs,
   bars: {
     title: 'Priority Needs by Sector',
     items: [
@@ -508,6 +492,7 @@ export const anticipationOverviewConfig: RichModuleConfig = {
     kpi('856K', 'People to Benefit', 'AA portfolio', Users, riskColors.info),
     kpi('23', 'Target Districts', 'Priority', MapPin, riskColors.active),
   ],
+  map: mapStories.anticipation,
   pipeline: {
     title: 'Anticipation Pipeline',
     steps: [
@@ -560,6 +545,7 @@ export const triggerMonitorConfig: RichModuleConfig = {
     kpi('15–30 Sep', 'Est. trigger date', 'Drought corridor', Clock, riskColors.info),
     kpi('11', 'Models live', 'Forecast sources', Database, riskColors.ok),
   ],
+  map: mapStories.trigger,
   progress: {
     title: 'Trigger Status Gauges',
     items: [
@@ -604,6 +590,7 @@ export const anticipatoryFinancingConfig: RichModuleConfig = {
     kpi('$1.82M', 'Released YTD', 'Against triggers', CheckCircle2, riskColors.ok),
     kpi('4', 'Pending Releases', 'Awaiting trigger', Clock, riskColors.active),
   ],
+  map: mapStories.financing,
   donut: {
     title: 'Funding by Instrument',
     centerValue: '$5M',
@@ -660,9 +647,16 @@ export function hazardAnticipationConfig(slug: string, title: string, hazard: st
       kpi('$0.85M', 'Finance Linked', 'AA window', DollarSign, riskColors.ok),
     ],
     map: {
+      ...mapStories.anticipation,
       title: `${hazard} Anticipation Map`,
-      provinceColors: riskMapColors,
-      legend: riskLegend,
+      story: {
+        headline: `${hazard} anticipation — where lead time still allows action before peak impact.`,
+        beats: [
+          `Forecast confidence and AA readiness are highest in priority ${hazard.toLowerCase()} districts.`,
+          'Finance windows and SOPs are linked to these geographies.',
+          'Select a province to see local readiness context.',
+        ],
+      },
     },
     progress: {
       title: 'Readiness',
@@ -704,6 +698,7 @@ export const incidentCommandConfig: RichModuleConfig = {
     kpi('18', 'Comms Channels', 'Live', Activity, riskColors.ok),
     kpi('2h 12m', 'Avg Brief Cycle', 'Last 24h', Clock, riskColors.muted),
   ],
+  map: mapStories.incidentCommand,
   statusCards: [
     { label: 'Incident Commanders', value: '6' },
     { label: 'Operations Sections', value: '14' },
@@ -759,12 +754,7 @@ export const sheltersEvacuationConfig: RichModuleConfig = {
     kpi('9,240', 'In Transit', 'Evacuating now', Truck, riskColors.info),
     kpi('42', 'Host Communities', 'Supporting', Handshake, riskColors.ok),
   ],
-  map: {
-    title: 'Shelter & Evacuation Map',
-    provinceColors: riskMapColors,
-    markers: incidentMarkers,
-    legend: riskLegend,
-  },
+  map: mapStories.shelters,
   donut: {
     title: 'Shelter Types',
     centerValue: '186',
@@ -814,6 +804,7 @@ export const coordinationOverviewConfig: RichModuleConfig = {
     kpi('1,248', 'Call Centre (24h)', 'Contacts', Users, riskColors.major),
     kpi('18', 'Coord Meetings', 'This week', Clock, riskColors.muted),
   ],
+  map: mapStories.coordination,
   donut: {
     title: 'Coordination Channels',
     centerValue: '4',
@@ -866,6 +857,7 @@ export const governmentCoordinationConfig: RichModuleConfig = {
     kpi('92%', 'Reporting Rate', 'This week', CheckCircle2, riskColors.ok),
     kpi('14', 'Cabinet Notes', 'YTD', FileText, riskColors.muted),
   ],
+  map: mapStories.government,
   statusCards: [
     { label: 'National ICC', value: 'Active' },
     { label: 'Provincial EOCs', value: '10/10' },
@@ -910,6 +902,7 @@ export const sadcCoordinationConfig: RichModuleConfig = {
     kpi('2', 'Joint Exercises', 'Scheduled', Activity, riskColors.info),
     kpi('1', 'Regional Sitrep', 'Draft', FileText, riskColors.muted),
   ],
+  map: mapStories.sadc,
   table: {
     title: 'Regional Issues',
     columns: ['Issue', 'Countries', 'Hazard', 'Status', 'Next step'],
@@ -948,6 +941,7 @@ export const recoveryOverviewConfig: RichModuleConfig = {
     kpi('9', 'Districts', 'Recovery focus', MapPin, riskColors.major),
     kpi('$12.6M', 'Recovery Finance', 'Committed', DollarSign, riskColors.info),
   ],
+  map: mapStories.recovery,
   pipeline: {
     title: 'Recovery Pathway',
     steps: [
@@ -1019,11 +1013,7 @@ export const damageLossConfig: RichModuleConfig = {
       ['Clinic wing', 'Health', 'Chipinge', 'Moderate', '$0.4M', 'Yes'],
     ],
   },
-  map: {
-    title: 'Damage Concentration',
-    provinceColors: riskMapColors,
-    legend: riskLegend,
-  },
+  map: mapStories.damage,
   actions: [
     { label: 'Recovery Progress', href: '/ops/recovery' },
     { label: 'Build Back Better', href: '/ops/build-back-better' },
@@ -1043,6 +1033,7 @@ export const recoveryProgressConfig: RichModuleConfig = {
     kpi('$12.6M', 'Spend to Date', 'Of $18.4M', DollarSign, riskColors.info),
     kpi('9', 'Districts', 'Reporting', MapPin, riskColors.ok),
   ],
+  map: mapStories.recovery,
   progress: {
     title: 'District Progress',
     items: [
@@ -1090,6 +1081,7 @@ export const buildBackBetterConfig: RichModuleConfig = {
     kpi('$4.8M', 'BBB Premium', 'Incremental cost', DollarSign, riskColors.info),
     kpi('11', 'Training Cohorts', 'Local artisans', Users, riskColors.ok),
   ],
+  map: mapStories.bbb,
   table: {
     title: 'BBB Project Pipeline',
     columns: ['Project', 'Hazard focus', 'Standard', 'Status', 'District'],
@@ -1128,6 +1120,7 @@ export const resilienceConfig: RichModuleConfig = {
     kpi('$3.2M', 'Resilience Spend', 'YTD', DollarSign, riskColors.info),
     kpi('74', 'Early Warning Groups', 'Functional', Activity, riskColors.ok),
   ],
+  map: mapStories.resilience,
   bars: {
     title: 'Resilience Pillars',
     items: [
@@ -1246,6 +1239,7 @@ export const analyticsConfig: RichModuleConfig = {
     kpi('34', 'Sources', 'In warehouse', Database, riskColors.info),
     kpi('8', 'Exports today', 'CSV / PDF', FileBarChart, riskColors.muted),
   ],
+  map: mapStories.analytics,
   bars: {
     title: 'Top Analytics Views',
     items: [
@@ -1322,6 +1316,7 @@ export const iksConfig: RichModuleConfig = {
     kpi('5', 'In Review', 'Pending', Clock, riskColors.major),
     kpi('3', 'Linked to EW', 'Operationalised', Zap, riskColors.info),
   ],
+  map: mapStories.iks,
   table: {
     title: 'IKS Catalogue',
     columns: ['Indicator', 'Community', 'Hazard link', 'Season', 'Status'],

@@ -9,6 +9,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   responseProvinceColors,
   riskColors,
@@ -45,6 +46,9 @@ export function SearchRescuePage() {
             { color: '#2563eb', label: 'Rescue Completed' },
             { color: '#16a34a', label: 'Recovery Operation' },
           ]}
+        
+          story={mapStories.searchRescue.story}
+          provinceStories={mapStories.searchRescue.provinceStories}
         />
         <div className="space-y-4">
           <Panel title="Featured Incident — Flood Rescue Murehwa">

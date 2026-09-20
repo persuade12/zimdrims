@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { FilterField, KpiItem } from '@/components/dare/page-primitives'
+import type { MapStory } from '@/lib/concept/map-stories'
 
 export type RichModuleConfig = {
   title: string
@@ -13,6 +14,8 @@ export type RichModuleConfig = {
     provinceColors: Record<string, string>
     markers?: { id: string; position: [number, number]; value: number; color: string; label: string }[]
     legend?: { color: string; label: string }[]
+    story?: MapStory
+    provinceStories?: Record<string, string>
   }
   donut?: {
     title: string

@@ -10,6 +10,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   immediateActions,
   incidentMarkers,
@@ -52,6 +53,9 @@ export function ResponseOverviewPage() {
             { color: '#d64545', label: 'Critical' },
             { color: '#86efac', label: 'Resolved' },
           ]}
+        
+          story={mapStories.response.story}
+          provinceStories={mapStories.response.provinceStories}
         />
         <div className="space-y-4">
           <Panel title="Response Pipeline">

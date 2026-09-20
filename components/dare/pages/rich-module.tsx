@@ -36,6 +36,8 @@ export function RichModulePage({ config }: { config: RichModuleConfig }) {
               markers={c.map.markers}
               heightClassName="min-h-[20rem] h-[min(46vh,28rem)]"
               legend={c.map.legend}
+              story={c.map.story}
+              provinceStories={c.map.provinceStories}
             />
           ) : (
             <div className="space-y-4">

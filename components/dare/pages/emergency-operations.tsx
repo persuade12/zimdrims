@@ -10,6 +10,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   emergencyKpis,
   immediateActions,
@@ -43,6 +44,9 @@ export function EmergencyOperationsPage() {
             { color: '#e6a70a', label: 'Active' },
             { color: '#fde047', label: 'Monitoring' },
           ]}
+        
+          story={mapStories.emergency.story}
+          provinceStories={mapStories.emergency.provinceStories}
         />
         <div className="space-y-4">
           <Panel title="Incidents by Severity">

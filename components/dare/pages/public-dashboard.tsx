@@ -6,15 +6,9 @@ import { AlertTriangle, Bell, CheckCircle2, MapPin, Phone, Shield, Users } from 
 import { Panel, Chip, ProgressRow } from '@/components/dare/ui'
 import { DonutChart, FeedList, MiniBars, QuickActions } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
-import { incidentMarkers, responseProvinceColors, riskColors, kpi } from '@/lib/concept-data'
+import { mapStories } from '@/lib/concept/map-stories'
+import { riskColors, kpi } from '@/lib/concept-data'
 import { KpiRow } from '@/components/dare/page-primitives'
-
-const riskLegend = [
-  { color: '#d64545', label: 'Critical' },
-  { color: '#ea580c', label: 'Major' },
-  { color: '#e6a70a', label: 'Watch' },
-  { color: '#86efac', label: 'Low' },
-]
 
 function PublicHeader({
   title,
@@ -50,11 +44,13 @@ export function PublicHomePage() {
       />
       <div className="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
         <SituationMap
-          title="Multi-Hazard Public Risk Map"
-          provinceColors={responseProvinceColors}
-          markers={incidentMarkers}
+          title={mapStories.publicSituation.title}
+          provinceColors={mapStories.publicSituation.provinceColors}
+          markers={mapStories.publicSituation.markers}
           heightClassName="min-h-[18rem] h-[min(42vh,26rem)]"
-          legend={riskLegend}
+          legend={mapStories.publicSituation.legend}
+          story={mapStories.publicSituation.story}
+          provinceStories={mapStories.publicSituation.provinceStories}
         />
         <Panel title="What You Should Know">
           <FeedList
@@ -108,6 +104,15 @@ export function PublicAlertsPage() {
           kpi('05', 'Advisory', 'Stay informed', CheckCircle2, riskColors.info),
         ]}
       />
+      <SituationMap
+        title={mapStories.publicAlerts.title}
+        provinceColors={mapStories.publicAlerts.provinceColors}
+        markers={mapStories.publicAlerts.markers}
+        legend={mapStories.publicAlerts.legend}
+        story={mapStories.publicAlerts.story}
+        provinceStories={mapStories.publicAlerts.provinceStories}
+        heightClassName="min-h-[18rem] h-[min(44vh,28rem)]"
+      />
       <Panel title="Alert List">
         <ul className="divide-y divide-border">
           {[
@@ -138,11 +143,13 @@ export function PublicRiskMapPage() {
     <div className="space-y-5">
       <PublicHeader title="Multi-Hazard Risk Map" subtitle="Province-level view of current multi-hazard risk for the public." />
       <SituationMap
-        title="Public Risk Map"
-        provinceColors={responseProvinceColors}
-        markers={incidentMarkers}
+        title={mapStories.risk.title}
+        provinceColors={mapStories.risk.provinceColors}
+        markers={mapStories.risk.markers}
         heightClassName="min-h-[22rem] h-[min(60vh,36rem)]"
-        legend={riskLegend}
+        legend={mapStories.risk.legend}
+        story={mapStories.risk.story}
+        provinceStories={mapStories.risk.provinceStories}
       />
       <Panel title="How to read this map">
         <p className="text-sm text-muted-foreground">
@@ -158,6 +165,15 @@ export function PublicSituationPage() {
   return (
     <div className="space-y-5">
       <PublicHeader title="Current Situation" subtitle="National summary of hazards, impacts and public guidance." />
+      <SituationMap
+        title={mapStories.publicSituation.title}
+        provinceColors={mapStories.publicSituation.provinceColors}
+        markers={mapStories.publicSituation.markers}
+        legend={mapStories.publicSituation.legend}
+        story={mapStories.publicSituation.story}
+        provinceStories={mapStories.publicSituation.provinceStories}
+        heightClassName="min-h-[18rem] h-[min(44vh,28rem)]"
+      />
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="Situation Snapshot">
           <div className="space-y-3">
@@ -192,6 +208,15 @@ export function PublicStatisticsPage() {
           kpi('72K', 'Sheltered', 'Safe sites', MapPin, '#7c3aed'),
           kpi('14', 'Active Alerts', 'All hazards', Bell, riskColors.critical),
         ]}
+      />
+      <SituationMap
+        title={mapStories.publicStats.title}
+        provinceColors={mapStories.publicStats.provinceColors}
+        markers={mapStories.publicStats.markers}
+        legend={mapStories.publicStats.legend}
+        story={mapStories.publicStats.story}
+        provinceStories={mapStories.publicStats.provinceStories}
+        heightClassName="min-h-[18rem] h-[min(44vh,28rem)]"
       />
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="Alerts by Level">
@@ -228,6 +253,15 @@ export function PublicRecoveryPage() {
         title="Recovery & Resilience"
         subtitle="How communities are recovering and building back better after disasters."
       />
+      <SituationMap
+        title={mapStories.publicRecovery.title}
+        provinceColors={mapStories.publicRecovery.provinceColors}
+        markers={mapStories.publicRecovery.markers}
+        legend={mapStories.publicRecovery.legend}
+        story={mapStories.publicRecovery.story}
+        provinceStories={mapStories.publicRecovery.provinceStories}
+        heightClassName="min-h-[18rem] h-[min(44vh,28rem)]"
+      />
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="Recovery Progress">
           <div className="space-y-3">
@@ -255,6 +289,15 @@ export function PublicPreparednessPage() {
   return (
     <div className="space-y-5">
       <PublicHeader title="Preparedness & Safety" subtitle="Practical steps families and communities can take before hazards strike." />
+      <SituationMap
+        title={mapStories.publicPreparedness.title}
+        provinceColors={mapStories.publicPreparedness.provinceColors}
+        markers={mapStories.publicPreparedness.markers}
+        legend={mapStories.publicPreparedness.legend}
+        story={mapStories.publicPreparedness.story}
+        provinceStories={mapStories.publicPreparedness.provinceStories}
+        heightClassName="min-h-[18rem] h-[min(44vh,28rem)]"
+      />
       <div className="grid gap-4 md:grid-cols-2">
         {[
           ['Floods', 'Know evacuation routes, move valuables high, never drive through floodwater.'],

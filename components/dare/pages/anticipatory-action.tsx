@@ -10,6 +10,8 @@ import {
   Pipeline,
   QuickActions,
 } from '@/components/dare/dashboard/kit'
+import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import { aaActions, anticipatoryKpis, riskColors } from '@/lib/concept-data'
 
 export function AnticipatoryActionPage() {
@@ -24,6 +26,15 @@ export function AnticipatoryActionPage() {
       ]}
       kpis={anticipatoryKpis}
     >
+      <SituationMap
+        title={mapStories.anticipatoryAction.title}
+        provinceColors={mapStories.anticipatoryAction.provinceColors}
+        markers={mapStories.anticipatoryAction.markers}
+        legend={mapStories.anticipatoryAction.legend}
+        story={mapStories.anticipatoryAction.story}
+        provinceStories={mapStories.anticipatoryAction.provinceStories}
+        heightClassName="min-h-[18rem] h-[min(42vh,26rem)]"
+      />
       <div className="grid gap-4 xl:grid-cols-[1.5fr_1fr]">
         <Panel title="Active Anticipatory Actions">
           <DataTable

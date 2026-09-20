@@ -9,6 +9,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { mapStories } from '@/lib/concept/map-stories'
 import {
   incidentMarkers,
   partnerProvinceColors,
@@ -128,6 +129,9 @@ export function PartnersStakeholdersPage() {
             { color: '#4ade80', label: 'Medium' },
             { color: '#16794a', label: 'High density' },
           ]}
+        
+          story={mapStories.partners.story}
+          provinceStories={mapStories.partners.provinceStories}
         />
         <Panel title="Sectors / UN Clusters">
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-2">
