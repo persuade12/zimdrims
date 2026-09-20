@@ -14,12 +14,13 @@ Open [http://localhost:3000](http://localhost:3000) to view the Early Warning Ce
 
 ## Platform Modules
 
-- **COMMAND** — National COP, Early Warning, Risk & Impact Intelligence
-- **ANTICIPATION** — Trigger Monitor, Anticipatory Action
-- **RESPONSE** — Emergency Operations, Incident Command, Logistics, Shelters
-- **COORDINATION** — Government, Partner & SADC Regional Coordination
-- **RECOVERY** — Damage & Loss, Recovery, Resilience
-- **KNOWLEDGE** — Reports, Analytics, Lessons Learned
-- **ADMINISTRATION** — Digital SOPs, Users & Roles, Data Sources, System Admin
+- **COMMAND** — National COP, Early Warning, Risk & Impact Intelligence, Needs Assessment
+- **ANTICIPATION** — Trigger Monitor, Hazard Anticipation, Anticipatory Action & Financing
+- **RESPONSE** — Emergency Operations, Incident Command, Logistics, Shelters, Search & Rescue
+- **COORDINATION** — 5W, Partners, Government, SADC Regional, Call Centre
+- **RECOVERY** — Loss & Damage, Recovery Progress, Build Back Better, Resilience
+- **KNOWLEDGE** — Reports, Analytics, Lessons Learned, IKS, Knowledge Repository
+- **ADMINISTRATION** — Digital SOPs, Users & Roles (Access Control demo), Data Sources, System Admin
+- **PUBLIC** — Public dashboard at [/public](http://localhost:3000/public) (alerts, risk map, incident reporting, resources)
 
-Concept reference designs are in `public/concept/`.
+Concept reference designs are in `public/concept/`. All module routes use demo/static datasets.

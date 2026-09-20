@@ -42,6 +42,11 @@ import {
   LifeBuoy,
   Network,
   Eye,
+  Landmark,
+  FolderOpen,
+  ExternalLink,
+  ClipboardList,
+  DollarSign,
 } from 'lucide-react'
 
 export type NavChild = {
@@ -64,7 +69,10 @@ export type NavGroup = {
 
 export const navGroups: NavGroup[] = [
   {
-    items: [{ label: 'Home', icon: Home, href: '/' }],
+    items: [
+      { label: 'Home', icon: Home, href: '/' },
+      { label: 'Public Dashboard', icon: ExternalLink, href: '/public' },
+    ],
   },
   {
     title: 'COMMAND',
@@ -92,19 +100,34 @@ export const navGroups: NavGroup[] = [
         icon: ShieldAlert,
         href: '/risk-intelligence',
         children: [
-          { label: 'Risk Dashboard', icon: BarChart3, href: '/risk-intelligence/risk-dashboard' },
           { label: 'Risk Map', icon: Map, href: '/risk-intelligence/risk-map' },
+          { label: 'Risk Explorer', icon: BarChart3, href: '/risk-intelligence/risk-explorer' },
         ],
       },
       { label: 'Impact Intelligence', icon: Target, href: '/impact-intelligence' },
+      { label: 'Needs Assessment', icon: ClipboardList, href: '/needs-assessment' },
     ],
   },
   {
     title: 'ANTICIPATION',
     items: [
+      { label: 'Anticipation Overview', icon: Eye, href: '/anticipation' },
       { label: 'Trigger Monitor', icon: Activity, href: '/trigger-monitor' },
-      { label: 'Drought Anticipation', icon: Sun, href: '/anticipation/drought' },
+      {
+        label: 'Hazard Anticipation',
+        icon: Sun,
+        href: '/anticipation/drought',
+        children: [
+          { label: 'Drought', icon: Sun, href: '/anticipation/drought' },
+          { label: 'Flood', icon: Waves, href: '/anticipation/flood' },
+          { label: 'Cyclone', icon: Wind, href: '/anticipation/cyclone' },
+          { label: 'Fire', icon: Flame, href: '/anticipation/fire' },
+          { label: 'Disease', icon: HeartPulse, href: '/anticipation/disease' },
+          { label: 'Landslide', icon: AlertTriangle, href: '/anticipation/landslide' },
+        ],
+      },
       { label: 'Anticipatory Action', icon: Zap, href: '/anticipatory-action' },
+      { label: 'Anticipatory Financing', icon: DollarSign, href: '/anticipatory-financing' },
     ],
   },
   {
@@ -116,32 +139,38 @@ export const navGroups: NavGroup[] = [
       { label: 'Logistics & Resources', icon: Truck, href: '/logistics-resources' },
       { label: 'Shelters & Evacuation', icon: Tent, href: '/shelters-evacuation' },
       { label: 'Search & Rescue', icon: LifeBuoy, href: '/search-rescue' },
-      { label: 'Call Centre', icon: Phone, href: '/call-centre' },
     ],
   },
   {
     title: 'COORDINATION',
     items: [
-      { label: 'Government Coordination', icon: Building2, href: '/government-coordination' },
-      { label: 'Partners & Stakeholders', icon: Handshake, href: '/coordination/partners' },
+      { label: 'Coordination Overview', icon: Network, href: '/coordination' },
       { label: '5W Coordination', icon: Network, href: '/coordination/5w' },
+      { label: 'Partners & Stakeholders', icon: Handshake, href: '/coordination/partners' },
+      { label: 'Government Coordination', icon: Building2, href: '/government-coordination' },
       { label: 'SADC Regional Coordination', icon: Globe2, href: '/sadc-coordination' },
+      { label: 'Call Centre', icon: Phone, href: '/call-centre' },
     ],
   },
   {
     title: 'RECOVERY',
     items: [
-      { label: 'Damage & Loss', icon: TrendingDown, href: '/damage-loss' },
-      { label: 'Recovery', icon: RefreshCw, href: '/recovery' },
+      { label: 'Recovery Overview', icon: RefreshCw, href: '/recovery-overview' },
+      { label: 'Loss & Damage', icon: TrendingDown, href: '/damage-loss' },
+      { label: 'Recovery Progress', icon: RefreshCw, href: '/recovery' },
+      { label: 'Build Back Better', icon: Landmark, href: '/build-back-better' },
       { label: 'Resilience', icon: Shield, href: '/resilience' },
     ],
   },
   {
     title: 'KNOWLEDGE',
     items: [
+      { label: 'Knowledge Overview', icon: BookOpen, href: '/knowledge' },
       { label: 'Reports', icon: FileBarChart, href: '/reports' },
       { label: 'Analytics', icon: BarChart3, href: '/analytics' },
       { label: 'Lessons Learned', icon: BookOpen, href: '/lessons-learned' },
+      { label: 'Indigenous Knowledge (IKS)', icon: Users, href: '/iks' },
+      { label: 'Knowledge Repository', icon: FolderOpen, href: '/knowledge-repository' },
     ],
   },
   {
@@ -254,7 +283,7 @@ export const quickActions = [
   { label: 'Send SMS Alert', icon: MessageSquare, color: '#16794a', href: '/emergency-operations' },
   { label: 'Activate SOP', icon: FileText, color: '#ea580c', href: '/digital-sops' },
   { label: 'Generate Report', icon: Download, color: '#2563eb', href: '/reports' },
-  { label: 'Share Update', icon: Share2, color: '#7c3aed', href: '/partner-coordination' },
+  { label: 'Share Update', icon: Share2, color: '#7c3aed', href: '/coordination/partners' },
   { label: 'Create Alert', icon: Bell, color: '#d64545', href: '/early-warning/all-hazards' },
   { label: 'Risk Map', icon: Map, color: '#0f766e', href: '/risk-intelligence/risk-map' },
 ]
