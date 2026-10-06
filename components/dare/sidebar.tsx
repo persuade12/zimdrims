@@ -32,13 +32,24 @@ export function Sidebar({
         className,
       )}
     >
-      <div className="border-b border-sidebar-border px-4 py-3">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-sidebar-foreground/50">
-          {label('Module')}
-        </p>
-        <p className="mt-0.5 truncate text-sm font-semibold text-sidebar-accent-foreground">
-          {label(activeModule.label)}
-        </p>
+      <div className="relative overflow-hidden border-b border-sidebar-border">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(31,157,95,0.22),transparent_55%)]"
+        />
+        <div className="relative flex items-center gap-3 px-4 py-3.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-sidebar-primary/20 text-sidebar-primary ring-1 ring-sidebar-primary/30">
+            <activeModule.icon className="size-4" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-sidebar-foreground/45">
+              {label('Module')}
+            </p>
+            <p className="truncate text-[13px] font-semibold leading-tight text-sidebar-accent-foreground">
+              {label(activeModule.label)}
+            </p>
+          </div>
+        </div>
       </div>
 
       <nav className="flex-1 px-3 py-4">
@@ -53,9 +64,9 @@ export function Sidebar({
                   href={item.href}
                   onClick={onNavigate}
                   className={cn(
-                    'flex items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium transition-colors',
+                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-all duration-150',
                     parentActive && !childActive
-                      ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                      ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-[0_8px_18px_-12px_rgba(31,157,95,0.9)]'
                       : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
                   )}
                 >
@@ -75,9 +86,9 @@ export function Sidebar({
                           href={child.href}
                           onClick={onNavigate}
                           className={cn(
-                            'flex items-center gap-2.5 rounded-md px-3 py-1.5 text-[12px] transition-colors',
+                            'flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-[12px] transition-colors',
                             isActive(pathname, child.href)
-                              ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                              ? 'bg-sidebar-primary/90 text-sidebar-primary-foreground'
                               : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
                           )}
                         >
@@ -95,13 +106,6 @@ export function Sidebar({
       </nav>
 
       <div className="mt-auto border-t border-sidebar-border p-4">
-        <div className="mb-3 flex h-2 overflow-hidden rounded-full">
-          <span className="flex-1 bg-[#16794a]" />
-          <span className="flex-1 bg-[#e6a70a]" />
-          <span className="flex-1 bg-[#d64545]" />
-          <span className="flex-1 bg-black" />
-          <span className="w-3 bg-white" />
-        </div>
         <p className="text-[10px] font-bold text-sidebar-accent-foreground">ZIM-DRIMS</p>
         <p className="text-[9px] text-sidebar-foreground/60">{t.shell.version}</p>
         <div className="mt-3 border-t border-sidebar-border/80 pt-3">
