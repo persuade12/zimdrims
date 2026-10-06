@@ -1536,121 +1536,651 @@ export const systemAdminConfig: RichModuleConfig = {
   notes: ['System administration controls are non-functional in this demo build.'],
 }
 
-function preparednessStub(
-  title: string,
-  moduleLabel: string,
-  baseHref: string,
-  subtitle: string,
-): RichModuleConfig {
-  return {
-    title,
-    subtitle,
-    breadcrumbs: crumbs({ label: moduleLabel, href: baseHref }, { label: title }),
-    kpis: [
-      kpi('78%', 'Preparedness', 'National index', Shield, riskColors.ok),
-      kpi('92%', 'Comms Ready', 'NET posture', Radio, riskColors.info),
-      kpi('96%', 'Plans & SOPs', 'Current', FileText, riskColors.ok),
-      kpi('84%', 'Training', 'Completion', Users, riskColors.active),
-      kpi('76%', 'Pre-positioned', 'Resources', Package, riskColors.major),
-      kpi('73%', 'Monitoring', 'Readiness score', Activity, riskColors.info),
+const netFeed = [
+  { title: 'HF radio net check completed — Midlands EOC', meta: '26 Aug · 09:40 CAT', tone: 'info' as const },
+  { title: 'Tower outage cleared — Chipinge site NET-118', meta: '26 Aug · 08:15 CAT', tone: 'new' as const },
+  { title: 'Blackspot surge reported — Save River corridor', meta: '25 Aug · 21:05 CAT', tone: 'alert' as const },
+  { title: 'Satellite terminal pre-positioned — Buhera staging', meta: '25 Aug · 16:30 CAT', tone: 'new' as const },
+]
+
+const preparednessFeed = [
+  { title: 'National flood SOP annex v1.8 approved', meta: '26 Aug · 10:20 CAT', tone: 'new' as const },
+  { title: 'Simulation exercise scheduled — Manicaland', meta: '26 Aug · 08:00 CAT', tone: 'info' as const },
+  { title: 'Medical kit shortfall flagged — Masvingo warehouse', meta: '25 Aug · 18:45 CAT', tone: 'alert' as const },
+  { title: 'District readiness scores refreshed (Q3)', meta: '25 Aug · 14:10 CAT', tone: 'info' as const },
+]
+
+export const netOverviewConfig: RichModuleConfig = {
+  title: 'NET Overview',
+  subtitle: 'National Emergency Telecommunications — infrastructure, channels and incident posture.',
+  breadcrumbs: crumbs({ label: 'NET', href: '/ops/net' }, { label: 'Overview' }),
+  primaryAction: 'Open Switchboard',
+  kpis: [
+    kpi('482', 'Telecom Towers', 'National footprint', Radio, riskColors.info),
+    kpi('12', 'Radio Networks', 'HF / VHF / UHF', Activity, riskColors.ok),
+    kpi('100%', 'Satellite Coverage', 'VSAT / BGAN', Globe2, riskColors.ok),
+    kpi('5', 'Broadcast Systems', 'Radio / TV / Cell', FileBarChart, riskColors.active),
+    kpi('3', 'Active Incidents', 'Comms degraded', AlertTriangle, riskColors.major),
+    kpi('24', 'Blackspots', 'Priority corridors', MapPin, riskColors.critical),
+  ],
+  map: mapStories.net,
+  donut: {
+    title: 'Tower Status',
+    centerValue: '482',
+    centerLabel: 'Towers',
+    segments: [
+      { label: 'Operational', value: 428, color: riskColors.ok },
+      { label: 'Degraded', value: 36, color: riskColors.active },
+      { label: 'Offline', value: 18, color: riskColors.critical },
     ],
-    progress: {
-      title: 'Readiness Dimensions',
-      items: [
-        { label: 'Plans & SOPs', pct: 96 },
-        { label: 'Training & exercises', pct: 84 },
-        { label: 'Resources & pre-positioning', pct: 76 },
-        { label: 'Readiness monitoring', pct: 73 },
-      ],
-    },
-    table: {
-      title: 'Priority Actions',
-      columns: ['Action', 'Province', 'Owner', 'Due', 'Status'],
-      rows: [
-        ['Update flood SOP annex', 'Manicaland', 'Provincial EOC', '30 Aug', 'In progress'],
-        ['Pre-position medical kits', 'Masvingo', 'Logistics', '02 Sep', 'Planned'],
-        ['HF radio drill', 'Midlands', 'NET Unit', '28 Aug', 'Scheduled'],
-        ['Warehouse stock count', 'Harare', 'DCP Stores', '01 Sep', 'Open'],
-      ],
-    },
-    actions: [
-      { label: 'NET Overview', href: '/ops/net' },
-      { label: 'Preparedness Overview', href: '/ops/preparedness' },
-      { label: 'Digital SOPs', href: '/ops/digital-sops' },
+  },
+  statusCards: [
+    { label: 'HF Radio', value: 'Online' },
+    { label: 'Satellite', value: '100%' },
+    { label: 'Uptime', value: '98.5%' },
+    { label: 'SADC EOC Link', value: 'Live' },
+  ],
+  progress: {
+    title: 'Communication Channels',
+    items: [
+      { label: 'HF Radio network', pct: 94 },
+      { label: 'VHF / UHF tactical', pct: 88 },
+      { label: 'Satellite terminals', pct: 100 },
+      { label: 'Broadcast alert push', pct: 82 },
+      { label: 'Mobile cell broadcast', pct: 76 },
     ],
-    feed: { title: 'Preparedness Updates', items: defaultFeed },
-    notes: [
-      'Concept stub aligned to the Oct 2026 package — detailed NET telecom screens can expand later.',
+  },
+  table: {
+    title: 'Broadcast Alert Status',
+    columns: ['Channel', 'Coverage', 'Last test', 'Latency', 'Status'],
+    rows: [
+      ['National Radio', '98%', '25 Aug 06:00', '4 min', 'Ready'],
+      ['ZBC Television', '94%', '24 Aug 18:00', '6 min', 'Ready'],
+      ['Cell Broadcast', '86%', '25 Aug 12:30', '2 min', 'Degraded'],
+      ['Social / Web', '100%', 'Continuous', '<1 min', 'Ready'],
+      ['Community Radio', '71%', '22 Aug 09:00', '12 min', 'Watch'],
     ],
-  }
+  },
+  list: {
+    title: 'Emergency Switchboard',
+    items: [
+      { label: 'Police Command — 0242-700-111', badge: 'Direct' },
+      { label: 'Fire Brigade — 0242-700-222', badge: 'Direct' },
+      { label: 'Military Ops — Secure line', badge: 'Secure' },
+      { label: 'SADC EOC Desk — Regional', badge: 'Live' },
+      { label: 'MSD Met Desk — Forecast', badge: 'Open' },
+    ],
+  },
+  actions: [
+    { label: 'Plans & SOPs', href: '/ops/net/plans-sops' },
+    { label: 'Training', href: '/ops/net/training' },
+    { label: 'Resources', href: '/ops/net/resources' },
+    { label: 'Readiness Monitoring', href: '/ops/net/readiness-monitoring' },
+  ],
+  feed: { title: 'NET Incidents & Updates', items: netFeed },
+  notes: [
+    'NET serves preparedness, warning, response and recovery — continuous connectivity for DCP command.',
+  ],
 }
 
-export const netOverviewConfig = preparednessStub(
-  'NET Overview',
-  'NET',
-  '/ops/net',
-  'National Emergency Telecommunications preparedness, continuity and readiness.',
-)
+export const netPlansSopsConfig: RichModuleConfig = {
+  title: 'Emergency Plans & SOPs',
+  subtitle: 'Controlled NET plans, telecom SOPs and activation playbooks.',
+  breadcrumbs: crumbs({ label: 'NET', href: '/ops/net' }, { label: 'Emergency Plans & SOPs' }),
+  primaryAction: 'Publish SOP',
+  kpis: [
+    kpi('28', 'NET SOPs', 'Controlled docs', FileText, riskColors.ok),
+    kpi('6', 'Playbooks', 'Hazard-specific', ShieldAlert, riskColors.info),
+    kpi('4', 'In Review', 'Due update', Clock, riskColors.active),
+    kpi('97%', 'Staff Ack.', 'Signed current', Users, riskColors.ok),
+    kpi('2', 'Overdue', 'Past review', AlertTriangle, riskColors.major),
+    kpi('v3.1', 'NETP', 'National plan', CheckCircle2, riskColors.info),
+  ],
+  statusCards: [
+    { label: 'NETP Document', value: 'Current' },
+    { label: 'EOC Comms SOP', value: 'v2.4' },
+    { label: 'Blackspot Protocol', value: 'v1.6' },
+    { label: 'SADC Interlink', value: 'v1.2' },
+  ],
+  table: {
+    title: 'NET Document Catalogue',
+    columns: ['Document', 'Type', 'Version', 'Owner', 'Review due', 'Status'],
+    rows: [
+      ['National Emergency Telecoms Plan (NETP)', 'Plan', '3.1', 'NET Unit', '15 Nov', 'Current'],
+      ['EOC Communications SOP', 'SOP', '2.4', 'NEOC', '30 Sep', 'Current'],
+      ['HF Net Activation Playbook', 'Playbook', '1.9', 'NET Unit', '12 Oct', 'Current'],
+      ['Tower Outage Escalation', 'SOP', '1.6', 'Infrastructure', '01 Sep', 'In review'],
+      ['Cell Broadcast Issuance', 'SOP', '2.0', 'EW / NET', '20 Oct', 'Current'],
+      ['Satellite Surge Deployment', 'Playbook', '1.3', 'Logistics', '05 Sep', 'In review'],
+      ['Community Radio Relay Guide', 'SOP', '1.1', 'Public Info', '18 Aug', 'Overdue'],
+    ],
+  },
+  progress: {
+    title: 'Acknowledgement Coverage',
+    items: [
+      { label: 'National EOC staff', pct: 100 },
+      { label: 'Provincial EOC focal points', pct: 94 },
+      { label: 'District NET officers', pct: 88 },
+      { label: 'Partner liaison desks', pct: 72 },
+    ],
+  },
+  list: {
+    title: 'Quick Links',
+    items: [
+      { label: 'NETP Document (PDF)', badge: 'Open' },
+      { label: 'Emergency Frequencies Card', badge: 'Open' },
+      { label: 'SADC EOC Interop Annex', badge: 'Open' },
+      { label: 'Towers & Sites Register', badge: 'Open' },
+    ],
+  },
+  actions: [
+    { label: 'NET Overview', href: '/ops/net' },
+    { label: 'Digital SOPs', href: '/ops/digital-sops' },
+    { label: 'Training', href: '/ops/net/training' },
+  ],
+  feed: { title: 'Document Activity', items: netFeed },
+}
 
-export const netPlansSopsConfig = preparednessStub(
-  'Emergency Plans & SOPs',
-  'NET',
-  '/ops/net',
-  'NET emergency plans, telecom SOPs and activation playbooks.',
-)
+export const netTrainingConfig: RichModuleConfig = {
+  title: 'Training & Simulation Exercises',
+  subtitle: 'Telecom drills, simulation exercises and staff competency tracking.',
+  breadcrumbs: crumbs({ label: 'NET', href: '/ops/net' }, { label: 'Training & Simulation Exercises' }),
+  primaryAction: 'Schedule Drill',
+  kpis: [
+    kpi('14', 'Exercises YTD', 'Completed', CheckCircle2, riskColors.ok),
+    kpi('3', 'Upcoming', 'Next 30 days', Clock, riskColors.active),
+    kpi('186', 'Staff Trained', 'NET modules', Users, riskColors.info),
+    kpi('84%', 'Competency', 'Pass rate', Shield, riskColors.ok),
+    kpi('6', 'Provinces', 'Drilled this quarter', MapPin, riskColors.major),
+    kpi('2', 'Joint SADC', 'Regional drills', Globe2, riskColors.info),
+  ],
+  pipeline: {
+    title: 'Exercise Pipeline',
+    steps: [
+      { label: 'Planned', count: 5 },
+      { label: 'Scheduled', count: 3, active: true },
+      { label: 'Running', count: 1 },
+      { label: 'After-action', count: 2 },
+      { label: 'Closed', count: 14 },
+    ],
+  },
+  table: {
+    title: 'Exercise Calendar',
+    columns: ['Exercise', 'Type', 'Location', 'Date', 'Lead', 'Status'],
+    rows: [
+      ['HF Night Net Check', 'Drill', 'National', '28 Aug', 'NET Unit', 'Scheduled'],
+      ['Flood Comms Failover', 'Tabletop', 'Manicaland', '02 Sep', 'Provincial EOC', 'Scheduled'],
+      ['Satellite Surge Deploy', 'Field', 'Buhera', '10 Sep', 'Logistics', 'Planned'],
+      ['Cell Broadcast Push Test', 'Technical', 'Harare', '15 Sep', 'EW / NET', 'Planned'],
+      ['SADC Cross-border Link', 'Regional', 'Beitbridge', '22 Sep', 'SADC Desk', 'Planned'],
+      ['EOC Blackout Recovery', 'Simulation', 'NEOC', '12 Aug', 'NEOC', 'Closed'],
+    ],
+  },
+  bars: {
+    title: 'Provincial Drill Coverage (YTD)',
+    items: [
+      { label: 'Harare', value: 100, color: riskColors.ok },
+      { label: 'Manicaland', value: 92, color: riskColors.ok },
+      { label: 'Mashonaland West', value: 78, color: riskColors.active },
+      { label: 'Masvingo', value: 64, color: riskColors.major },
+      { label: 'Matabeleland North', value: 58, color: riskColors.major },
+      { label: 'Midlands', value: 86, color: riskColors.ok },
+    ],
+  },
+  progress: {
+    title: 'Competency Modules',
+    items: [
+      { label: 'HF / VHF radio ops', pct: 91 },
+      { label: 'Satellite terminal setup', pct: 84 },
+      { label: 'Broadcast alert workflow', pct: 88 },
+      { label: 'Blackspot triage', pct: 76 },
+    ],
+  },
+  actions: [
+    { label: 'NET Overview', href: '/ops/net' },
+    { label: 'Readiness Monitoring', href: '/ops/net/readiness-monitoring' },
+  ],
+  feed: { title: 'Training Updates', items: netFeed },
+}
 
-export const netTrainingConfig = preparednessStub(
-  'Training & Simulation Exercises',
-  'NET',
-  '/ops/net',
-  'Telecom drills, simulation exercises and staff competency tracking.',
-)
+export const netResourcesConfig: RichModuleConfig = {
+  title: 'Resources & Pre-positioning',
+  subtitle: 'Pre-positioned telecom assets, kits and surge capacity nationwide.',
+  breadcrumbs: crumbs({ label: 'NET', href: '/ops/net' }, { label: 'Resources & Pre-positioning' }),
+  primaryAction: 'Request Surge Kit',
+  kpis: [
+    kpi('64', 'Sat Terminals', 'BGAN / VSAT', Radio, riskColors.info),
+    kpi('128', 'HF Kits', 'Deployable', Package, riskColors.ok),
+    kpi('42', 'Generators', 'Comms power', Activity, riskColors.active),
+    kpi('18', 'Staging Sites', 'Pre-positioned', MapPin, riskColors.info),
+    kpi('76%', 'Stock Ready', 'Vs target', CheckCircle2, riskColors.ok),
+    kpi('9', 'Kits En Route', 'Convoys', Truck, riskColors.major),
+  ],
+  map: mapStories.net,
+  progress: {
+    title: 'Stock vs Target',
+    items: [
+      { label: 'Satellite terminals', pct: 88 },
+      { label: 'HF / VHF kits', pct: 82 },
+      { label: 'Power / generators', pct: 70 },
+      { label: 'Spare antennas / masts', pct: 64 },
+      { label: 'Field technician kits', pct: 76 },
+    ],
+  },
+  table: {
+    title: 'Pre-positioned Inventory',
+    columns: ['Asset', 'Location', 'Qty', 'Condition', 'Last check', 'Owner'],
+    rows: [
+      ['BGAN terminal set', 'Buhera staging', '6', 'Good', '24 Aug', 'NET Logistics'],
+      ['HF radio kit', 'Chinhoyi EOC', '12', 'Good', '25 Aug', 'Provincial EOC'],
+      ['Portable mast', 'Mutare warehouse', '4', 'Fair', '20 Aug', 'Infrastructure'],
+      ['Generator 5kVA', 'Masvingo hub', '8', 'Good', '23 Aug', 'Logistics'],
+      ['VHF handhelds', 'Harare NEOC', '40', 'Good', '26 Aug', 'NEOC'],
+      ['Spare battery packs', 'Bulawayo', '96', 'Good', '22 Aug', 'NET Stores'],
+    ],
+  },
+  bars: {
+    title: 'Staging Site Fill Rates',
+    items: [
+      { label: 'Harare NEOC', value: 94, color: riskColors.ok },
+      { label: 'Mutare hub', value: 78, color: riskColors.active },
+      { label: 'Chinhoyi', value: 72, color: riskColors.active },
+      { label: 'Masvingo', value: 61, color: riskColors.major },
+      { label: 'Hwange', value: 54, color: riskColors.major },
+    ],
+  },
+  actions: [
+    { label: 'NET Overview', href: '/ops/net' },
+    { label: 'Logistics & Resources', href: '/ops/logistics-resources' },
+    { label: 'Training', href: '/ops/net/training' },
+  ],
+  feed: { title: 'Logistics Movement', items: netFeed },
+}
 
-export const netResourcesConfig = preparednessStub(
-  'Resources & Pre-positioning',
-  'NET',
-  '/ops/net',
-  'Pre-positioned telecom assets, kits and surge capacity.',
-)
+export const netReadinessMonitoringConfig: RichModuleConfig = {
+  title: 'Readiness Monitoring',
+  subtitle: 'Continuous NET readiness scores, uptime and escalation triggers.',
+  breadcrumbs: crumbs({ label: 'NET', href: '/ops/net' }, { label: 'Readiness Monitoring' }),
+  primaryAction: 'Export Scorecard',
+  kpis: [
+    kpi('92%', 'Comms Ready', 'National', Shield, riskColors.ok),
+    kpi('98.5%', 'Network Uptime', '30-day', Activity, riskColors.ok),
+    kpi('4.2h', 'MTTR', 'Mean restore', Clock, riskColors.info),
+    kpi('24', 'Blackspots', 'Open', AlertTriangle, riskColors.critical),
+    kpi('3', 'Escalations', 'Active', Siren, riskColors.major),
+    kpi('10/10', 'Provinces', 'Reporting', CheckCircle2, riskColors.ok),
+  ],
+  map: mapStories.net,
+  donut: {
+    title: 'Readiness Bands',
+    centerValue: '92%',
+    centerLabel: 'NET',
+    segments: [
+      { label: 'Very high', value: 4, color: riskColors.ok },
+      { label: 'High', value: 3, color: '#4ade80' },
+      { label: 'Moderate', value: 2, color: riskColors.active },
+      { label: 'Low', value: 1, color: riskColors.major },
+    ],
+  },
+  table: {
+    title: 'Provincial NET Scorecard',
+    columns: ['Province', 'Readiness', 'Uptime', 'Blackspots', 'Last drill', 'Trend'],
+    rows: [
+      ['Harare', '98%', '99.6%', '1', '12 Aug', '↑'],
+      ['Bulawayo', '95%', '99.1%', '1', '05 Aug', '→'],
+      ['Manicaland', '74%', '96.2%', '7', '18 Aug', '↓'],
+      ['Mashonaland West', '78%', '97.0%', '5', '20 Aug', '↓'],
+      ['Masvingo', '84%', '98.4%', '3', '10 Aug', '↑'],
+      ['Midlands', '90%', '98.8%', '2', '22 Aug', '↑'],
+      ['Matabeleland North', '88%', '98.1%', '2', '08 Aug', '→'],
+    ],
+  },
+  progress: {
+    title: 'Monitoring Dimensions',
+    items: [
+      { label: 'Infrastructure health', pct: 91 },
+      { label: 'Staff on-call coverage', pct: 94 },
+      { label: 'SOP currency', pct: 96 },
+      { label: 'Exercise currency', pct: 84 },
+      { label: 'Spare capacity', pct: 76 },
+    ],
+  },
+  statusCards: [
+    { label: 'Alert Bus', value: 'OK' },
+    { label: 'HF Night Net', value: 'OK' },
+    { label: 'Sat Gateways', value: 'OK' },
+    { label: 'Cell Broadcast', value: 'Watch' },
+  ],
+  actions: [
+    { label: 'NET Overview', href: '/ops/net' },
+    { label: 'Preparedness Monitoring', href: '/ops/preparedness/readiness-monitoring' },
+  ],
+  feed: { title: 'Monitoring Alerts', items: netFeed },
+}
 
-export const netReadinessMonitoringConfig = preparednessStub(
-  'Readiness Monitoring',
-  'NET',
-  '/ops/net',
-  'Continuous monitoring of NET readiness across provinces.',
-)
+export const preparednessOverviewConfig: RichModuleConfig = {
+  title: 'Readiness & Preparedness Overview',
+  subtitle: 'National preparedness posture across plans, training, resources and monitoring.',
+  breadcrumbs: crumbs(
+    { label: 'Readiness & Preparedness', href: '/ops/preparedness' },
+    { label: 'Overview' },
+  ),
+  primaryAction: 'Situation Summary',
+  kpis: [
+    kpi('78%', 'Preparedness', 'National index', Shield, riskColors.ok),
+    kpi('92%', 'Comms Ready', 'NET linked', Radio, riskColors.info),
+    kpi('96%', 'Plans & SOPs', 'Current', FileText, riskColors.ok),
+    kpi('84%', 'Training', 'Completion', Users, riskColors.active),
+    kpi('76%', 'Pre-positioned', 'Resources', Package, riskColors.major),
+    kpi('73%', 'Monitoring', 'Score', Activity, riskColors.info),
+  ],
+  map: mapStories.preparedness,
+  donut: {
+    title: 'Readiness Distribution',
+    centerValue: '78%',
+    centerLabel: 'Index',
+    segments: [
+      { label: 'Very high', value: 2, color: riskColors.ok },
+      { label: 'High', value: 4, color: '#4ade80' },
+      { label: 'Moderate', value: 3, color: riskColors.active },
+      { label: 'Critical watch', value: 1, color: riskColors.major },
+    ],
+  },
+  progress: {
+    title: 'Preparedness Key Indicators',
+    items: [
+      { label: 'Emergency plans currency', pct: 96 },
+      { label: 'Training & exercises', pct: 84 },
+      { label: 'Resources pre-positioned', pct: 76 },
+      { label: 'NET / communications', pct: 92 },
+      { label: 'Readiness monitoring', pct: 73 },
+    ],
+  },
+  table: {
+    title: 'Emergency Plans & SOPs Status',
+    columns: ['Plan / SOP', 'Domain', 'Status', 'Last updated', 'Owner'],
+    rows: [
+      ['National Contingency Plan', 'Multi-hazard', 'Approved', '12 Aug', 'DCP'],
+      ['Flood Response Playbook', 'Response', 'Approved', '20 Aug', 'Ops'],
+      ['Drought AA Protocol', 'Anticipation', 'In progress', '18 Aug', 'AA Unit'],
+      ['Evacuation & Shelter SOP', 'Response', 'Approved', '05 Aug', 'NEOC'],
+      ['Public Warning SOP', 'Early Warning', 'Draft', '22 Aug', 'EW Unit'],
+    ],
+  },
+  statusCards: [
+    { label: 'NET Status', value: 'Ops' },
+    { label: 'Towers', value: '482' },
+    { label: 'Radio Nets', value: '12' },
+    { label: 'Sat Coverage', value: '100%' },
+  ],
+  actions: [
+    { label: 'Plans & SOPs', href: '/ops/preparedness/plans-sops' },
+    { label: 'Training', href: '/ops/preparedness/training' },
+    { label: 'Resources', href: '/ops/preparedness/resources' },
+    { label: 'NET Overview', href: '/ops/net' },
+  ],
+  feed: { title: 'Recent Alerts & Updates', items: preparednessFeed },
+}
 
-export const preparednessOverviewConfig = preparednessStub(
-  'Readiness & Preparedness Overview',
-  'Readiness & Preparedness',
-  '/ops/preparedness',
-  'National preparedness posture across plans, training, resources and monitoring.',
-)
+export const preparednessPlansSopsConfig: RichModuleConfig = {
+  title: 'Emergency Plans & SOPs',
+  subtitle: 'Emergency plans and controlled SOPs for multi-hazard preparedness.',
+  breadcrumbs: crumbs(
+    { label: 'Readiness & Preparedness', href: '/ops/preparedness' },
+    { label: 'Emergency Plans & SOPs' },
+  ),
+  primaryAction: 'Upload Plan',
+  kpis: [
+    kpi('186', 'SOPs', 'Controlled', FileText, riskColors.ok),
+    kpi('24', 'Contingency Plans', 'Active', Shield, riskColors.info),
+    kpi('11', 'In Review', 'Due update', Clock, riskColors.active),
+    kpi('8', 'Hazard Playbooks', 'Multi-hazard', ShieldAlert, riskColors.major),
+    kpi('96%', 'Staff Ack.', 'Read & sign', Users, riskColors.ok),
+    kpi('3', 'Overdue', 'Past review', AlertTriangle, riskColors.critical),
+  ],
+  table: {
+    title: 'Plan & SOP Catalogue',
+    columns: ['Document', 'Hazard / Domain', 'Version', 'Owner', 'Status', 'Next review'],
+    rows: [
+      ['National Contingency Plan 2026/27', 'Multi-hazard', '4.0', 'DCP', 'Approved', '01 Mar'],
+      ['Flood Response Playbook', 'Flood', '1.8', 'Ops', 'Approved', '30 Nov'],
+      ['Cyclone Preparedness Plan', 'Cyclone', '2.2', 'Manicaland EOC', 'Approved', '15 Oct'],
+      ['Drought Anticipatory Protocol', 'Drought', '1.4', 'AA Unit', 'In progress', '20 Sep'],
+      ['Evacuation & Shelter SOP', 'Response', '3.1', 'NEOC', 'Approved', '12 Dec'],
+      ['Public Warning Issuance SOP', 'Early Warning', '2.1', 'EW Unit', 'Draft', '05 Sep'],
+      ['Epidemic Coordination Plan', 'Health', '1.6', 'MoHCC / DCP', 'Approved', '18 Nov'],
+      ['School Safety Preparedness', 'Education', '1.0', 'MoPSE', 'In progress', '30 Sep'],
+    ],
+  },
+  progress: {
+    title: 'Review Cycle Health',
+    items: [
+      { label: 'Current / approved', pct: 82 },
+      { label: 'In progress / draft', pct: 12 },
+      { label: 'Overdue for review', pct: 6 },
+    ],
+  },
+  list: {
+    title: 'Priority Updates This Week',
+    items: [
+      { label: 'Flood annex — Manicaland', badge: 'Due 30 Aug' },
+      { label: 'Public warning SOP draft', badge: 'Review' },
+      { label: 'School safety pack', badge: 'Partner' },
+      { label: 'Drought AA protocol', badge: 'AA Unit' },
+    ],
+  },
+  pipeline: {
+    title: 'Document Workflow',
+    steps: [
+      { label: 'Draft', count: 8 },
+      { label: 'Technical review', count: 6, active: true },
+      { label: 'Leadership approve', count: 3 },
+      { label: 'Published', count: 186 },
+    ],
+  },
+  actions: [
+    { label: 'Preparedness Overview', href: '/ops/preparedness' },
+    { label: 'Digital SOPs', href: '/ops/digital-sops' },
+    { label: 'NET Plans', href: '/ops/net/plans-sops' },
+  ],
+  feed: { title: 'Document Activity', items: preparednessFeed },
+}
 
-export const preparednessPlansSopsConfig = preparednessStub(
-  'Emergency Plans & SOPs',
-  'Readiness & Preparedness',
-  '/ops/preparedness',
-  'Emergency plans and controlled SOPs for multi-hazard preparedness.',
-)
+export const preparednessTrainingConfig: RichModuleConfig = {
+  title: 'Training & Simulation Exercises',
+  subtitle: 'Training cohorts, drills and simulation exercise calendar.',
+  breadcrumbs: crumbs(
+    { label: 'Readiness & Preparedness', href: '/ops/preparedness' },
+    { label: 'Training & Simulation Exercises' },
+  ),
+  primaryAction: 'Create Exercise',
+  kpis: [
+    kpi('42', 'Exercises YTD', 'All types', CheckCircle2, riskColors.ok),
+    kpi('11', 'Cohorts Active', 'In training', Users, riskColors.info),
+    kpi('84%', 'Completion', 'Assigned modules', Shield, riskColors.ok),
+    kpi('1,240', 'Participants', 'YTD', Users, riskColors.active),
+    kpi('5', 'Upcoming', 'Next 21 days', Clock, riskColors.major),
+    kpi('9', 'After-action', 'Pending close', FileBarChart, riskColors.info),
+  ],
+  pipeline: {
+    title: 'Exercise Lifecycle',
+    steps: [
+      { label: 'Design', count: 4 },
+      { label: 'Scheduled', count: 5, active: true },
+      { label: 'Delivered', count: 42 },
+      { label: 'AAR', count: 9 },
+      { label: 'Lessons logged', count: 31 },
+    ],
+  },
+  table: {
+    title: 'Upcoming & Recent Exercises',
+    columns: ['Exercise', 'Type', 'Province', 'Date', 'Participants', 'Status'],
+    rows: [
+      ['District flood evacuation drill', 'Field', 'Manicaland', '29 Aug', '180', 'Scheduled'],
+      ['EOC activation tabletop', 'Tabletop', 'National', '01 Sep', '46', 'Scheduled'],
+      ['Shelter management cohort', 'Course', 'Harare', '05 Sep', '32', 'Planned'],
+      ['Community early warning seminar', 'Community', 'Masvingo', '08 Sep', '120', 'Planned'],
+      ['Search & rescue refresh', 'Field', 'Mash. West', '12 Sep', '64', 'Planned'],
+      ['National multi-hazard SIMEX', 'Simulation', 'NEOC', '18 Aug', '210', 'AAR open'],
+    ],
+  },
+  bars: {
+    title: 'Training Completion by Province',
+    items: [
+      { label: 'Harare', value: 96, color: riskColors.ok },
+      { label: 'Bulawayo', value: 91, color: riskColors.ok },
+      { label: 'Manicaland', value: 82, color: riskColors.active },
+      { label: 'Masvingo', value: 74, color: riskColors.active },
+      { label: 'Matabeleland North', value: 68, color: riskColors.major },
+      { label: 'Midlands', value: 88, color: riskColors.ok },
+    ],
+  },
+  progress: {
+    title: 'Core Curricula',
+    items: [
+      { label: 'EOC operations', pct: 90 },
+      { label: 'Evacuation & shelter', pct: 84 },
+      { label: 'Community preparedness', pct: 78 },
+      { label: 'Incident command basics', pct: 86 },
+    ],
+  },
+  actions: [
+    { label: 'Preparedness Overview', href: '/ops/preparedness' },
+    { label: 'NET Training', href: '/ops/net/training' },
+    { label: 'Lessons Learned', href: '/ops/lessons-learned' },
+  ],
+  feed: { title: 'Training Desk', items: preparednessFeed },
+}
 
-export const preparednessTrainingConfig = preparednessStub(
-  'Training & Simulation Exercises',
-  'Readiness & Preparedness',
-  '/ops/preparedness',
-  'Training cohorts, drills and simulation exercise calendar.',
-)
+export const preparednessResourcesConfig: RichModuleConfig = {
+  title: 'Resources & Pre-positioning',
+  subtitle: 'Pre-positioned relief stocks, equipment and staging sites.',
+  breadcrumbs: crumbs(
+    { label: 'Readiness & Preparedness', href: '/ops/preparedness' },
+    { label: 'Resources & Pre-positioning' },
+  ),
+  primaryAction: 'Allocate Stock',
+  kpis: [
+    kpi('18', 'Warehouses', 'National network', Building2, riskColors.info),
+    kpi('76%', 'Fill Rate', 'Vs contingency', Package, riskColors.ok),
+    kpi('42k', 'Food Rations', 'Family packs', Package, riskColors.active),
+    kpi('28k', 'WASH Kits', 'Ready', Package, riskColors.info),
+    kpi('6.2k', 'Shelter Kits', 'Tents / NFIs', Tent, riskColors.major),
+    kpi('14', 'Convoys Ready', 'Standby', Truck, riskColors.ok),
+  ],
+  map: mapStories.preparedness,
+  progress: {
+    title: 'Commodity Readiness',
+    items: [
+      { label: 'Food & nutrition', pct: 78 },
+      { label: 'WASH / water', pct: 72 },
+      { label: 'Shelter / NFI', pct: 68 },
+      { label: 'Medical kits', pct: 81 },
+      { label: 'Fuel & transport', pct: 64 },
+    ],
+  },
+  table: {
+    title: 'Staging Inventory Snapshot',
+    columns: ['Site', 'Province', 'Food', 'WASH', 'Shelter', 'Medical', 'Status'],
+    rows: [
+      ['Harare Central', 'Harare', 'High', 'High', 'Med', 'High', 'Ready'],
+      ['Mutare Hub', 'Manicaland', 'Med', 'Med', 'Low', 'Med', 'Replenish'],
+      ['Chinhoyi', 'Mash. West', 'Med', 'High', 'Med', 'Med', 'Ready'],
+      ['Masvingo Hub', 'Masvingo', 'Low', 'Med', 'Med', 'Low', 'Priority'],
+      ['Bulawayo', 'Bulawayo', 'High', 'High', 'High', 'High', 'Ready'],
+      ['Hwange', 'Mat. North', 'Med', 'Low', 'Med', 'Med', 'Watch'],
+    ],
+  },
+  bars: {
+    title: 'People Covered by Pre-positioned Stocks',
+    items: [
+      { label: 'Food (person-days)', value: 86, suffix: '%' },
+      { label: 'WASH', value: 74, suffix: '%' },
+      { label: 'Shelter', value: 61, suffix: '%' },
+      { label: 'Medical', value: 79, suffix: '%' },
+    ],
+  },
+  list: {
+    title: 'Priority Replenishment',
+    items: [
+      { label: 'Shelter kits — Mutare hub', badge: 'Urgent' },
+      { label: 'Medical kits — Masvingo', badge: 'Urgent' },
+      { label: 'WASH — Hwange', badge: 'Watch' },
+      { label: 'Fuel reserve — Chinhoyi', badge: 'Planned' },
+    ],
+  },
+  actions: [
+    { label: 'Preparedness Overview', href: '/ops/preparedness' },
+    { label: 'Logistics & Resources', href: '/ops/logistics-resources' },
+    { label: 'NET Resources', href: '/ops/net/resources' },
+  ],
+  feed: { title: 'Stock Movements', items: preparednessFeed },
+}
 
-export const preparednessResourcesConfig = preparednessStub(
-  'Resources & Pre-positioning',
-  'Readiness & Preparedness',
-  '/ops/preparedness',
-  'Pre-positioned relief stocks, equipment and staging sites.',
-)
-
-export const preparednessReadinessMonitoringConfig = preparednessStub(
-  'Readiness Monitoring',
-  'Readiness & Preparedness',
-  '/ops/preparedness',
-  'Province and sector readiness scores with escalation triggers.',
-)
+export const preparednessReadinessMonitoringConfig: RichModuleConfig = {
+  title: 'Readiness Monitoring',
+  subtitle: 'Province and sector readiness scores with escalation triggers.',
+  breadcrumbs: crumbs(
+    { label: 'Readiness & Preparedness', href: '/ops/preparedness' },
+    { label: 'Readiness Monitoring' },
+  ),
+  primaryAction: 'Export Scorecard',
+  kpis: [
+    kpi('78%', 'National Index', 'Composite', Shield, riskColors.ok),
+    kpi('73%', 'Monitoring', 'Cadence met', Activity, riskColors.info),
+    kpi('4', 'Provinces', 'Below threshold', AlertTriangle, riskColors.major),
+    kpi('12', 'Open Actions', 'Escalated', Siren, riskColors.critical),
+    kpi('10/10', 'Reporting', 'Provinces in', CheckCircle2, riskColors.ok),
+    kpi('2h', 'Last Refresh', 'Automated', Clock, riskColors.ok),
+  ],
+  map: mapStories.preparedness,
+  donut: {
+    title: 'Provinces by Band',
+    centerValue: '78%',
+    centerLabel: 'Index',
+    segments: [
+      { label: 'Very high (≥90)', value: 2, color: riskColors.ok },
+      { label: 'High (80–89)', value: 3, color: '#4ade80' },
+      { label: 'Moderate (70–79)', value: 3, color: riskColors.active },
+      { label: 'Watch (<70)', value: 2, color: riskColors.major },
+    ],
+  },
+  table: {
+    title: 'Provincial Readiness Scorecard',
+    columns: ['Province', 'Index', 'Plans', 'Training', 'Stocks', 'NET', 'Trend'],
+    rows: [
+      ['Harare', '94%', '98%', '96%', '92%', '98%', '↑'],
+      ['Bulawayo', '91%', '96%', '91%', '90%', '95%', '→'],
+      ['Midlands', '86%', '94%', '88%', '80%', '90%', '↑'],
+      ['Masvingo', '74%', '90%', '74%', '68%', '84%', '↓'],
+      ['Manicaland', '71%', '88%', '82%', '64%', '74%', '↓'],
+      ['Mashonaland West', '69%', '86%', '78%', '66%', '78%', '↓'],
+      ['Matabeleland North', '72%', '84%', '68%', '70%', '88%', '→'],
+    ],
+  },
+  progress: {
+    title: 'Sector Readiness',
+    items: [
+      { label: 'Civil protection / EOC', pct: 88 },
+      { label: 'Health surge', pct: 76 },
+      { label: 'WASH contingency', pct: 71 },
+      { label: 'Education / schools', pct: 68 },
+      { label: 'Agriculture / livelihoods', pct: 64 },
+    ],
+  },
+  statusCards: [
+    { label: 'Threshold', value: '70%' },
+    { label: 'Below Target', value: '4' },
+    { label: 'Actions Due', value: '12' },
+    { label: 'Next Board', value: '02 Sep' },
+  ],
+  actions: [
+    { label: 'Preparedness Overview', href: '/ops/preparedness' },
+    { label: 'NET Monitoring', href: '/ops/net/readiness-monitoring' },
+    { label: 'Response Overview', href: '/ops/response' },
+  ],
+  feed: { title: 'Monitoring Feed', items: preparednessFeed },
+  notes: [
+    'Scores refresh from provincial EOC returns, warehouse systems and NET health feeds.',
+  ],
+}

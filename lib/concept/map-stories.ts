@@ -52,6 +52,33 @@ export const knowledgeProvinceColors: Record<string, string> = {
   Midlands: '#60a5fa',
 }
 
+/** Green-scale readiness / NET coverage by province */
+export const readinessProvinceColors: Record<string, string> = {
+  Harare: '#16a34a',
+  Bulawayo: '#22c55e',
+  Manicaland: '#ea580c',
+  'Mashonaland Central': '#86efac',
+  'Mashonaland East': '#4ade80',
+  'Mashonaland West': '#e6a70a',
+  Masvingo: '#fde047',
+  'Matabeleland North': '#86efac',
+  'Matabeleland South': '#bbf7d0',
+  Midlands: '#22c55e',
+}
+
+export const netProvinceColors: Record<string, string> = {
+  Harare: '#16a34a',
+  Bulawayo: '#22c55e',
+  Manicaland: '#d64545',
+  'Mashonaland Central': '#86efac',
+  'Mashonaland East': '#4ade80',
+  'Mashonaland West': '#ea580c',
+  Masvingo: '#e6a70a',
+  'Matabeleland North': '#86efac',
+  'Matabeleland South': '#bbf7d0',
+  Midlands: '#fde047',
+}
+
 export type MapStory = {
   headline: string
   beats: string[]
@@ -434,5 +461,29 @@ export const mapStories = {
       ],
     },
     anticipationProvinceColors,
+  ),
+  net: storyMap(
+    'National Telecommunications Infrastructure Map',
+    {
+      headline: 'Tower health and blackspots concentrate where flood and access constraints hit hardest.',
+      beats: [
+        '482 towers nationwide — Manicaland and Mashonaland West show degraded links.',
+        'Satellite and HF radio fill gaps where terrestrial networks fail.',
+        'Select a province for local NET posture.',
+      ],
+    },
+    netProvinceColors,
+  ),
+  preparedness: storyMap(
+    'National Readiness Map',
+    {
+      headline: 'Preparedness is strongest at national hubs — urgency rises where alerts are already live.',
+      beats: [
+        'Eastern and western flood theatres need accelerated drills and stock moves.',
+        'Plans & SOPs coverage is high nationally; pre-positioning still lags in remote districts.',
+        'Tap a province for the local readiness story.',
+      ],
+    },
+    readinessProvinceColors,
   ),
 }
