@@ -58,7 +58,7 @@ function crumbs(...parts: { label: string; href?: string }[]): { label: string; 
 export const nationalCopConfig: RichModuleConfig = {
   title: 'NEOC Executive Dashboard',
   subtitle: 'National Common Operating Picture for the DCP Emergency Operations Centre.',
-  breadcrumbs: crumbs({ label: 'Command' }, { label: 'National COP' }),
+  breadcrumbs: crumbs({ label: 'NEOC' }, { label: 'Executive Dashboard' }),
   primaryAction: 'Generate Brief',
   kpis: [
     kpi('14', 'Active Alerts', 'Nationwide', ShieldAlert, riskColors.critical),
@@ -251,7 +251,7 @@ export function hazardEarlyWarningConfig(
     },
     actions: [
       { label: 'Early Warning Hub', href: '/ops/early-warning' },
-      { label: 'National COP', href: '/ops/national-cop' },
+      { label: 'NEOC Dashboard', href: '/ops/national-cop' },
       { label: `View /early-warning/${slug}`, href: `/early-warning/${slug}` },
     ],
     notes: [`Integrated Met Services, ZINWA, DCP field and partner feeds for ${hazard.toLowerCase()} monitoring.`],
@@ -885,7 +885,7 @@ export const governmentCoordinationConfig: RichModuleConfig = {
   },
   actions: [
     { label: 'Coordination Overview', href: '/ops/coordination' },
-    { label: 'National COP', href: '/ops/national-cop' },
+    { label: 'NEOC Dashboard', href: '/ops/national-cop' },
   ],
   feed: { title: 'Government Updates', items: defaultFeed },
 }
@@ -1535,3 +1535,122 @@ export const systemAdminConfig: RichModuleConfig = {
   feed: { title: 'Platform Events', items: defaultFeed },
   notes: ['System administration controls are non-functional in this demo build.'],
 }
+
+function preparednessStub(
+  title: string,
+  moduleLabel: string,
+  baseHref: string,
+  subtitle: string,
+): RichModuleConfig {
+  return {
+    title,
+    subtitle,
+    breadcrumbs: crumbs({ label: moduleLabel, href: baseHref }, { label: title }),
+    kpis: [
+      kpi('78%', 'Preparedness', 'National index', Shield, riskColors.ok),
+      kpi('92%', 'Comms Ready', 'NET posture', Radio, riskColors.info),
+      kpi('96%', 'Plans & SOPs', 'Current', FileText, riskColors.ok),
+      kpi('84%', 'Training', 'Completion', Users, riskColors.active),
+      kpi('76%', 'Pre-positioned', 'Resources', Package, riskColors.major),
+      kpi('73%', 'Monitoring', 'Readiness score', Activity, riskColors.info),
+    ],
+    progress: {
+      title: 'Readiness Dimensions',
+      items: [
+        { label: 'Plans & SOPs', pct: 96 },
+        { label: 'Training & exercises', pct: 84 },
+        { label: 'Resources & pre-positioning', pct: 76 },
+        { label: 'Readiness monitoring', pct: 73 },
+      ],
+    },
+    table: {
+      title: 'Priority Actions',
+      columns: ['Action', 'Province', 'Owner', 'Due', 'Status'],
+      rows: [
+        ['Update flood SOP annex', 'Manicaland', 'Provincial EOC', '30 Aug', 'In progress'],
+        ['Pre-position medical kits', 'Masvingo', 'Logistics', '02 Sep', 'Planned'],
+        ['HF radio drill', 'Midlands', 'NET Unit', '28 Aug', 'Scheduled'],
+        ['Warehouse stock count', 'Harare', 'DCP Stores', '01 Sep', 'Open'],
+      ],
+    },
+    actions: [
+      { label: 'NET Overview', href: '/ops/net' },
+      { label: 'Preparedness Overview', href: '/ops/preparedness' },
+      { label: 'Digital SOPs', href: '/ops/digital-sops' },
+    ],
+    feed: { title: 'Preparedness Updates', items: defaultFeed },
+    notes: [
+      'Concept stub aligned to the Oct 2026 package — detailed NET telecom screens can expand later.',
+    ],
+  }
+}
+
+export const netOverviewConfig = preparednessStub(
+  'NET Overview',
+  'NET',
+  '/ops/net',
+  'National Emergency Telecommunications preparedness, continuity and readiness.',
+)
+
+export const netPlansSopsConfig = preparednessStub(
+  'Emergency Plans & SOPs',
+  'NET',
+  '/ops/net',
+  'NET emergency plans, telecom SOPs and activation playbooks.',
+)
+
+export const netTrainingConfig = preparednessStub(
+  'Training & Simulation Exercises',
+  'NET',
+  '/ops/net',
+  'Telecom drills, simulation exercises and staff competency tracking.',
+)
+
+export const netResourcesConfig = preparednessStub(
+  'Resources & Pre-positioning',
+  'NET',
+  '/ops/net',
+  'Pre-positioned telecom assets, kits and surge capacity.',
+)
+
+export const netReadinessMonitoringConfig = preparednessStub(
+  'Readiness Monitoring',
+  'NET',
+  '/ops/net',
+  'Continuous monitoring of NET readiness across provinces.',
+)
+
+export const preparednessOverviewConfig = preparednessStub(
+  'Readiness & Preparedness Overview',
+  'Readiness & Preparedness',
+  '/ops/preparedness',
+  'National preparedness posture across plans, training, resources and monitoring.',
+)
+
+export const preparednessPlansSopsConfig = preparednessStub(
+  'Emergency Plans & SOPs',
+  'Readiness & Preparedness',
+  '/ops/preparedness',
+  'Emergency plans and controlled SOPs for multi-hazard preparedness.',
+)
+
+export const preparednessTrainingConfig = preparednessStub(
+  'Training & Simulation Exercises',
+  'Readiness & Preparedness',
+  '/ops/preparedness',
+  'Training cohorts, drills and simulation exercise calendar.',
+)
+
+export const preparednessResourcesConfig = preparednessStub(
+  'Resources & Pre-positioning',
+  'Readiness & Preparedness',
+  '/ops/preparedness',
+  'Pre-positioned relief stocks, equipment and staging sites.',
+)
+
+export const preparednessReadinessMonitoringConfig = preparednessStub(
+  'Readiness Monitoring',
+  'Readiness & Preparedness',
+  '/ops/preparedness',
+  'Province and sector readiness scores with escalation triggers.',
+)

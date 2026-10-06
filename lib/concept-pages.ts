@@ -44,6 +44,16 @@ import {
   systemAdminConfig,
   triggerMonitorConfig,
   usersRolesConfig,
+  netOverviewConfig,
+  netPlansSopsConfig,
+  netTrainingConfig,
+  netResourcesConfig,
+  netReadinessMonitoringConfig,
+  preparednessOverviewConfig,
+  preparednessPlansSopsConfig,
+  preparednessTrainingConfig,
+  preparednessResourcesConfig,
+  preparednessReadinessMonitoringConfig,
 } from '@/lib/concept/rich-modules'
 
 const hazardEwPages = {
@@ -139,6 +149,18 @@ export const conceptPages: Record<string, ComponentType> = {
   'users-roles': createRichModulePage(usersRolesConfig),
   'data-sources': createRichModulePage(dataSourcesConfig),
   'system-administration': createRichModulePage(systemAdminConfig),
+
+  net: createRichModulePage(netOverviewConfig),
+  'net/plans-sops': createRichModulePage(netPlansSopsConfig),
+  'net/training': createRichModulePage(netTrainingConfig),
+  'net/resources': createRichModulePage(netResourcesConfig),
+  'net/readiness-monitoring': createRichModulePage(netReadinessMonitoringConfig),
+
+  preparedness: createRichModulePage(preparednessOverviewConfig),
+  'preparedness/plans-sops': createRichModulePage(preparednessPlansSopsConfig),
+  'preparedness/training': createRichModulePage(preparednessTrainingConfig),
+  'preparedness/resources': createRichModulePage(preparednessResourcesConfig),
+  'preparedness/readiness-monitoring': createRichModulePage(preparednessReadinessMonitoringConfig),
 }
 
 export function resolveConceptPage(slug: string[] | undefined) {

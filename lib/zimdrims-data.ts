@@ -47,6 +47,9 @@ import {
   ExternalLink,
   ClipboardList,
   DollarSign,
+  RadioTower,
+  GraduationCap,
+  Package,
 } from 'lucide-react'
 
 export type NavChild = {
@@ -67,84 +70,187 @@ export type NavGroup = {
   items: NavItem[]
 }
 
-export const navGroups: NavGroup[] = [
+export type OpsModule = {
+  id: string
+  label: string
+  icon: LucideIcon
+  href: string
+  /** Pathname prefixes that activate this module (longest match wins). */
+  match: string[]
+  children: NavItem[]
+}
+
+const earlyWarningHazards: NavChild[] = [
+  { label: 'All Hazards', icon: ShieldAlert, href: '/ops/early-warning/all-hazards' },
+  { label: 'Weather', icon: CloudRain, href: '/ops/early-warning/weather' },
+  { label: 'Cyclone', icon: Wind, href: '/ops/early-warning/cyclone' },
+  { label: 'Flood', icon: Waves, href: '/ops/early-warning/flood' },
+  { label: 'Drought', icon: Sun, href: '/ops/early-warning/drought' },
+  { label: 'Fire', icon: Flame, href: '/ops/early-warning/fire' },
+  { label: 'Health', icon: HeartPulse, href: '/ops/early-warning/health' },
+  { label: 'Mining', icon: Pickaxe, href: '/ops/early-warning/mining' },
+  { label: 'Road Traffic', icon: Car, href: '/ops/early-warning/road-traffic' },
+  { label: 'Hydrology', icon: Droplets, href: '/ops/early-warning/hydrology' },
+]
+
+const hazardAnticipationChildren: NavChild[] = [
+  { label: 'Drought', icon: Sun, href: '/ops/anticipation/drought' },
+  { label: 'Flood', icon: Waves, href: '/ops/anticipation/flood' },
+  { label: 'Cyclone', icon: Wind, href: '/ops/anticipation/cyclone' },
+  { label: 'Fire', icon: Flame, href: '/ops/anticipation/fire' },
+  { label: 'Disease', icon: HeartPulse, href: '/ops/anticipation/disease' },
+  { label: 'Landslide', icon: AlertTriangle, href: '/ops/anticipation/landslide' },
+]
+
+const netChildren: NavItem[] = [
+  { label: 'Overview', icon: Eye, href: '/ops/net' },
+  { label: 'Emergency Plans & SOPs', icon: FileText, href: '/ops/net/plans-sops' },
+  { label: 'Training & Simulation Exercises', icon: GraduationCap, href: '/ops/net/training' },
+  { label: 'Resources & Pre-positioning', icon: Package, href: '/ops/net/resources' },
+  { label: 'Readiness Monitoring', icon: Activity, href: '/ops/net/readiness-monitoring' },
+]
+
+const preparednessChildren: NavItem[] = [
+  { label: 'Overview', icon: Eye, href: '/ops/preparedness' },
+  { label: 'Emergency Plans & SOPs', icon: FileText, href: '/ops/preparedness/plans-sops' },
+  { label: 'Training & Simulation Exercises', icon: GraduationCap, href: '/ops/preparedness/training' },
+  { label: 'Resources & Pre-positioning', icon: Package, href: '/ops/preparedness/resources' },
+  { label: 'Readiness Monitoring', icon: Activity, href: '/ops/preparedness/readiness-monitoring' },
+]
+
+export const opsModules: OpsModule[] = [
   {
-    items: [
-      { label: 'Home', icon: Home, href: '/ops' },
+    id: 'home',
+    label: 'Home',
+    icon: Home,
+    href: '/ops',
+    match: ['/ops'],
+    children: [
+      { label: 'Ops Home', icon: Home, href: '/ops' },
+      { label: 'NEOC Executive Dashboard', icon: LayoutDashboard, href: '/ops/national-cop' },
       { label: 'Public Site', icon: ExternalLink, href: '/' },
     ],
   },
   {
-    title: 'COMMAND',
-    items: [
-      { label: 'National COP', icon: LayoutDashboard, href: '/ops/national-cop' },
+    id: 'neoc',
+    label: 'NEOC',
+    icon: LayoutDashboard,
+    href: '/ops/national-cop',
+    match: ['/ops/national-cop'],
+    children: [
+      { label: 'Overview', icon: LayoutDashboard, href: '/ops/national-cop' },
+      { label: 'Hazards & Alerts', icon: Bell, href: '/ops/early-warning' },
+    ],
+  },
+  {
+    id: 'early-warning',
+    label: 'Early Warning',
+    icon: Bell,
+    href: '/ops/early-warning',
+    match: ['/ops/early-warning'],
+    children: [
+      { label: 'Overview', icon: Eye, href: '/ops/early-warning' },
       {
-        label: 'Early Warning',
-        icon: Bell,
-        href: '/ops/early-warning',
-        children: [
-          { label: 'All Hazards', icon: ShieldAlert, href: '/ops/early-warning/all-hazards' },
-          { label: 'Weather', icon: CloudRain, href: '/ops/early-warning/weather' },
-          { label: 'Cyclone', icon: Wind, href: '/ops/early-warning/cyclone' },
-          { label: 'Flood', icon: Waves, href: '/ops/early-warning/flood' },
-          { label: 'Drought', icon: Sun, href: '/ops/early-warning/drought' },
-          { label: 'Fire', icon: Flame, href: '/ops/early-warning/fire' },
-          { label: 'Health', icon: HeartPulse, href: '/ops/early-warning/health' },
-          { label: 'Mining', icon: Pickaxe, href: '/ops/early-warning/mining' },
-          { label: 'Road Traffic', icon: Car, href: '/ops/early-warning/road-traffic' },
-          { label: 'Hydrology', icon: Droplets, href: '/ops/early-warning/hydrology' },
-        ],
-      },
-      {
-        label: 'Risk Intelligence',
+        label: 'Hazards & Alerts',
         icon: ShieldAlert,
-        href: '/ops/risk-intelligence',
-        children: [
-          { label: 'Risk Map', icon: Map, href: '/ops/risk-intelligence/risk-map' },
-          { label: 'Risk Explorer', icon: BarChart3, href: '/ops/risk-intelligence/risk-explorer' },
-        ],
+        href: '/ops/early-warning/all-hazards',
+        children: earlyWarningHazards,
       },
+    ],
+  },
+  {
+    id: 'risk',
+    label: 'Risk Intelligence',
+    icon: ShieldAlert,
+    href: '/ops/risk-intelligence',
+    match: [
+      '/ops/risk-intelligence',
+      '/ops/impact-intelligence',
+      '/ops/needs-assessment',
+    ],
+    children: [
+      { label: 'Overview', icon: Eye, href: '/ops/risk-intelligence' },
+      { label: 'Risk Map', icon: Map, href: '/ops/risk-intelligence/risk-map' },
+      { label: 'Risk Explorer', icon: BarChart3, href: '/ops/risk-intelligence/risk-explorer' },
       { label: 'Impact Intelligence', icon: Target, href: '/ops/impact-intelligence' },
       { label: 'Needs Assessment', icon: ClipboardList, href: '/ops/needs-assessment' },
     ],
   },
   {
-    title: 'ANTICIPATION',
-    items: [
-      { label: 'Anticipation Overview', icon: Eye, href: '/ops/anticipation' },
+    id: 'anticipation',
+    label: 'Anticipation',
+    icon: Zap,
+    href: '/ops/anticipation',
+    match: [
+      '/ops/anticipation',
+      '/ops/trigger-monitor',
+      '/ops/anticipatory-action',
+      '/ops/anticipatory-financing',
+    ],
+    children: [
+      { label: 'Overview', icon: Eye, href: '/ops/anticipation' },
       { label: 'Trigger Monitor', icon: Activity, href: '/ops/trigger-monitor' },
       {
         label: 'Hazard Anticipation',
         icon: Sun,
         href: '/ops/anticipation/drought',
-        children: [
-          { label: 'Drought', icon: Sun, href: '/ops/anticipation/drought' },
-          { label: 'Flood', icon: Waves, href: '/ops/anticipation/flood' },
-          { label: 'Cyclone', icon: Wind, href: '/ops/anticipation/cyclone' },
-          { label: 'Fire', icon: Flame, href: '/ops/anticipation/fire' },
-          { label: 'Disease', icon: HeartPulse, href: '/ops/anticipation/disease' },
-          { label: 'Landslide', icon: AlertTriangle, href: '/ops/anticipation/landslide' },
-        ],
+        children: hazardAnticipationChildren,
       },
       { label: 'Anticipatory Action', icon: Zap, href: '/ops/anticipatory-action' },
       { label: 'Anticipatory Financing', icon: DollarSign, href: '/ops/anticipatory-financing' },
     ],
   },
   {
-    title: 'RESPONSE',
-    items: [
-      { label: 'Response Overview', icon: Eye, href: '/ops/response' },
+    id: 'net',
+    label: 'NET',
+    icon: RadioTower,
+    href: '/ops/net',
+    match: ['/ops/net'],
+    children: netChildren,
+  },
+  {
+    id: 'preparedness',
+    label: 'Readiness & Preparedness',
+    icon: Shield,
+    href: '/ops/preparedness',
+    match: ['/ops/preparedness'],
+    children: preparednessChildren,
+  },
+  {
+    id: 'response',
+    label: 'Response',
+    icon: Siren,
+    href: '/ops/response',
+    match: [
+      '/ops/response',
+      '/ops/emergency-operations',
+      '/ops/incident-command',
+      '/ops/logistics-resources',
+      '/ops/shelters-evacuation',
+      '/ops/search-rescue',
+    ],
+    children: [
+      { label: 'Overview', icon: Eye, href: '/ops/response' },
       { label: 'Emergency Operations', icon: Siren, href: '/ops/emergency-operations' },
       { label: 'Incident Command', icon: Radio, href: '/ops/incident-command' },
       { label: 'Logistics & Resources', icon: Truck, href: '/ops/logistics-resources' },
       { label: 'Shelters & Evacuation', icon: Tent, href: '/ops/shelters-evacuation' },
-      { label: 'Search & Rescue', icon: LifeBuoy, href: '/ops/search-rescue' },
+      { label: 'Search, Rescue & Recovery', icon: LifeBuoy, href: '/ops/search-rescue' },
     ],
   },
   {
-    title: 'COORDINATION',
-    items: [
-      { label: 'Coordination Overview', icon: Network, href: '/ops/coordination' },
+    id: 'coordination',
+    label: 'Coordination',
+    icon: Network,
+    href: '/ops/coordination',
+    match: [
+      '/ops/coordination',
+      '/ops/government-coordination',
+      '/ops/sadc-coordination',
+      '/ops/call-centre',
+    ],
+    children: [
+      { label: 'Overview', icon: Network, href: '/ops/coordination' },
       { label: '5W Coordination', icon: Network, href: '/ops/coordination/5w' },
       { label: 'Partners & Stakeholders', icon: Handshake, href: '/ops/coordination/partners' },
       { label: 'Government Coordination', icon: Building2, href: '/ops/government-coordination' },
@@ -153,9 +259,19 @@ export const navGroups: NavGroup[] = [
     ],
   },
   {
-    title: 'RECOVERY',
-    items: [
-      { label: 'Recovery Overview', icon: RefreshCw, href: '/ops/recovery-overview' },
+    id: 'recovery',
+    label: 'Recovery',
+    icon: RefreshCw,
+    href: '/ops/recovery-overview',
+    match: [
+      '/ops/recovery-overview',
+      '/ops/damage-loss',
+      '/ops/recovery',
+      '/ops/build-back-better',
+      '/ops/resilience',
+    ],
+    children: [
+      { label: 'Overview', icon: RefreshCw, href: '/ops/recovery-overview' },
       { label: 'Loss & Damage', icon: TrendingDown, href: '/ops/damage-loss' },
       { label: 'Recovery Progress', icon: RefreshCw, href: '/ops/recovery' },
       { label: 'Build Back Better', icon: Landmark, href: '/ops/build-back-better' },
@@ -163,9 +279,20 @@ export const navGroups: NavGroup[] = [
     ],
   },
   {
-    title: 'KNOWLEDGE',
-    items: [
-      { label: 'Knowledge Overview', icon: BookOpen, href: '/ops/knowledge' },
+    id: 'knowledge',
+    label: 'Knowledge',
+    icon: BookOpen,
+    href: '/ops/knowledge',
+    match: [
+      '/ops/knowledge',
+      '/ops/reports',
+      '/ops/analytics',
+      '/ops/lessons-learned',
+      '/ops/iks',
+      '/ops/knowledge-repository',
+    ],
+    children: [
+      { label: 'Overview', icon: BookOpen, href: '/ops/knowledge' },
       { label: 'Reports', icon: FileBarChart, href: '/ops/reports' },
       { label: 'Analytics', icon: BarChart3, href: '/ops/analytics' },
       { label: 'Lessons Learned', icon: BookOpen, href: '/ops/lessons-learned' },
@@ -174,8 +301,17 @@ export const navGroups: NavGroup[] = [
     ],
   },
   {
-    title: 'ADMINISTRATION',
-    items: [
+    id: 'administration',
+    label: 'Administration',
+    icon: Settings,
+    href: '/ops/digital-sops',
+    match: [
+      '/ops/digital-sops',
+      '/ops/users-roles',
+      '/ops/data-sources',
+      '/ops/system-administration',
+    ],
+    children: [
       { label: 'Digital SOPs', icon: FileText, href: '/ops/digital-sops' },
       { label: 'Users & Roles', icon: Users, href: '/ops/users-roles' },
       { label: 'Data Sources', icon: Database, href: '/ops/data-sources' },
@@ -183,6 +319,33 @@ export const navGroups: NavGroup[] = [
     ],
   },
 ]
+
+function pathMatches(pathname: string, prefix: string) {
+  if (prefix === '/ops') return pathname === '/ops' || pathname === '/ops/'
+  return pathname === prefix || pathname.startsWith(`${prefix}/`)
+}
+
+/** Resolve the active ops module from the current pathname (longest match wins). */
+export function resolveOpsModule(pathname: string): OpsModule {
+  let best: OpsModule | null = null
+  let bestLen = -1
+  for (const mod of opsModules) {
+    for (const prefix of mod.match) {
+      if (!pathMatches(pathname, prefix)) continue
+      if (prefix.length > bestLen) {
+        best = mod
+        bestLen = prefix.length
+      }
+    }
+  }
+  return best ?? opsModules[0]
+}
+
+/** @deprecated Prefer opsModules + resolveOpsModule for the dual-nav shell. */
+export const navGroups: NavGroup[] = opsModules.map((mod) => ({
+  title: mod.label,
+  items: mod.children,
+}))
 
 export const hazardFilters = [
   'All Hazards',

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { ThemeToggle } from './theme-toggle'
 import { LanguageSwitcher } from './language-switcher'
+import { ModuleTopNav } from './module-top-nav'
 import { useLocale } from '@/components/dare/locale-provider'
 import { cn } from '@/lib/utils'
 
@@ -312,6 +313,8 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
           <span className="text-[#16794a]">S</span>
         </div>
       </div>
+
+      <ModuleTopNav />
     </header>
   )
 }

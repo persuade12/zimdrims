@@ -25,14 +25,20 @@ Also shown on the login page at `/ops/login`.
 
 ## Platform Modules
 
+Ops uses a dual-nav shell: top module switcher + context sidebar of that module’s submenus.
+
 - **PUBLIC** (landing) — alerts, risk map, situation, statistics, preparedness, incident reporting, resources
-- **COMMAND** — National COP, Early Warning, Risk & Impact Intelligence, Needs Assessment
-- **ANTICIPATION** — Trigger Monitor, Hazard Anticipation, Anticipatory Action & Financing
-- **RESPONSE** — Emergency Operations, Incident Command, Logistics, Shelters, Search & Rescue
-- **COORDINATION** — 5W, Partners, Government, SADC Regional, Call Centre
-- **RECOVERY** — Loss & Damage, Recovery Progress, Build Back Better, Resilience
-- **KNOWLEDGE** — Reports, Analytics, Lessons Learned, IKS, Knowledge Repository
-- **ADMINISTRATION** — Digital SOPs, Users & Roles (Access Control demo), Data Sources, System Admin
+- **Home / NEOC** — ops home and NEOC Executive Dashboard
+- **Early Warning** — overview and hazard-specific dashboards
+- **Risk Intelligence** — risk map/explorer, impact intelligence, needs assessment
+- **Anticipation** — triggers, hazard anticipation, anticipatory action & financing
+- **NET** — National Emergency Telecommunications preparedness
+- **Readiness & Preparedness** — plans/SOPs, training, resources, readiness monitoring
+- **Response** — emergency operations, incident command, logistics, shelters, search & rescue
+- **Coordination** — 5W, partners, government, SADC regional, call centre
+- **Recovery** — loss & damage, recovery progress, build back better, resilience
+- **Knowledge** — reports, analytics, lessons learned, IKS, repository
+- **Administration** — digital SOPs, users & roles, data sources, system admin
 
 Concept reference designs are in `public/concept/`. All module routes use demo/static datasets. Auth is demo-only (cookie session).
 
