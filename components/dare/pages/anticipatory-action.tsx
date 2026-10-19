@@ -11,6 +11,7 @@ import {
   QuickActions,
 } from '@/components/dare/dashboard/kit'
 import { SituationMap } from '@/components/dare/dashboard/situation-map'
+import { AaContactForm } from '@/components/dare/admin/aa-contact-form'
 import { mapStories } from '@/lib/concept/map-stories'
 import { aaActions, anticipatoryKpis, riskColors } from '@/lib/concept-data'
 
@@ -176,6 +177,7 @@ export function AnticipatoryActionPage() {
           </div>
         </Panel>
       </div>
+      <AaContactForm />
     </DashboardChrome>
   )
 }

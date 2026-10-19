@@ -10,6 +10,7 @@ import { LogisticsResourcesPage } from '@/components/dare/pages/logistics-resour
 import { PartnersStakeholdersPage } from '@/components/dare/pages/partners-stakeholders'
 import { ResponseOverviewPage } from '@/components/dare/pages/response-overview'
 import { SearchRescuePage } from '@/components/dare/pages/search-rescue'
+import { UsersRolesPage } from '@/components/dare/admin/users-roles-page'
 import { createRichModulePage } from '@/components/dare/pages/rich-module'
 import {
   analyticsConfig,
@@ -43,7 +44,6 @@ import {
   sheltersEvacuationConfig,
   systemAdminConfig,
   triggerMonitorConfig,
-  usersRolesConfig,
   netOverviewConfig,
   netPlansSopsConfig,
   netTrainingConfig,
@@ -146,7 +146,7 @@ export const conceptPages: Record<string, ComponentType> = {
   'knowledge-repository': createRichModulePage(knowledgeRepositoryConfig),
 
   'digital-sops': createRichModulePage(digitalSopsConfig),
-  'users-roles': createRichModulePage(usersRolesConfig),
+  'users-roles': UsersRolesPage,
   'data-sources': createRichModulePage(dataSourcesConfig),
   'system-administration': createRichModulePage(systemAdminConfig),
 

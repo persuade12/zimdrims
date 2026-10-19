@@ -10,7 +10,9 @@ import {
 } from 'react-leaflet'
 import L from 'leaflet'
 import type { Feature, FeatureCollection, Geometry } from 'geojson'
+import { matchProvince, useReferenceData } from '@/components/dare/use-reference'
 import { provinceData, majorCities } from '@/lib/zimdrims-data'
+import { formatPeople } from '@/lib/zimdrims/format'
 import {
   CARTO_ATTRIBUTION,
   CARTO_DARK,
@@ -218,8 +220,11 @@ export function ZimbabweLeafletMap({
     [],
   )
 
+  const reference = useReferenceData()
   const tooltipProvince = selected ?? hovered
   const tooltipInfo = tooltipProvince ? provinceData[tooltipProvince] : null
+  const liveProvince =
+    reference.provincesSource === 'live' ? matchProvince(tooltipProvince, reference.provinces) : null
 
   return (
     <div className={`zimbabwe-map relative h-full w-full min-h-[16rem] ${className ?? ''}`}>
@@ -281,8 +286,18 @@ export function ZimbabweLeafletMap({
           <dl className="mt-2 space-y-1 text-[11px]">
             <div className="flex justify-between gap-2">
               <dt className="text-muted-foreground">Population</dt>
-              <dd className="font-semibold tabular-nums text-foreground">{tooltipInfo.population}</dd>
+              <dd className="font-semibold tabular-nums text-foreground">
+                {liveProvince && liveProvince.total > 0 ? formatPeople(liveProvince.total) : tooltipInfo.population}
+              </dd>
             </div>
+            {liveProvince && liveProvince.total > 0 ? (
+              <div className="flex justify-between gap-2">
+                <dt className="text-muted-foreground">Male / female</dt>
+                <dd className="font-semibold tabular-nums text-foreground">
+                  {formatPeople(liveProvince.male)} / {formatPeople(liveProvince.female)}
+                </dd>
+              </div>
+            ) : null}
             <div className="flex justify-between gap-2">
               <dt className="text-muted-foreground">Districts</dt>
               <dd className="font-semibold tabular-nums text-foreground">{tooltipInfo.districts}</dd>

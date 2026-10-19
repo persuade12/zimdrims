@@ -9,6 +9,14 @@ export type OpsSession = {
   username: string
   displayName: string
   role: string
+  userId?: number
+  isAdmin?: boolean
+  systemRole?: number
+  stageAccess?: number[]
+  deptAccess?: number[]
+  hazardAccess?: number[]
+  provinceAccess?: number[]
+  districtAccess?: number[]
 }
 
 export function verifyCredentials(username: string, password: string): OpsSession | null {
@@ -20,6 +28,7 @@ export function verifyCredentials(username: string, password: string): OpsSessio
     username: user.username,
     displayName: user.displayName,
     role: user.role,
+    isAdmin: user.role.toLowerCase().includes('admin'),
   }
 }
 
@@ -43,12 +52,30 @@ export function encodeSession(session: OpsSession): string {
   return toBase64Url(JSON.stringify(session))
 }
 
+function idList(value: unknown): number[] | undefined {
+  if (!Array.isArray(value)) return undefined
+  const ids = value.filter((item): item is number => typeof item === 'number' && Number.isFinite(item))
+  return ids
+}
+
 export function decodeSession(value: string | undefined | null): OpsSession | null {
   if (!value) return null
   try {
     const parsed = JSON.parse(fromBase64Url(value)) as OpsSession
-    if (!parsed?.username || !parsed?.displayName) return null
-    return parsed
+    if (!parsed?.username || !parsed?.displayName || !parsed?.role) return null
+    return {
+      username: parsed.username,
+      displayName: parsed.displayName,
+      role: parsed.role,
+      userId: typeof parsed.userId === 'number' ? parsed.userId : undefined,
+      isAdmin: parsed.isAdmin === true,
+      systemRole: typeof parsed.systemRole === 'number' ? parsed.systemRole : undefined,
+      stageAccess: idList(parsed.stageAccess),
+      deptAccess: idList(parsed.deptAccess),
+      hazardAccess: idList(parsed.hazardAccess),
+      provinceAccess: idList(parsed.provinceAccess),
+      districtAccess: idList(parsed.districtAccess),
+    }
   } catch {
     return null
   }

@@ -3,7 +3,9 @@
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { MapPin, Maximize2, Minimize2, X } from 'lucide-react'
+import { useReferenceData } from '@/components/dare/use-reference'
 import { provinceData, provinces } from '@/lib/zimdrims-data'
+import { formatPeople } from '@/lib/zimdrims/format'
 import { useLocale } from '@/components/dare/locale-provider'
 import { ZIMBABWE_ASPECT } from '@/lib/zimbabwe-map'
 import { cn } from '@/lib/utils'
@@ -32,12 +34,14 @@ function ProvinceLegend({
   hovered,
   onHover,
   onSelect,
+  populations,
   className,
 }: {
   selected: string | null
   hovered: string | null
   onHover: (name: string | null) => void
   onSelect: (name: string) => void
+  populations?: Record<string, string>
   className?: string
 }) {
   return (
@@ -73,6 +77,9 @@ function ProvinceLegend({
                 />
                 <span className="min-w-0 flex-1 truncate text-[11px] font-medium text-foreground">
                   {shortName(name)}
+                  {populations?.[name] ? (
+                    <span className="mt-0.5 block text-[10px] font-normal text-muted-foreground">{populations[name]}</span>
+                  ) : null}
                 </span>
               </button>
             </li>
@@ -94,6 +101,19 @@ function ProvinceLegend({
 
 export function ProvincesMap() {
   const { t } = useLocale()
+  const reference = useReferenceData()
+  const populations =
+    reference.provincesSource === 'live'
+      ? Object.fromEntries(
+          provinces.flatMap((name) => {
+            const live = reference.provinces.find(
+              (province) => province.name.trim().toLowerCase() === name.toLowerCase() && province.total > 0,
+            )
+            return live ? [[name, formatPeople(live.total)] as const] : []
+          }),
+        )
+      : undefined
+  const hasRegistryPopulation = Boolean(populations && Object.keys(populations).length)
   const [hovered, setHovered] = useState<string | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
@@ -125,7 +145,11 @@ export function ProvincesMap() {
             <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">
               {t.home.hazardMap}
             </h2>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">10 provinces · hazard risk overlay</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">
+              {hasRegistryPopulation
+                ? '10 provinces · population from the ZIMDRIMS registry'
+                : '10 provinces · hazard risk overlay'}
+            </p>
           </div>
           <button
             type="button"
@@ -160,6 +184,7 @@ export function ProvincesMap() {
             hovered={hovered}
             onHover={setHovered}
             onSelect={selectProvince}
+            populations={populations}
           />
         </div>
       </section>
@@ -215,6 +240,7 @@ export function ProvincesMap() {
                 hovered={hovered}
                 onHover={setHovered}
                 onSelect={selectProvince}
+                populations={populations}
                 className="lg:max-h-[70vh]"
               />
             </div>

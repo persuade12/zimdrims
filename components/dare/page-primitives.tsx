@@ -1,7 +1,11 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Chip, StatTile } from '@/components/dare/ui'
+import { useReferenceData } from '@/components/dare/use-reference'
 
 export type KpiItem = {
   value: string
@@ -75,6 +79,50 @@ export function FilterBar({
   fields: FilterField[]
   actionLabel?: string
 }) {
+  const reference = useReferenceData()
+  const [values, setValues] = useState<Record<string, string>>({})
+  const [liveDistricts, setLiveDistricts] = useState<string[] | null>(null)
+  const provinceId = reference.provinces.find((item) => item.name === values.province)?.id ?? 0
+
+  useEffect(() => {
+    if (provinceId <= 0) {
+      setLiveDistricts(null)
+      return
+    }
+    let cancelled = false
+    fetch(`/api/zimdrims/districts?province_id=${provinceId}`)
+      .then(async (response) => response.json())
+      .then((body: { source?: string; districts?: { name: string }[] }) => {
+        if (cancelled) return
+        if (body.source === 'live') setLiveDistricts((body.districts ?? []).map((district) => district.name))
+        else setLiveDistricts(null)
+      })
+      .catch(() => {
+        if (!cancelled) setLiveDistricts(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [provinceId])
+
+  function optionsFor(field: FilterField): string[] {
+    if (field.id === 'province' && reference.provincesSource === 'live' && reference.provinces.length) {
+      return reference.provinces.map((item) => item.name)
+    }
+    if (field.id === 'hazard' && reference.hazardsSource === 'live' && reference.hazards.length) {
+      return reference.hazards.map((item) => item.name)
+    }
+    if (
+      (field.id === 'category' || field.id === 'hazard_category') &&
+      reference.categoriesSource === 'live' &&
+      reference.categories.length
+    ) {
+      return reference.categories.map((item) => item.name)
+    }
+    if (field.id === 'district' && liveDistricts) return liveDistricts
+    return field.options ?? []
+  }
+
   return (
     <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
@@ -87,10 +135,18 @@ export function FilterBar({
               {field.type === 'select' ? (
                 <select
                   className="h-9 w-full rounded-lg border border-border bg-background px-2.5 text-sm text-foreground"
-                  defaultValue=""
+                  value={values[field.id] ?? ''}
+                  onChange={(event) => {
+                    const next = event.target.value
+                    setValues((current) => {
+                      const updated = { ...current, [field.id]: next }
+                      if (field.id === 'province') updated.district = ''
+                      return updated
+                    })
+                  }}
                 >
                   <option value="">{field.placeholder ?? 'All'}</option>
-                  {(field.options ?? []).map((opt) => (
+                  {optionsFor(field).map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
                     </option>

@@ -8,7 +8,7 @@ import { Eye, EyeOff, Shield } from 'lucide-react'
 import { OPS_DEMO_USERS } from '@/lib/ops-demo-users'
 import { ChaAccreditation } from '@/components/dare/cha-accreditation'
 
-export function OpsLoginForm() {
+export function OpsLoginForm({ authMode = 'live' }: { authMode?: 'demo' | 'live' }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const nextPath = searchParams.get('next') || '/ops'
@@ -27,7 +27,7 @@ export function OpsLoginForm() {
       const res = await fetch('/api/ops/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify(authMode === 'demo' ? { username, password } : { email: username, password }),
       })
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null
@@ -66,19 +66,21 @@ export function OpsLoginForm() {
             </div>
           </div>
           <p className="mb-6 text-sm text-white/75">
-            Staff access to the National DCP operations platform. Demo authentication only — not connected to live
-            identity systems.
+            {authMode === 'demo'
+              ? 'Staff access to the National DCP operations platform. Demo authentication only — sample accounts are listed beside the form.'
+              : 'Staff access to the National DCP operations platform. Sign in with the email and password held in the ZIMDRIMS registry.'}
           </p>
           <form onSubmit={onSubmit} className="space-y-4">
             <label className="block space-y-1.5 text-sm">
-              <span className="font-semibold text-white/90">Username</span>
+              <span className="font-semibold text-white/90">{authMode === 'demo' ? 'Username' : 'Email'}</span>
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
+                autoComplete={authMode === 'demo' ? 'username' : 'email'}
+                type={authMode === 'demo' ? 'text' : 'email'}
                 required
                 className="w-full rounded-lg border border-white/15 bg-black/20 px-3 py-2.5 text-white outline-none ring-[#16794a] placeholder:text-white/40 focus:ring-2"
-                placeholder="wonder.mufunda"
+                placeholder={authMode === 'demo' ? 'wonder.mufunda' : 'name@example.com'}
               />
             </label>
             <label className="block space-y-1.5 text-sm">
@@ -127,6 +129,21 @@ export function OpsLoginForm() {
           </div>
         </section>
 
+        {authMode === 'live' ? (
+          <aside className="rounded-2xl border border-[#16794a]/40 bg-white/95 p-6 text-foreground shadow-xl dark:bg-card">
+            <h2 className="font-display text-sm font-extrabold uppercase tracking-wider text-[#16794a]">
+              Registry sign-in
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Credentials are checked with the ZIMDRIMS login procedure. The password stays on this server and is not
+              stored in the session.
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Local sample accounts are available when <span className="font-mono">ZIMDRIMS_AUTH_MODE=demo</span>.
+            </p>
+          </aside>
+        ) : null}
+        {authMode === 'demo' ? (
         <aside className="rounded-2xl border border-[#16794a]/40 bg-white/95 p-6 text-foreground shadow-xl dark:bg-card">
           <h2 className="font-display text-sm font-extrabold uppercase tracking-wider text-[#16794a]">
             Sample credentials
@@ -163,6 +180,7 @@ export function OpsLoginForm() {
             ))}
           </ul>
         </aside>
+        ) : null}
       </div>
     </div>
   )

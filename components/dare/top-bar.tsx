@@ -19,6 +19,7 @@ import { ThemeToggle } from './theme-toggle'
 import { LanguageSwitcher } from './language-switcher'
 import { ModuleTopNav } from './module-top-nav'
 import { useLocale } from '@/components/dare/locale-provider'
+import { useOpsSession } from '@/components/dare/use-ops-session'
 import { cn } from '@/lib/utils'
 
 const notifications = [
@@ -30,6 +31,9 @@ const notifications = [
 
 export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
   const { t, format } = useLocale()
+  const session = useOpsSession()
+  const profileName = session.displayName || 'Staff user'
+  const profileRole = session.role || t.shell.administrator
   const [searchOpen, setSearchOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [alertsOpen, setAlertsOpen] = useState(false)
@@ -240,8 +244,8 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                 className="size-8 rounded-full object-cover sm:size-9"
               />
               <div className="hidden min-w-0 text-left leading-tight sm:block">
-                <p className="truncate text-[12px] font-semibold">Wonder Mufunda</p>
-                <p className="truncate text-[10px] text-white/70">{t.shell.administrator}</p>
+                <p className="truncate text-[12px] font-semibold">{profileName}</p>
+                <p className="truncate text-[10px] text-white/70">{profileRole}</p>
               </div>
               <ChevronDown
                 className={cn('size-4 text-white/70 transition-transform', profileOpen && 'rotate-180')}
@@ -259,8 +263,8 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
                       className="size-12 rounded-full object-cover"
                     />
                     <div className="min-w-0 leading-tight">
-                      <p className="truncate text-sm font-semibold">Wonder Mufunda</p>
-                      <p className="mt-0.5 text-[12px] text-muted-foreground">{t.shell.administrator}</p>
+                      <p className="truncate text-sm font-semibold">{profileName}</p>
+                      <p className="mt-0.5 text-[12px] text-muted-foreground">{profileRole}</p>
                       <p className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-primary">
                         <span className="size-1.5 rounded-full bg-primary" />
                         {t.shell.online}

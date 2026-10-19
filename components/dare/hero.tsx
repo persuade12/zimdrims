@@ -4,10 +4,16 @@ import Link from 'next/link'
 import { Bell, Download, RefreshCw } from 'lucide-react'
 import { hazardFilters } from '@/lib/zimdrims-data'
 import { useLocale } from '@/components/dare/locale-provider'
+import { useReferenceData } from '@/components/dare/use-reference'
 import { cn } from '@/lib/utils'
 
 export function Hero() {
   const { t } = useLocale()
+  const reference = useReferenceData()
+  const filters =
+    reference.hazardsSource === 'live' && reference.hazards.length
+      ? ['All Hazards', ...reference.hazards.map((hazard) => hazard.name)]
+      : [...hazardFilters]
 
   return (
     <section className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
@@ -18,7 +24,7 @@ export function Hero() {
             {t.hero.title}
           </h1>
           <div className="mt-3 flex flex-wrap gap-2">
-            {hazardFilters.map((filter, i) => (
+            {filters.map((filter, i) => (
               <button
                 key={filter}
                 type="button"

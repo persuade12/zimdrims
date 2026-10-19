@@ -14,14 +14,16 @@ Open [http://localhost:3000](http://localhost:3000) for the **public portal**.
 
 Staff ops platform: [http://localhost:3000/ops](http://localhost:3000/ops) (login required).
 
+Ops login uses the ZIMDRIMS registry (`select_login`) unless `ZIMDRIMS_AUTH_MODE=demo`. Copy `.env.example` to `.env.local` to choose the mode. The browser talks only to this Next.js app; the app calls `https://dcp.dikarabo.co.za`.
+
 ### Demo ops credentials
+
+Used when `ZIMDRIMS_AUTH_MODE=demo`. Also shown on the login page at `/ops/login` in that mode.
 
 | Username | Password | Role |
 |----------|----------|------|
 | `wonder.mufunda` | `Dcp@2026` | DCP Administrator |
 | `neoc.officer` | `Ops@2026` | NEOC Officer |
-
-Also shown on the login page at `/ops/login`.
 
 ## Platform Modules
 
@@ -40,6 +42,6 @@ Ops uses a dual-nav shell: top module switcher + context sidebar of that module�
 - **Knowledge** — reports, analytics, lessons learned, IKS, repository
 - **Administration** — digital SOPs, users & roles, data sources, system admin
 
-Concept reference designs are in `public/concept/`. All module routes use demo/static datasets. Auth is demo-only (cookie session).
+Concept reference designs are in `public/concept/`. Alerts, forecasts, and other operational dashboards still use static datasets. Provinces, districts, hazards, command users, anticipatory-action contacts, and hazard items are loaded from the ZIMDRIMS registry when it responds, and fall back to the static lists when it does not.
 
 **Analytics partner:** Centre for Humanitarian Analytics (CHA) — logo at `public/cha.png`.

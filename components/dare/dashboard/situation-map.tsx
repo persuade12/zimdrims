@@ -4,7 +4,9 @@ import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { Maximize2, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { matchProvince, useReferenceData } from '@/components/dare/use-reference'
 import { provinceData, provinceRiskLevels } from '@/lib/zimdrims-data'
+import { formatPeople } from '@/lib/zimdrims/format'
 
 export type MapMarker = {
   id: string
@@ -56,6 +58,7 @@ export function SituationMap({
   const [expanded, setExpanded] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
+  const reference = useReferenceData()
 
   function selectProvince(name: string) {
     setSelected((current) => (current === name ? null : name))
@@ -78,6 +81,8 @@ export function SituationMap({
 
   const focusProvince = selected ?? hovered
   const focusInfo = focusProvince ? provinceData[focusProvince] : null
+  const liveProvince =
+    reference.provincesSource === 'live' ? matchProvince(focusProvince, reference.provinces) : null
   const focusRisk = focusProvince ? provinceRiskLevels[focusProvince] : null
   const focusStory = focusProvince && provinceStories ? provinceStories[focusProvince] : null
 
@@ -174,7 +179,14 @@ export function SituationMap({
           <dl className="mt-3 grid grid-cols-3 gap-2 text-center sm:gap-3">
             <div className="rounded-lg border border-border bg-card px-2 py-2">
               <dt className="text-[10px] text-muted-foreground">Population</dt>
-              <dd className="font-display text-sm font-extrabold tabular-nums">{focusInfo.population}</dd>
+              <dd className="font-display text-sm font-extrabold tabular-nums">
+                {liveProvince && liveProvince.total > 0 ? formatPeople(liveProvince.total) : focusInfo.population}
+              </dd>
+              {liveProvince && liveProvince.total > 0 ? (
+                <p className="text-[10px] text-muted-foreground">
+                  {formatPeople(liveProvince.male)} male · {formatPeople(liveProvince.female)} female
+                </p>
+              ) : null}
             </div>
             <div className="rounded-lg border border-border bg-card px-2 py-2">
               <dt className="text-[10px] text-muted-foreground">Districts</dt>
