@@ -134,6 +134,28 @@ function CommandUsersPanel({
   const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
+  const [formOpen, setFormOpen] = useState(false)
+
+  function clearForm() {
+    setUserId('')
+    setForename('')
+    setSurname('')
+    setEmail('')
+    setMobile('')
+    setSystemRole('')
+    setDepts('')
+    setStageAccess('')
+    setHazardAccess('')
+    setProvinceAccess('')
+    setDistrictAccess('')
+  }
+
+  function startCreate() {
+    clearForm()
+    setNotice('')
+    setError('')
+    setFormOpen(true)
+  }
 
   function edit(user: CommandUserRecord) {
     setUserId(user.userId ? String(user.userId) : '')
@@ -144,6 +166,7 @@ function CommandUsersPanel({
     setSystemRole(user.systemRole ? String(user.systemRole) : '')
     setNotice('')
     setError('')
+    setFormOpen(true)
   }
 
   async function checkEmail() {
@@ -191,7 +214,9 @@ function CommandUsersPanel({
         setError(await errorMessage(response))
         return
       }
-      setNotice('Command user saved.')
+      setNotice(userId ? 'Command user saved.' : 'Command user created.')
+      setFormOpen(false)
+      clearForm()
       await onChanged()
     } catch {
       setError('Unable to reach the registry')
@@ -218,7 +243,20 @@ function CommandUsersPanel({
   }
 
   return (
-    <Panel title="Command users">
+    <Panel
+      title="Command users"
+      action={
+        sessionPending ? null : (
+          <button
+            type="button"
+            className="h-8 rounded-lg bg-primary px-3 text-xs font-semibold text-primary-foreground hover:opacity-90"
+            onClick={startCreate}
+          >
+            Create user
+          </button>
+        )
+      }
+    >
       {loading ? <p className="text-sm text-muted-foreground">Loading registry…</p> : null}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[40rem] text-left text-sm">
@@ -239,17 +277,17 @@ function CommandUsersPanel({
                 <td className="py-2 pr-3">{user.role}</td>
                 <td className="py-2 pr-3">{user.isEnabled === null ? '—' : user.isEnabled ? 'Yes' : 'No'}</td>
                 <td className="py-2">
-                  {sessionPending ? null : isAdmin ? (
+                  {sessionPending ? null : (
                     <span className="flex gap-3">
                       <button type="button" className="font-semibold text-primary hover:underline" onClick={() => edit(user)}>
                         Edit
                       </button>
-                      <button type="button" className="font-semibold text-primary hover:underline" onClick={() => reset(user)}>
-                        Reset password
-                      </button>
+                      {isAdmin ? (
+                        <button type="button" className="font-semibold text-primary hover:underline" onClick={() => reset(user)}>
+                          Reset password
+                        </button>
+                      ) : null}
                     </span>
-                  ) : (
-                    <span className="text-muted-foreground">View</span>
                   )}
                 </td>
               </tr>
@@ -265,10 +303,13 @@ function CommandUsersPanel({
         </table>
       </div>
 
-      {sessionPending ? null : isAdmin ? (
+      {formOpen ? (
         <form onSubmit={onSubmit} className="mt-4 grid gap-3 border-t border-border pt-4 sm:grid-cols-2">
+          <p className="sm:col-span-2 text-sm font-semibold text-foreground">
+            {userId ? `Edit user ${userId}` : 'Create user'}
+          </p>
           <p className="sm:col-span-2 text-sm text-muted-foreground">
-            Access fields take comma-separated ids. Leave user id empty to create a record.
+            Access fields take comma-separated ids.
           </p>
           <Field label="User id" value={userId} onChange={setUserId} />
           <Field label="System role" value={systemRole} onChange={setSystemRole} required />
@@ -290,13 +331,18 @@ function CommandUsersPanel({
               disabled={saving}
               className="h-9 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground disabled:opacity-60"
             >
-              {saving ? 'Saving…' : 'Save user'}
+              {saving ? 'Saving…' : userId ? 'Save changes' : 'Create user'}
+            </button>
+            <button
+              type="button"
+              className="h-9 rounded-lg border border-border px-3 text-sm font-semibold"
+              onClick={() => setFormOpen(false)}
+            >
+              Cancel
             </button>
           </div>
         </form>
-      ) : (
-        <p className="mt-3 text-sm text-muted-foreground">User changes require an administrator session.</p>
-      )}
+      ) : null}
       {error ? <p className="mt-3 text-sm text-red-600">{error}</p> : null}
       {notice ? <p className="mt-3 text-sm text-primary">{notice}</p> : null}
     </Panel>

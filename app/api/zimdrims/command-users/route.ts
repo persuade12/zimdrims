@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { fetchCommandUsers, upsertCommandUser } from '@/lib/zimdrims/client'
 import { num } from '@/lib/zimdrims/format'
-import { isSession, requireAdmin, requireUser, upstreamError } from '@/lib/zimdrims/guard'
+import { isSession, requireUser, upstreamError } from '@/lib/zimdrims/guard'
 import { accessIds } from '@/lib/zimdrims/map-rows'
 
 export const dynamic = 'force-dynamic'
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const session = await requireAdmin()
+  const session = await requireUser()
   if (!isSession(session)) return session
 
   let body: Record<string, unknown>

@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 import { fetchUserExists } from '@/lib/zimdrims/client'
-import { isSession, requireAdmin, upstreamError } from '@/lib/zimdrims/guard'
+import { isSession, requireUser, upstreamError } from '@/lib/zimdrims/guard'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
-  const session = await requireAdmin()
+  const session = await requireUser()
   if (!isSession(session)) return session
 
   let body: { email?: string }
